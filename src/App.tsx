@@ -24,15 +24,14 @@ function App() {
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // Navigation links
-  const navLinks = [
-    { name: 'Join The Club', href: '#join' },
-    { name: 'For Members', href: '#members' },
-    { name: 'Community', href: '#community' },
-    { name: 'Donate', href: '#donate' },
-    { name: 'Contact Us', href: '#contact' },
-    { name: 'Summer Camps', href: '#camps' },
-  ];
+ const navLinks = [
+  { name: 'Join The Club', href: '#join' },
+  { name: 'For Members', href: '#members' },
+  { name: 'Community', href: '#community' },
+  { name: 'Donate', href: '#donate' },
+  { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
+  { name: 'Summer Camps', href: '#camps' },
+];
 
   // Sponsor logos
   const sponsors = [
@@ -87,13 +86,18 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (href: string) => {
+ const scrollToSection = (href: string) => {
+  if (href.startsWith('#')) {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMobileMenuOpen(false);
-  };
+  } else {
+    // Navigate to route
+    window.location.href = href;
+  }
+  setIsMobileMenuOpen(false);
+};
 
   return (
     <div className="min-h-screen bg-white">
