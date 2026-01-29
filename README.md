@@ -1,8 +1,12 @@
-#
+# Booting server
 
+Requires node.js
+
+```
 npm install
+npm audit fix
 npm run dev
-
+```
 
 
 # React + TypeScript + Vite
