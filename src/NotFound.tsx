@@ -11,8 +11,6 @@ import {
   Menu,
   X,
   Home,
-  Search,
-  ArrowLeft,
   Linkedin,
   AlertCircle
 } from 'lucide-react';
@@ -21,7 +19,7 @@ import './NotFound.css';
 function NotFound() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [, setScrollY] = useState(0);
 
   // Navigation links
   const navLinks = [
