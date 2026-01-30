@@ -33,7 +33,7 @@ function Contact() {
   // Updated links to match App.tsx structure
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Join The Club', href: '/#join' },
+    { name: 'Join The Club', href: '/join' },
     { name: 'For Members', href: '/#members' },
     { name: 'Community', href: '/#community' },
     { name: 'Donate', href: '/#donate' },

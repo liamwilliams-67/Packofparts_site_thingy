@@ -25,7 +25,7 @@ function App() {
   const heroRef = useRef<HTMLDivElement>(null);
 
  const navLinks = [
-  { name: 'Join The Club', href: '#join' },
+  { name: 'Join The Club', href: '/join' },
   { name: 'For Members', href: '#members' },
   { name: 'Community', href: '#community' },
   { name: 'Donate', href: '#donate' },
