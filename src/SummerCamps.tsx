@@ -29,8 +29,18 @@ import './SummerCamps.css';
 function SummerCamps() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [, setScrollY] = useState(0);
 
+  // Navigation links
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Join The Club', href: '/join' },
+    { name: 'For Members', href: '/#members' },
+    { name: 'Community', href: '/community' },
+    { name: 'Donate', href: '/#donate' },
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Summer Camps', href: '/summer-camps' },
+  ];
 
   // Scroll handler for nav visibility
   useEffect(() => {
