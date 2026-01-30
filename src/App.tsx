@@ -26,7 +26,7 @@ function App() {
 
  const navLinks = [
   { name: 'Join The Club', href: '/join' },
-  { name: 'For Members', href: '#members' },
+  { name: 'For Members', href: '/members' },
   { name: 'Community', href: '/community' },
   { name: 'Donate', href: '#donate' },
   { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'

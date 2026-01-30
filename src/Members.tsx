@@ -10,20 +10,21 @@ import {
   Github,
   Menu,
   X,
-  Heart,
-  Award,
-  Globe,
-  Handshake,
   Calendar,
-  Megaphone,
-  GraduationCap,
-  Rocket,
-  Target,
-  Sparkles
+  FileText,
+  Shield,
+  BookOpen,
+  Award,
+  Download,
+  ExternalLink,
+  Clock,
+  AlertTriangle,
+  CheckCircle,
+  Linkedin
 } from 'lucide-react';
-import './Community.css';
+import './Members.css';
 
-function Community() {
+function Members() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
@@ -151,7 +152,7 @@ function Community() {
             style={{ animationDelay: '0.2s' }}
           >
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
-              COMMUNITY IMPACT
+              TEAM RESOURCES
             </span>
           </div>
           
@@ -159,341 +160,312 @@ function Community() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Making a <span className="text-gradient">Difference</span>
+            For <span className="text-gradient">Members</span>
           </h1>
           
           <p 
             className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up"
             style={{ animationDelay: '0.6s' }}
           >
-            Beyond building robots, we're building a better community through 
-            outreach, education, and inspiring the next generation.
+            Essential resources, documents, and information for Pack of Parts team members
           </p>
         </div>
       </section>
 
-      {/* Core Values Section */}
+      {/* Quick Links Section */}
       <section className="section-padding">
+        <div className="container-custom">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {[
+              {
+                title: 'Meeting Calendar',
+                icon: Calendar,
+                description: 'View upcoming meetings and events',
+                href: '#calendar',
+                color: 'from-blue-500 to-blue-600'
+              },
+              {
+                title: 'Team Handbook',
+                icon: BookOpen,
+                description: 'Read our complete team handbook',
+                href: '#handbook',
+                color: 'from-purple-500 to-purple-600'
+              },
+              {
+                title: 'Safety Resources',
+                icon: Shield,
+                description: 'Safety guidelines and protocols',
+                href: '#safety',
+                color: 'from-red-500 to-red-600'
+              }
+            ].map((link, index) => (
+              <a
+                key={index}
+                href={link.href}
+                className="reveal quick-link-card group"
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
+                <div className={`w-full h-2 rounded-t-2xl bg-gradient-to-r ${link.color}`} />
+                <div className="p-6">
+                  <link.icon className="w-10 h-10 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-xl mb-2 group-hover:text-light-blue transition-colors">
+                    {link.title}
+                  </h3>
+                  <p className="text-gray-600">
+                    {link.description}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Essential Documents Section */}
+      <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Our <span className="text-gradient">Core Values</span>
+              Essential <span className="text-gradient">Documents</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              FIRST's core values guide everything we do, from the workshop to the community
+              Important resources and guides for all team members
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: Handshake,
-                title: 'Coopertition',
-                description: 'Competing while cooperating. We help other teams succeed even as we compete against them.'
+                title: 'STIMS',
+                icon: FileText,
+                description: 'The process of joining our team. This guides you through being officially registered with FIRST.',
+                link: '#',
+                badge: 'Required'
               },
               {
-                icon: Target,
-                title: 'Gracious Professionalism',
-                description: 'Competing fiercely while treating everyone with respect and kindness.'
+                title: 'Team Handbook',
+                icon: BookOpen,
+                description: 'Our Team Handbook outlines the expectations for all users and is a helpful resource for all new members.',
+                link: '#',
+                badge: 'Essential'
               },
               {
-                icon: Sparkles,
-                title: 'Discovery',
-                description: 'Exploring new skills and ideas, learning from mistakes, and celebrating innovation.'
+                title: 'Safety Notes',
+                icon: AlertTriangle,
+                description: 'Safety is an integral part of our team. This document details each machine in our shop and how to be safe around them.',
+                link: '#',
+                badge: 'Required'
               },
               {
-                icon: Heart,
-                title: 'Fun',
-                description: 'Enjoying and celebrating what we do, building lasting friendships and memories.'
+                title: 'Safety Plan',
+                icon: Shield,
+                description: 'Here at Pack of Parts, we take safety very seriously. Here is our safety plan so we can always make sure that you are safe.',
+                link: '#',
+                badge: 'Important'
               },
               {
-                icon: Users,
-                title: 'Teamwork',
-                description: 'Working together, respecting all team members, and achieving more than individuals could alone.'
+                title: 'Our Constitution',
+                icon: Award,
+                description: 'Our Constitution outlines our values and principles. We will strive to follow these principles to further our Gracious Professionalism.',
+                link: '#',
+                badge: 'Core'
               },
               {
-                icon: Rocket,
-                title: 'Innovation',
-                description: 'Thinking creatively, taking risks, and pushing the boundaries of what\'s possible.'
+                title: 'Our Bylaws',
+                icon: FileText,
+                description: 'Our Bylaws outline our detailed rules and regulations. This is our in-depth guide to running our club.',
+                link: '#',
+                badge: 'Core'
               }
-            ].map((value, index) => (
+            ].map((doc, index) => (
               <div 
                 key={index}
-                className="reveal value-card"
+                className="reveal document-card"
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-light-blue/10 flex items-center justify-center mb-4">
-                    <value.icon className="w-8 h-8 text-light-blue" />
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center">
+                    <doc.icon className="w-7 h-7 text-light-blue" />
                   </div>
-                  <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {value.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Outreach Programs Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Outreach <span className="text-gradient">Programs</span>
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We're committed to spreading STEM education and robotics throughout our community
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {[
-              {
-                icon: GraduationCap,
-                title: 'Summer Robotics Camps',
-                description: 'Week-long camps for middle school students introducing robotics, programming, and engineering concepts.',
-                impact: '100+ students reached annually',
-                color: 'from-blue-500 to-blue-600'
-              },
-              {
-                icon: School,
-                title: 'Elementary School Demos',
-                description: 'Interactive robot demonstrations at local elementary schools to inspire young students.',
-                impact: '15+ schools visited each year',
-                color: 'from-purple-500 to-purple-600'
-              },
-              {
-                icon: Globe,
-                title: 'FLL/FTC Mentorship',
-                description: 'Mentoring younger FIRST Lego League and FIRST Tech Challenge teams in our area.',
-                impact: '8+ teams mentored',
-                color: 'from-green-500 to-green-600'
-              },
-              {
-                icon: Megaphone,
-                title: 'STEM Advocacy',
-                description: 'Promoting STEM education through community events, presentations, and demonstrations.',
-                impact: '1000+ community members engaged',
-                color: 'from-orange-500 to-orange-600'
-              }
-            ].map((program, index) => (
-              <div 
-                key={index}
-                className="reveal outreach-card"
-                style={{ transitionDelay: `${index * 0.15}s` }}
-              >
-                <div className={`w-full h-2 rounded-t-2xl bg-gradient-to-r ${program.color}`} />
-                <div className="p-8">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                      <program.icon className="w-7 h-7 text-light-blue" />
-                    </div>
-                    <div>
-                      <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
-                        {program.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {program.description}
-                      </p>
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-light-blue/10 rounded-full">
-                        <Award className="w-4 h-4 text-light-blue" />
-                        <span className="text-navy font-semibold text-sm">{program.impact}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Community Events Section */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Community <span className="text-gradient">Events</span>
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Throughout the year, we host and participate in events that bring our community together
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Open Houses',
-                description: 'Visit our lab, meet the team, and see our robots in action',
-                frequency: 'Quarterly'
-              },
-              {
-                title: 'Robot Demonstrations',
-                description: 'Public demos at schools, fairs, and community events',
-                frequency: 'Monthly'
-              },
-              {
-                title: 'Fundraising Events',
-                description: 'Community fundraisers supporting our team and local causes',
-                frequency: 'Seasonal'
-              },
-              {
-                title: 'STEM Nights',
-                description: 'Family-friendly STEM activities and hands-on learning',
-                frequency: 'Bi-annual'
-              },
-              {
-                title: 'Competition Viewing',
-                description: 'Watch our team compete live at regional championships',
-                frequency: 'Annual'
-              },
-              {
-                title: 'Volunteer Days',
-                description: 'Give back to our community through service projects',
-                frequency: 'Monthly'
-              }
-            ].map((event, index) => (
-              <div 
-                key={index}
-                className="reveal event-card"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <Calendar className="w-6 h-6 text-light-blue flex-shrink-0" />
-                  <span className="text-xs font-semibold text-light-blue uppercase tracking-wide">
-                    {event.frequency}
+                  <span className="px-3 py-1 bg-light-blue/10 text-navy text-xs font-semibold rounded-full">
+                    {doc.badge}
                   </span>
                 </div>
-                <h3 className="text-navy font-orbitron font-semibold text-xl mb-2">
-                  {event.title}
+                <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
+                  {doc.title}
                 </h3>
-                <p className="text-gray-600">
-                  {event.description}
+                <p className="text-gray-600 mb-6">
+                  {doc.description}
                 </p>
+                <a 
+                  href={doc.link}
+                  className="inline-flex items-center gap-2 text-light-blue font-semibold hover:gap-3 transition-all duration-200"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Impact Stats Section */}
+      {/* Meeting Calendar Section */}
+      <section id="calendar" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16 reveal">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
+              Meeting <span className="text-gradient">Calendar</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Stay up to date with team meetings, events, and important dates
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="reveal calendar-embed-card">
+              <div className="text-center py-16">
+                <Calendar className="w-20 h-20 text-light-blue mx-auto mb-6" />
+                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4">
+                  Team Calendar
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  View our full team calendar with all meetings, competitions, and events
+                </p>
+                <a 
+                  href="#"
+                  className="btn-primary inline-flex items-center gap-2"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  View Calendar
+                </a>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mt-8">
+              <div className="reveal meeting-info-card" style={{ transitionDelay: '0.1s' }}>
+                <Clock className="w-8 h-8 text-light-blue mb-4" />
+                <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
+                  Build Season
+                </h3>
+                <div className="space-y-2 text-gray-600">
+                  <p><strong>January - February</strong></p>
+                  <p>Monday - Saturday</p>
+                  <p>3:00 PM - 8:00 PM</p>
+                </div>
+              </div>
+
+              <div className="reveal meeting-info-card" style={{ transitionDelay: '0.2s' }}>
+                <Clock className="w-8 h-8 text-light-blue mb-4" />
+                <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
+                  Off-Season
+                </h3>
+                <div className="space-y-2 text-gray-600">
+                  <p><strong>September - December</strong></p>
+                  <p>Tuesday & Thursday</p>
+                  <p>3:30 PM - 6:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Important Links Section */}
       <section className="section-padding bg-navy">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white mb-4">
-              Our <span className="text-gradient">Impact</span>
+              Important <span className="text-gradient">Links</span>
             </h2>
             <p className="text-white/70 max-w-2xl mx-auto">
-              Numbers that showcase our commitment to community engagement and STEM education
+              Quick access to frequently used resources and platforms
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                number: '20+',
-                label: 'Years of Service',
-                icon: Award
+                title: 'Chief Delphi',
+                description: 'FRC community forum',
+                icon: ExternalLink,
+                href: 'https://www.chiefdelphi.com'
               },
               {
-                number: '500+',
-                label: 'Students Inspired',
-                icon: GraduationCap
+                title: 'GitHub',
+                description: 'Team code repository',
+                icon: Github,
+                href: '#'
               },
               {
-                number: '1000+',
-                label: 'Volunteer Hours',
-                icon: Heart
+                title: 'Drive Team',
+                description: 'Google Drive folders',
+                icon: ExternalLink,
+                href: '#'
               },
               {
-                number: '5',
-                label: 'Schools Represented',
-                icon: School
+                title: 'Slack',
+                description: 'Team communication',
+                icon: ExternalLink,
+                href: '#'
               }
-            ].map((stat, index) => (
-              <div 
+            ].map((link, index) => (
+              <a
                 key={index}
-                className="reveal text-center"
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reveal important-link-card group"
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-light-blue/10 mb-4">
-                  <stat.icon className="w-10 h-10 text-light-blue" />
-                </div>
-                <div className="text-5xl font-orbitron font-bold text-white mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-white/70 text-lg">
-                  {stat.label}
-                </div>
-              </div>
+                <link.icon className="w-8 h-8 text-light-blue mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-white font-orbitron font-semibold text-lg mb-2">
+                  {link.title}
+                </h3>
+                <p className="text-white/70 text-sm">
+                  {link.description}
+                </p>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Get Involved Section */}
+      {/* New Member Checklist */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12 reveal">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-                Get <span className="text-gradient">Involved</span>
+              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-4">
+                New Member <span className="text-gradient">Checklist</span>
               </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                There are many ways to support our mission and be part of our community
+              <p className="text-gray-600">
+                Complete these steps to get started as a Pack of Parts member
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
               {[
-                {
-                  title: 'Volunteer',
-                  description: 'Help at events, mentor students, or share your expertise',
-                  cta: 'Learn More',
-                  href: '/contact'
-                },
-                {
-                  title: 'Sponsor',
-                  description: 'Support our team and help make STEM education accessible',
-                  cta: 'Become a Sponsor',
-                  href: '/#donate'
-                },
-                {
-                  title: 'Partner',
-                  description: 'Collaborate with us on community programs and initiatives',
-                  cta: 'Partner With Us',
-                  href: '/contact'
-                },
-                {
-                  title: 'Attend Events',
-                  description: 'Join us at competitions, open houses, and community events',
-                  cta: 'View Calendar',
-                  href: '/contact'
-                }
+                'Complete STIMS registration process',
+                'Read the Team Handbook thoroughly',
+                'Review all Safety Notes and complete safety training',
+                'Sign the Safety Plan acknowledgment',
+                'Read the Constitution and Bylaws',
+                'Join team Slack workspace',
+                'Set up access to team Google Drive',
+                'Attend new member orientation',
+                'Get your team t-shirt and safety glasses',
+                'Meet with sub-team leads to find your role'
               ].map((item, index) => (
                 <div 
                   key={index}
-                  className="reveal involvement-card"
-                  style={{ transitionDelay: `${index * 0.1}s` }}
+                  className="reveal checklist-item"
+                  style={{ transitionDelay: `${index * 0.05}s` }}
                 >
-                  <h3 className="text-navy font-orbitron font-semibold text-2xl mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    {item.description}
-                  </p>
-                  <a 
-                    href={item.href}
-                    className="inline-flex items-center gap-2 text-light-blue font-semibold hover:gap-3 transition-all duration-200"
-                  >
-                    {item.cta}
-                    <ChevronRight className="w-5 h-5" />
-                  </a>
+                  <div className="flex items-start gap-4">
+                    <CheckCircle className="w-6 h-6 text-light-blue flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">{item}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -532,6 +504,7 @@ function Community() {
                   { icon: Facebook, href: '#', label: 'Facebook' },
                   { icon: Youtube, href: '#', label: 'YouTube' },
                   { icon: Github, href: '#', label: 'GitHub' },
+                  { icon: Linkedin, href: '#', label: 'LinkedIn' },
                   { icon: Mail, href: 'mailto:contact@packofparts.org', label: 'Email' },
                 ].map((social) => (
                   <a
@@ -610,7 +583,4 @@ function Community() {
   );
 }
 
-// Add missing import
-import { ChevronRight } from 'lucide-react';
-
-export default Community;
+export default Members;
