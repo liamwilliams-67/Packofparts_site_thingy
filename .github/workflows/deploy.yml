@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: http://137.131.34.249  # Change this with the current production link
+      url: https://1294-test-page.robot-armies.com  # Change this with the current production link
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
