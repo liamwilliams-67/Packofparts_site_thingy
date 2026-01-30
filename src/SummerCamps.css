@@ -1,0 +1,89 @@
+/* Summer Camps Page Specific Styles */
+
+/* Camp Feature Cards */
+.camp-feature-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(128, 211, 238, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.camp-feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(24, 38, 81, 0.15);
+  border-color: rgba(128, 211, 238, 0.5);
+}
+
+/* Schedule Items */
+.schedule-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border-left: 4px solid #80D3EE;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.schedule-item:hover {
+  transform: translateX(8px);
+  box-shadow: 0 6px 16px rgba(24, 38, 81, 0.1);
+}
+
+/* Session Cards */
+.session-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 2px solid rgba(128, 211, 238, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.session-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(24, 38, 81, 0.2);
+  border-color: rgba(128, 211, 238, 0.5);
+}
+
+/* Registration Card */
+.registration-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 2rem;
+  border: 2px solid rgba(128, 211, 238, 0.3);
+  box-shadow: 0 8px 32px rgba(24, 38, 81, 0.1);
+}
+
+@media (max-width: 640px) {
+  .registration-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border-left: 4px solid #80D3EE;
+  box-shadow: 0 2px 8px rgba(24, 38, 81, 0.06);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 8px 24px rgba(24, 38, 81, 0.12);
+  transform: translateX(8px);
+}
+
+/* Social Icons */
+.social-icon {
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}

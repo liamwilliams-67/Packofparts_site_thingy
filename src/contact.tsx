@@ -38,7 +38,7 @@ function Contact() {
     { name: 'Community', href: '/community' },
     { name: 'Donate', href: '/#donate' },
     { name: 'Contact Us', href: '/contact' },
-    { name: 'Summer Camps', href: '/#camps' },
+    { name: 'Summer Camps', href: '/summer-camps' },
   ];
 
   useEffect(() => {

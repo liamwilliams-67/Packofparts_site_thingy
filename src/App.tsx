@@ -30,7 +30,7 @@ function App() {
   { name: 'Community', href: '/community' },
   { name: 'Donate', href: '#donate' },
   { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
-  { name: 'Summer Camps', href: '#camps' },
+  { name: 'Summer Camps', href: '/summer-camps' },
 ];
 
   // Sponsor logos

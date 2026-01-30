@@ -6,6 +6,8 @@ import App from './App.tsx'
 import Contact from './contact.tsx'
 import Join from './Join.tsx'
 import Community from './Community.tsx'
+import SummerCamps from './SummerCamps.tsx'
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/contact" element={<Contact />} />
         <Route path="/join" element={<Join />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/summer-camps" element={<SummerCamps />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
