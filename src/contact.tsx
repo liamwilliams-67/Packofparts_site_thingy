@@ -35,7 +35,7 @@ function Contact() {
     { name: 'Home', href: '/' },
     { name: 'Join The Club', href: '/join' },
     { name: 'For Members', href: '/#members' },
-    { name: 'Community', href: '/#community' },
+    { name: 'Community', href: '/community' },
     { name: 'Donate', href: '/#donate' },
     { name: 'Contact Us', href: '/contact' },
     { name: 'Summer Camps', href: '/#camps' },
