@@ -1,0 +1,67 @@
+/* Join Page Specific Styles */
+
+/* Benefit Cards */
+.benefit-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(128, 211, 238, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(24, 38, 81, 0.15);
+  border-color: rgba(128, 211, 238, 0.4);
+}
+
+/* Info Card */
+.info-card {
+  background: linear-gradient(135deg, #182651 0%, rgba(24, 38, 81, 0.95) 100%);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(128, 211, 238, 0.2);
+  box-shadow: 0 8px 32px rgba(24, 38, 81, 0.2);
+}
+
+/* Role Cards */
+.role-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(128, 211, 238, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(24, 38, 81, 0.1);
+  border-color: rgba(128, 211, 238, 0.5);
+}
+
+/* FAQ Items (reusing from Contact but with slight adjustments) */
+.faq-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border-left: 4px solid #80D3EE;
+  box-shadow: 0 2px 8px rgba(24, 38, 81, 0.06);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 8px 24px rgba(24, 38, 81, 0.12);
+  transform: translateX(8px);
+}
+
+/* Social Icons */
+.social-icon {
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
