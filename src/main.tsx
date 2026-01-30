@@ -9,6 +9,7 @@ import Community from './Community.tsx'
 import SummerCamps from './SummerCamps.tsx'
 import Members from './Members.tsx'
 import Donate from './Donate.tsx'
+import NotFound from './NotFound.tsx'
 
 
 createRoot(document.getElementById('root')!).render(
@@ -22,6 +23,8 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/summer-camps" element={<SummerCamps />} />
         <Route path="/members" element={<Members />} />
         <Route path="/donate" element={<Donate />} />
+        {/* 404 Catch-all route - must be last */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
