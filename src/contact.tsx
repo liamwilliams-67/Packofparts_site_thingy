@@ -3,7 +3,6 @@ import {
   Mail, 
   MapPin, 
   School, 
-  Users, 
   Send,
   Instagram,
   Facebook,
@@ -29,7 +28,7 @@ function Contact() {
   // Initialize nav visible as true so it doesn't pop in weirdly
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [, setScrollY] = useState(0);
 
   // Updated links to match App.tsx structure
   const navLinks = [
