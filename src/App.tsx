@@ -8,6 +8,7 @@ import {
   Menu, 
   X, 
   ChevronRight,
+  ChevronDown,
   Play,
   MapPin,
   School,
@@ -22,11 +23,20 @@ import './App.css';
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
 
  const navLinks = [
   { name: 'Join The Club', href: '/join' },
   { name: 'For Members', href: '/members' },
-  { name: 'Community', href: '/community' },
+  { 
+    name: 'Community', 
+    href: '/community',
+    hasDropdown: true,
+    dropdownItems: [
+      { name: 'STEM Kits', href: '/community/stem-kits' },
+      { name: 'Recycling Initiative', href: '/community/recycling' }
+    ]
+  },
   { name: 'Donate', href: '/donate' },
   { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
   { name: 'Summer Camps', href: '/summer-camps' },
@@ -123,13 +133,42 @@ function App() {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6 xl:gap-8">
               {navLinks.map((link) => (
-                <button
-                  key={link.name}
-                  onClick={() => scrollToSection(link.href)}
-                  className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200"
-                >
-                  {link.name}
-                </button>
+                link.hasDropdown ? (
+                  <div 
+                    key={link.name}
+                    className="relative"
+                    onMouseEnter={() => setIsCommunityDropdownOpen(true)}
+                    onMouseLeave={() => setIsCommunityDropdownOpen(false)}
+                  >
+                    <button
+                      onClick={() => scrollToSection(link.href)}
+                      className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200 inline-flex items-center gap-1"
+                    >
+                      {link.name}
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isCommunityDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {/* Dropdown Menu */}
+                    <div className={`absolute top-full left-0 mt-2 py-2 bg-navy/95 backdrop-blur-lg rounded-lg shadow-xl border border-white/10 min-w-[200px] transition-all duration-200 ${isCommunityDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                      {link.dropdownItems?.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className="block px-4 py-2 text-white/90 hover:text-light-blue hover:bg-white/5 text-sm font-medium transition-colors duration-200"
+                        >
+                          {item.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    key={link.name}
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200"
+                  >
+                    {link.name}
+                  </button>
+                )
               ))}
             </div>
 
@@ -152,14 +191,38 @@ function App() {
           <div className="flex flex-col items-center justify-start h-full px-4 pt-6">
             <div className="nav-glass w-full max-w-xs rounded-3xl px-8 py-8 flex flex-col items-center gap-6">
               {navLinks.map((link, index) => (
-                <button
-                  key={link.name}
-                  onClick={() => scrollToSection(link.href)}
-                  className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                  style={{ animationDelay: `${index * 80}ms` }}
-                >
-                  {link.name}
-                </button>
+                link.hasDropdown ? (
+                  <div key={link.name} className="flex flex-col items-center gap-2">
+                    <button
+                      onClick={() => scrollToSection(link.href)}
+                      className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
+                      style={{ animationDelay: `${index * 80}ms` }}
+                    >
+                      {link.name}
+                    </button>
+                    <div className="flex flex-col items-center gap-2">
+                      {link.dropdownItems?.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="text-white/70 text-sm font-medium hover:text-light-blue transition-colors duration-200"
+                        >
+                          → {item.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    key={link.name}
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
+                    style={{ animationDelay: `${index * 80}ms` }}
+                  >
+                    {link.name}
+                  </button>
+                )
               ))}
             </div>
           </div>
@@ -546,7 +609,7 @@ function App() {
             <div className="reveal" style={{ transitionDelay: '0.1s' }}>
               <h4 className="text-white font-orbitron font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-3">
-                {navLinks.map((link) => (
+                {navLinks.filter(link => !link.hasDropdown).map((link) => (
                   <li key={link.name}>
                     <button
                       onClick={() => scrollToSection(link.href)}
@@ -557,6 +620,22 @@ function App() {
                     </button>
                   </li>
                 ))}
+                <li>
+                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
+                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    Community
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → STEM Kits
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → Recycling Initiative
+                  </a>
+                </li>
               </ul>
             </div>
 

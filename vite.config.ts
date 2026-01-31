@@ -15,6 +15,8 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
         contact: resolve(__dirname, "contact.html"),
         join: resolve(__dirname, "join.html"),
+        stemKits: resolve(__dirname, "stem-kits.html"),
+        recycling: resolve(__dirname, "recycling.html"),
       },
     },
   },
