@@ -383,7 +383,7 @@ function App() {
 
               <button 
                 onClick={() => scrollToSection('#join')}
-                className="btn-primary mt-8 inline-flex items-center gap-2"
+                className="btn-primary-light mt-8 inline-flex items-center gap-2"
               >
                 Learn More About Joining
                 <ArrowRight className="w-4 h-4" />
@@ -455,7 +455,7 @@ function App() {
                 href="https://www.firstinspires.org/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary inline-flex items-center gap-2"
+                className="btn-primary-light inline-flex items-center gap-2"
               >
                 Visit FIRST Website
                 <ChevronRight className="w-4 h-4" />

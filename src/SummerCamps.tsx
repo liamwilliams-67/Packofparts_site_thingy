@@ -542,7 +542,7 @@ function SummerCamps() {
               <div className="text-center">
                 <a 
                   href="/contact"
-                  className="btn-primary inline-flex items-center gap-2"
+                  className="btn-primary-light inline-flex items-center gap-2"
                 >
                   <Mail className="w-5 h-5" />
                   Contact Us to Register
