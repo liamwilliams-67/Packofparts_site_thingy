@@ -295,7 +295,7 @@ function Contact() {
               <div className="reveal contact-form-wrapper">
                 <div className="mb-8">
                   <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-4">
-                    Send Us a <span className="text-gradient">Message</span>
+                    Send Us a Message
                   </h2>
                   <p className="text-gray-600">
                     Fill out the form below and we'll get back to you as soon as possible.
@@ -414,7 +414,7 @@ function Contact() {
         <div className="container-custom">
           <div className="text-center mb-12 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Frequently Asked <span className="text-gradient">Questions</span>
+              Frequently Asked Questions
             </h2>
           </div>
           <div className="max-w-3xl mx-auto space-y-4">

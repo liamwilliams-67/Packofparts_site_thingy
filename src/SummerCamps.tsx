@@ -216,7 +216,7 @@ function SummerCamps() {
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              What to <span className="text-gradient">Expect</span>
+              What to Expect
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Our camps combine hands-on robotics with programming, engineering design, 
@@ -282,7 +282,7 @@ function SummerCamps() {
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Daily <span className="text-gradient">Schedule</span>
+              Daily Schedule
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               A typical day at robotics camp is packed with hands-on activities and learning
@@ -329,7 +329,7 @@ function SummerCamps() {
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Camp <span className="text-gradient">Sessions</span>
+              Camp Sessions
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Choose from multiple week-long sessions throughout the summer
@@ -486,7 +486,7 @@ function SummerCamps() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12 reveal">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-                Ready to <span className="text-gradient">Register</span>?
+                Ready to Register?
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Spaces fill up quickly! Secure your spot for an unforgettable summer of robotics.
@@ -558,7 +558,7 @@ function SummerCamps() {
         <div className="container-custom">
           <div className="text-center mb-12 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Frequently Asked <span className="text-gradient">Questions</span>
+              Frequently Asked Questions
             </h2>
           </div>
 
