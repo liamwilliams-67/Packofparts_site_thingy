@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   Instagram, 
   Facebook, 
@@ -16,12 +16,12 @@ import {
   Trophy,
   ArrowRight
 } from 'lucide-react';
+import ScrollExpandMedia from './components/blocks/scroll-expansion-hero';
 import './App.css';
 
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
 
  const navLinks = [
   { name: 'Join The Club', href: '/join' },
@@ -166,74 +166,34 @@ function App() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section 
-        ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      {/* Scroll Expansion Hero Section */}
+      <ScrollExpandMedia
+        mediaType="video"
+        mediaSrc="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-working-on-an-assembly-line-21913-large.mp4"
+        posterSrc="/team-photo-2.jpg"
+        bgImageSrc="/team-photo-2.jpg"
+        title="Eastlake Robotics Club"
+        date="#1294"
+        scrollToExpand="Scroll to Explore"
+        textBlend={false}
       >
-        {/* Video Background */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-            poster="/team-photo-2.jpg"
-          >
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-working-on-an-assembly-line-21913-large.mp4" type="video/mp4" />
-          </video>
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 hero-gradient" />
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 container-custom text-center px-4">
-          <div 
-            className="animate-fade-in-up"
-            style={{ animationDelay: '0.3s' }}
-          >
-            <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
-              #1294
-            </span>
-          </div>
-          
-          <h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-            style={{ animationDelay: '0.5s' }}
-          >
-            Eastlake Robotics Club
-          </h1>
-          
-          <h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
-            style={{ animationDelay: '0.8s' }}
-          >
+        {/* Additional Hero Content - Pack of Parts subtitle */}
+        <div className="bg-navy py-16 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-float">
             Pack of Parts
           </h2>
-          
-          <p 
-            className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
-            style={{ animationDelay: '1.1s' }}
-          >
+          <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
             FRC Team 1294 | Sammamish, Washington
           </p>
-          
-          <div 
-            className="animate-fade-in-up"
-            style={{ animationDelay: '1.4s' }}
+          <button 
+            onClick={() => scrollToSection('#join')}
+            className="btn-primary text-sm md:text-base animate-pulse-glow"
           >
-            <button 
-              onClick={() => scrollToSection('#join')}
-              className="btn-primary text-sm md:text-base animate-pulse-glow"
-            >
-              Join The Club
-            </button>
-          </div>
+            Join The Club
+          </button>
         </div>
-      </section>
 
-      {/* Our Mission Section */}
+        {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -621,6 +581,7 @@ function App() {
 
       {/* Summer Camps Section - Anchor target */}
       <div id="camps" className="hidden" />
+      </ScrollExpandMedia>
     </div>
   );
 }
