@@ -25,6 +25,12 @@ const MEDIA_DESKTOP_HEIGHT_DELTA = 400;
 const TEXT_MOBILE_TRANSLATE_FACTOR = 180;
 const TEXT_DESKTOP_TRANSLATE_FACTOR = 150;
 
+interface HeroContentRenderProps {
+  scrollProgress: number;
+  isMobile: boolean;
+  textTranslateX: number;
+}
+
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
   mediaSrc: string;
@@ -35,7 +41,7 @@ interface ScrollExpandMediaProps {
   scrollToExpand?: string;
   textBlend?: boolean;
   children?: ReactNode;
-  heroContent?: ReactNode; // Custom hero content to display above the expanding media
+  heroContent?: ReactNode | ((props: HeroContentRenderProps) => ReactNode); // Custom hero content to display above the expanding media
 }
 
 const ScrollExpandMedia = ({
@@ -200,7 +206,9 @@ const ScrollExpandMedia = ({
         {heroContent ? (
           // Custom hero content provided by parent
           <div className="absolute inset-0 z-20 flex items-center justify-center">
-            {heroContent}
+            {typeof heroContent === 'function' 
+              ? heroContent({ scrollProgress, isMobile: isMobileState, textTranslateX })
+              : heroContent}
           </div>
         ) : (
           // Default title/date structure with scroll animation
@@ -309,4 +317,5 @@ const ScrollExpandMedia = ({
   );
 };
 
+export type { HeroContentRenderProps };
 export default ScrollExpandMedia;

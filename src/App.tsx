@@ -16,7 +16,7 @@ import {
   Trophy,
   ArrowRight
 } from 'lucide-react';
-import ScrollExpandMedia from './components/blocks/scroll-expansion-hero';
+import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
 
 function App() {
@@ -172,7 +172,7 @@ function App() {
         mediaSrc="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-working-on-an-assembly-line-21913-large.mp4"
         posterSrc="/team-photo-2.jpg"
         bgImageSrc="/team-photo-2.jpg"
-        heroContent={
+        heroContent={({ textTranslateX }: HeroContentRenderProps) => (
           <div className="container-custom text-center px-4">
             <div 
               className="animate-fade-in-up"
@@ -187,14 +187,48 @@ function App() {
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
               style={{ animationDelay: '0.5s' }}
             >
-              Eastlake Robotics Club
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: `translateX(-${textTranslateX}px)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+              >
+                Eastlake
+              </span>{' '}
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: `translateX(${textTranslateX}px)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+              >
+                Robotics Club
+              </span>
             </h1>
             
             <h2 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
               style={{ animationDelay: '0.8s' }}
             >
-              Pack of Parts
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: `translateX(-${textTranslateX}px)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+              >
+                Pack
+              </span>{' '}
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: `translateX(${textTranslateX}px)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+              >
+                of Parts
+              </span>
             </h2>
             
             <p 
@@ -216,7 +250,7 @@ function App() {
               </button>
             </div>
           </div>
-        }
+        )}
       >
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">
