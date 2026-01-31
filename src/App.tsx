@@ -16,8 +16,45 @@ import {
   Trophy,
   ArrowRight
 } from 'lucide-react';
-import ScrollExpandMedia from './components/blocks/scroll-expansion-hero';
+import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
+
+// Helper component for center-split text animation
+interface SplitTextProps {
+  text: string;
+  translateX: number;
+  className?: string;
+}
+
+const SplitText = ({ text, translateX, className = '' }: SplitTextProps) => {
+  // Find the center point of the text (split at character level)
+  const centerIndex = Math.ceil(text.length / 2);
+  const leftPart = text.slice(0, centerIndex);
+  const rightPart = text.slice(centerIndex);
+
+  return (
+    <span className={className}>
+      <span
+        style={{
+          display: 'inline-block',
+          transform: `translateX(-${translateX}px)`,
+          transition: 'transform 0.1s ease-out',
+        }}
+      >
+        {leftPart}
+      </span>
+      <span
+        style={{
+          display: 'inline-block',
+          transform: `translateX(${translateX}px)`,
+          transition: 'transform 0.1s ease-out',
+        }}
+      >
+        {rightPart}
+      </span>
+    </span>
+  );
+};
 
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(false);
@@ -172,36 +209,38 @@ function App() {
         mediaSrc="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-working-on-an-assembly-line-21913-large.mp4"
         posterSrc="/team-photo-2.jpg"
         bgImageSrc="/team-photo-2.jpg"
-        heroContent={
+        heroContent={({ textTranslateX }: HeroContentRenderProps) => (
           <div className="container-custom text-center px-4">
             <div 
               className="animate-fade-in-up"
               style={{ animationDelay: '0.3s' }}
             >
-              <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
-                #1294
-              </span>
+              <SplitText 
+                text="#1294" 
+                translateX={textTranslateX} 
+                className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4"
+              />
             </div>
             
             <h1 
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
               style={{ animationDelay: '0.5s' }}
             >
-              Eastlake Robotics Club
+              <SplitText text="Eastlake Robotics Club" translateX={textTranslateX} />
             </h1>
             
             <h2 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
               style={{ animationDelay: '0.8s' }}
             >
-              Pack of Parts
+              <SplitText text="Pack of Parts" translateX={textTranslateX} />
             </h2>
             
             <p 
               className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
               style={{ animationDelay: '1.1s' }}
             >
-              FRC Team 1294 | Sammamish, Washington
+              <SplitText text="FRC Team 1294 | Sammamish, Washington" translateX={textTranslateX} />
             </p>
             
             <div 
@@ -216,7 +255,7 @@ function App() {
               </button>
             </div>
           </div>
-        }
+        )}
       >
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">
