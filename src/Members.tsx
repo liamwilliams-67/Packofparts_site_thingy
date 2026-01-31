@@ -181,22 +181,19 @@ function Members() {
                 title: 'Meeting Calendar',
                 icon: Calendar,
                 description: 'View upcoming meetings and events',
-                href: '#calendar',
-                color: 'from-blue-500 to-blue-600'
+                href: '#calendar'
               },
               {
                 title: 'Team Handbook',
                 icon: BookOpen,
                 description: 'Read our complete team handbook',
-                href: '#handbook',
-                color: 'from-purple-500 to-purple-600'
+                href: '#handbook'
               },
               {
                 title: 'Safety Resources',
                 icon: Shield,
                 description: 'Safety guidelines and protocols',
-                href: '#safety',
-                color: 'from-red-500 to-red-600'
+                href: '#safety'
               }
             ].map((link, index) => (
               <a
@@ -205,7 +202,6 @@ function Members() {
                 className="reveal quick-link-card group"
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <div className={`w-full h-2 rounded-t-2xl bg-gradient-to-r ${link.color}`} />
                 <div className="p-6">
                   <link.icon className="w-10 h-10 text-light-blue mb-4" />
                   <h3 className="text-navy font-orbitron font-semibold text-xl mb-2 group-hover:text-light-blue transition-colors">

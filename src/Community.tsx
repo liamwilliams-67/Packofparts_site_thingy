@@ -257,29 +257,25 @@ function Community() {
                 icon: GraduationCap,
                 title: 'Summer Robotics Camps',
                 description: 'Week-long camps for middle school students introducing robotics, programming, and engineering concepts.',
-                impact: '100+ students reached annually',
-                color: 'from-blue-500 to-blue-600'
+                impact: '100+ students reached annually'
               },
               {
                 icon: School,
                 title: 'Elementary School Demos',
                 description: 'Interactive robot demonstrations at local elementary schools to inspire young students.',
-                impact: '15+ schools visited each year',
-                color: 'from-purple-500 to-purple-600'
+                impact: '15+ schools visited each year'
               },
               {
                 icon: Globe,
                 title: 'FLL/FTC Mentorship',
                 description: 'Mentoring younger FIRST Lego League and FIRST Tech Challenge teams in our area.',
-                impact: '8+ teams mentored',
-                color: 'from-green-500 to-green-600'
+                impact: '8+ teams mentored'
               },
               {
                 icon: Megaphone,
                 title: 'STEM Advocacy',
                 description: 'Promoting STEM education through community events, presentations, and demonstrations.',
-                impact: '1000+ community members engaged',
-                color: 'from-orange-500 to-orange-600'
+                impact: '1000+ community members engaged'
               }
             ].map((program, index) => (
               <div 
@@ -287,7 +283,6 @@ function Community() {
                 className="reveal outreach-card"
                 style={{ transitionDelay: `${index * 0.15}s` }}
               >
-                <div className={`w-full h-2 rounded-t-2xl bg-gradient-to-r ${program.color}`} />
                 <div className="p-8">
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
