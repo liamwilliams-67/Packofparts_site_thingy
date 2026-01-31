@@ -150,17 +150,19 @@ function App() {
             isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
         >
-          <div className="flex flex-col items-center justify-center h-full gap-8">
-            {navLinks.map((link, index) => (
-              <button
-                key={link.name}
-                onClick={() => scrollToSection(link.href)}
-                className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                style={{ animationDelay: `${index * 80}ms` }}
-              >
-                {link.name}
-              </button>
-            ))}
+          <div className="flex flex-col items-center justify-start h-full px-4 pt-6">
+            <div className="nav-glass w-full max-w-xs rounded-3xl px-8 py-8 flex flex-col items-center gap-6">
+              {navLinks.map((link, index) => (
+                <button
+                  key={link.name}
+                  onClick={() => scrollToSection(link.href)}
+                  className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
+                  style={{ animationDelay: `${index * 80}ms` }}
+                >
+                  {link.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </nav>
