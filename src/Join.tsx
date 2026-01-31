@@ -16,10 +16,10 @@ import {
   Lightbulb,
   Calendar,
   Clock,
-  CheckCircle,
-  ArrowRight
+  CheckCircle
 } from 'lucide-react';
 import './Join.css';
+import { Timeline } from '@/components/ui/timeline';
 
 function Join() {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -35,6 +35,91 @@ function Join() {
     { name: 'Donate', href: '/donate' },
     { name: 'Contact Us', href: '/contact' },
     { name: 'Summer Camps', href: '/summer-camps' },
+  ];
+
+  // Timeline data for How to Join section
+  const timelineData = [
+    {
+      title: "01",
+      content: (
+        <div>
+          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
+            Interest Form
+          </h4>
+          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+            Fill out an interest form if you are considering joining Pack of Parts for the 2025-2026 season.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "02",
+      content: (
+        <div>
+          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
+            Shop Permission Form
+          </h4>
+          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+            Now, fill out this form and have it signed by a parent or guardian. This is so you get permission to use tools and machines in the shop. Bring the signed form to the next club meeting.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "03",
+      content: (
+        <div>
+          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
+            Member Handbook
+          </h4>
+          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+            Next step is to get familiar with our member handbook. This tells you everything you should know about how we run the club and what will be expected of you.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "04",
+      content: (
+        <div>
+          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
+            Club Contract
+          </h4>
+          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+            After you've read the handbook, the next step is to sign your member contract. Fill this form and have it signed by a parent/guardian.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "05",
+      content: (
+        <div>
+          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
+            Parent/Guardian Info
+          </h4>
+          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+            Almost done! Here's a document for your parent or guardian to read so they know what's happening in the club. Please be sure to ask them to spend a few minutes and go over this with you.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "06",
+      content: (
+        <div>
+          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
+            Club Fees
+          </h4>
+          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base mb-4">
+            And finally, you need to pay the club fees. Building robots is expensive and these fees help pay those costs.
+          </p>
+          <p className="text-amber-600 dark:text-amber-400 text-sm font-medium italic">
+            NOTE: we're not yet ready to accept payments for this season yet, we'll let you know when it's time.
+          </p>
+        </div>
+      ),
+    },
   ];
 
   // Scroll handler for nav visibility
@@ -405,63 +490,8 @@ function Join() {
       </section>
 
       {/* How to Join Section */}
-      <section className="section-padding bg-navy">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white mb-4">
-              How to <span className="text-gradient">Join</span>
-            </h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Ready to become part of the team? Follow these simple steps to get started.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                step: '01',
-                title: 'Reach Out',
-                description: 'Contact us via email or attend one of our meetings to express your interest.'
-              },
-              {
-                step: '02',
-                title: 'Meet the Team',
-                description: 'Visit our lab, meet current members, and learn about our different sub-teams.'
-              },
-              {
-                step: '03',
-                title: 'Get Started',
-                description: 'Complete registration, attend orientation, and start your robotics journey!'
-              }
-            ].map((item, index) => (
-              <div 
-                key={index}
-                className="reveal text-center"
-                style={{ transitionDelay: `${index * 0.15}s` }}
-              >
-                <div className="text-light-blue font-orbitron text-5xl font-bold mb-4 opacity-50">
-                  {item.step}
-                </div>
-                <h3 className="text-white font-orbitron font-semibold text-2xl mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-white/70">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12 reveal">
-            <a 
-              href="/contact"
-              className="btn-primary inline-flex items-center gap-2"
-            >
-              Contact Us to Join
-              <ArrowRight className="w-5 h-5" />
-            </a>
-          </div>
-        </div>
+      <section className="section-padding">
+        <Timeline data={timelineData} />
       </section>
 
       {/* FAQ Section */}
