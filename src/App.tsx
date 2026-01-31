@@ -251,7 +251,7 @@ function App() {
               <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
                 Our Mission
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
                 Inspiring the Next Generation of STEM Leaders
               </h2>
               
@@ -401,7 +401,7 @@ function App() {
               <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
                 The Competition
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
                 What is the FIRST Robotics Competition?
               </h2>
               <p className="text-gray-600 leading-relaxed text-base md:text-lg">
@@ -435,7 +435,7 @@ function App() {
               <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
                 The Organization
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
                 What is FIRST?
               </h2>
               <p className="text-gray-600 leading-relaxed text-base md:text-lg mb-6">

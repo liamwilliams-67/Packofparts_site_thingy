@@ -174,7 +174,7 @@ function Donate() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Your Impact Matters
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -231,7 +231,7 @@ function Donate() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Ways to Donate
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -326,7 +326,7 @@ function Donate() {
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <Receipt className="w-16 h-16 text-light-blue mb-6" />
-                  <h2 className="text-3xl font-orbitron font-bold text-gradient mb-4">
+                  <h2 className="text-3xl font-orbitron font-bold text-navy mb-4">
                     Tax Deductible
                   </h2>
                   <p className="text-gray-600 mb-4">
@@ -422,7 +422,7 @@ function Donate() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
               Corporate Sponsorship
             </h2>
             <p className="text-gray-600 text-lg mb-8">
@@ -445,7 +445,7 @@ function Donate() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Donation FAQ
             </h2>
           </div>

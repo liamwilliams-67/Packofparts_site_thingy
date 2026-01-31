@@ -176,7 +176,7 @@ function Community() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Our Core Values
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -243,7 +243,7 @@ function Community() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Outreach Programs
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -317,7 +317,7 @@ function Community() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Community Events
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -441,7 +441,7 @@ function Community() {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12 reveal">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
                 Get Involved
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">

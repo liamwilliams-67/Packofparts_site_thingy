@@ -174,7 +174,7 @@ function Join() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Why Join Pack of Parts?
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -233,7 +233,7 @@ function Join() {
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="reveal">
-              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-gradient mb-6">
+              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-6">
                 Who Can Join?
               </h2>
               <p className="text-gray-600 mb-6 text-lg">
@@ -322,7 +322,7 @@ function Join() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Find Your Role
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -466,7 +466,7 @@ function Join() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-12 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Frequently Asked Questions
             </h2>
           </div>
