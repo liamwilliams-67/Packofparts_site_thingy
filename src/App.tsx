@@ -21,7 +21,6 @@ import './App.css';
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
 
  const navLinks = [
@@ -58,7 +57,6 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
       setIsNavVisible(window.scrollY > 100);
     };
 
@@ -219,25 +217,15 @@ function App() {
           </p>
           
           <div 
-            className="animate-fade-in-up animate-pulse-glow"
+            className="animate-fade-in-up"
             style={{ animationDelay: '1.4s' }}
           >
             <button 
               onClick={() => scrollToSection('#join')}
-              className="btn-primary text-sm md:text-base"
+              className="btn-primary text-sm md:text-base animate-pulse-glow"
             >
               Join The Club
             </button>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce"
-          style={{ opacity: Math.max(0, 1 - scrollY / 300) }}
-        >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
-            <div className="w-1 h-2 bg-white/80 rounded-full" />
           </div>
         </div>
       </section>
