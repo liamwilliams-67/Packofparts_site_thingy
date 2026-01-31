@@ -43,6 +43,7 @@ function App() {
     '/sponsor-7.png',
     '/sponsor-8.png',
     '/sponsor-9.png',
+    '/sponsor-10.png',
   ];
 
   // Team photos
