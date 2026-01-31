@@ -334,7 +334,7 @@ function Members() {
                 </p>
                 <a 
                   href="#"
-                  className="btn-primary inline-flex items-center gap-2"
+                  className="btn-primary-light inline-flex items-center gap-2"
                 >
                   <ExternalLink className="w-5 h-5" />
                   View Calendar

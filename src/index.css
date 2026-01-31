@@ -81,6 +81,18 @@
     transform: translateY(-2px) scale(1.02);
   }
   
+  /* Button variant for light backgrounds */
+  .btn-primary-light {
+    @apply px-8 py-3 border-2 border-light-blue text-navy font-semibold rounded-pill transition-all duration-300;
+    background: transparent;
+  }
+  
+  .btn-primary-light:hover {
+    @apply bg-light-blue/20;
+    box-shadow: 0 0 20px rgba(128, 211, 238, 0.4);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
   /* Section padding */
   .section-padding {
     @apply py-20 md:py-28 lg:py-32;

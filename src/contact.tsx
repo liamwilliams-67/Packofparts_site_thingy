@@ -369,7 +369,7 @@ function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="btn-primary-light w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>

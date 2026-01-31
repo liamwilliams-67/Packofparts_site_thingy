@@ -273,7 +273,7 @@ function Donate() {
 
               <a 
                 href="#"
-                className="btn-primary w-full justify-center"
+                className="btn-primary-light w-full justify-center"
               >
                 Donate with Zelle
               </a>
@@ -309,7 +309,7 @@ function Donate() {
 
               <a 
                 href="/contact"
-                className="btn-primary w-full justify-center"
+                className="btn-primary-light w-full justify-center"
               >
                 Contact for Details
               </a>
@@ -432,7 +432,7 @@ function Donate() {
             </p>
             <a 
               href="/contact"
-              className="btn-primary inline-flex items-center gap-2"
+              className="btn-primary-light inline-flex items-center gap-2"
             >
               Learn About Sponsorship
               <Mail className="w-5 h-5" />
