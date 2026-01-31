@@ -225,8 +225,8 @@ function Members() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Essential <span className="text-gradient">Documents</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Essential Documents
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Important resources and guides for all team members
@@ -314,8 +314,8 @@ function Members() {
       <section id="calendar" className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Meeting <span className="text-gradient">Calendar</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Meeting Calendar
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Stay up to date with team meetings, events, and important dates
@@ -436,8 +436,8 @@ function Members() {
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12 reveal">
-              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-4">
-                New Member <span className="text-gradient">Checklist</span>
+              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-gradient mb-4">
+                New Member Checklist
               </h2>
               <p className="text-gray-600">
                 Complete these steps to get started as a Pack of Parts member

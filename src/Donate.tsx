@@ -174,8 +174,8 @@ function Donate() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Your Impact <span className="text-gradient">Matters</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Your Impact Matters
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Every donation directly supports our students and helps us continue our mission
@@ -231,8 +231,8 @@ function Donate() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Ways to <span className="text-gradient">Donate</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Ways to Donate
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Choose the method that works best for you
@@ -326,8 +326,8 @@ function Donate() {
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <Receipt className="w-16 h-16 text-light-blue mb-6" />
-                  <h2 className="text-3xl font-orbitron font-bold text-navy mb-4">
-                    Tax <span className="text-gradient">Deductible</span>
+                  <h2 className="text-3xl font-orbitron font-bold text-gradient mb-4">
+                    Tax Deductible
                   </h2>
                   <p className="text-gray-600 mb-4">
                     Pack of Parts is a registered 501(c)(3) non-profit organization. 
@@ -422,8 +422,8 @@ function Donate() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
-              Corporate <span className="text-gradient">Sponsorship</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-6">
+              Corporate Sponsorship
             </h2>
             <p className="text-gray-600 text-lg mb-8">
               Interested in becoming a corporate sponsor? We offer various sponsorship 
@@ -445,8 +445,8 @@ function Donate() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Donation <span className="text-gradient">FAQ</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Donation FAQ
             </h2>
           </div>
 

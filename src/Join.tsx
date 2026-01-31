@@ -174,8 +174,8 @@ function Join() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Why Join <span className="text-gradient">Pack of Parts</span>?
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Why Join Pack of Parts?
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We're more than just a robotics team—we're a family dedicated to innovation, 
@@ -233,8 +233,8 @@ function Join() {
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="reveal">
-              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-6">
-                Who Can <span className="text-gradient">Join</span>?
+              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-gradient mb-6">
+                Who Can Join?
               </h2>
               <p className="text-gray-600 mb-6 text-lg">
                 We welcome students from Eastlake High School and surrounding schools. 
@@ -322,8 +322,8 @@ function Join() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Find Your <span className="text-gradient">Role</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Find Your Role
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Our team is divided into specialized sub-teams. Explore different roles 
@@ -466,8 +466,8 @@ function Join() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-12 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Frequently Asked <span className="text-gradient">Questions</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
+              Frequently Asked Questions
             </h2>
           </div>
 
