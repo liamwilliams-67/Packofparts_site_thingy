@@ -499,31 +499,18 @@ function App() {
           </div>
         </div>
 
-        {/* Marquee Row 1 */}
-        <div className="relative mb-8">
+        {/* Sponsor Logo Marquee
+            - Images are 2x the original size (w-80 h-48)
+            - Animation speed is controlled by 'animate-marquee' class in tailwind.config.js
+            - To change speed manually, edit the 'marquee' animation duration in tailwind.config.js
+              under theme.extend.animation (currently set to 23s for 1.75x speed)
+        */}
+        <div className="relative">
           <div className="flex animate-marquee pause-on-hover">
             {[...sponsors, ...sponsors].map((sponsor, index) => (
               <div 
                 key={index}
-                className="flex-shrink-0 mx-8 w-40 h-24 flex items-center justify-center"
-              >
-                <img 
-                  src={sponsor} 
-                  alt={`Sponsor ${index + 1}`}
-                  className="sponsor-logo max-w-full max-h-full object-contain"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Marquee Row 2 - Reverse */}
-        <div className="relative">
-          <div className="flex animate-marquee-reverse pause-on-hover">
-            {[...sponsors.slice().reverse(), ...sponsors.slice().reverse()].map((sponsor, index) => (
-              <div 
-                key={index}
-                className="flex-shrink-0 mx-8 w-40 h-24 flex items-center justify-center"
+                className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center"
               >
                 <img 
                   src={sponsor} 
