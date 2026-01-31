@@ -51,7 +51,7 @@ function NotFound() {
           isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
         }`}
       >
-        <div className="container-custom py-4">
+        <div className="container-custom pt-4 pb-0">
           <div className="nav-glass rounded-pill px-4 md:px-8 py-3 flex items-center justify-between">
             {/* Logo */}
             <a href="/" className="flex items-center gap-3">
