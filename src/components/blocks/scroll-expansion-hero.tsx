@@ -35,6 +35,7 @@ interface ScrollExpandMediaProps {
   scrollToExpand?: string;
   textBlend?: boolean;
   children?: ReactNode;
+  heroContent?: ReactNode; // Custom hero content to display above the expanding media
 }
 
 const ScrollExpandMedia = ({
@@ -47,6 +48,7 @@ const ScrollExpandMedia = ({
   scrollToExpand,
   textBlend,
   children,
+  heroContent,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
@@ -194,62 +196,70 @@ const ScrollExpandMedia = ({
           <div className="absolute inset-0 bg-black/60" />
         </div>
 
-        {/* Title Section */}
-        <div
-          className={`absolute left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center text-center px-4 ${
-            textBlend ? 'mix-blend-difference' : ''
-          }`}
-          style={{
-            top: isMobileState
-              ? `${15 - scrollProgress * 10}%`
-              : `${20 - scrollProgress * 10}%`,
-          }}
-        >
-          {date && (
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-block text-[#80D3EE] font-orbitron text-sm md:text-base tracking-widest mb-4"
-            >
-              {date}
-            </motion.span>
-          )}
-          <h1
-            className={`text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold tracking-tighter text-white ${
+        {/* Hero Content Section */}
+        {heroContent ? (
+          // Custom hero content provided by parent
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            {heroContent}
+          </div>
+        ) : (
+          // Default title/date structure with scroll animation
+          <div
+            className={`absolute left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center text-center px-4 ${
               textBlend ? 'mix-blend-difference' : ''
             }`}
+            style={{
+              top: isMobileState
+                ? `${15 - scrollProgress * 10}%`
+                : `${20 - scrollProgress * 10}%`,
+            }}
           >
-            <span
-              style={{
-                display: 'inline-block',
-                transform: `translateX(-${textTranslateX}px)`,
-                transition: 'transform 0.1s ease-out',
-              }}
+            {date && (
+              <motion.span
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="inline-block text-[#80D3EE] font-orbitron text-sm md:text-base tracking-widest mb-4"
+              >
+                {date}
+              </motion.span>
+            )}
+            <h1
+              className={`text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold tracking-tighter text-white ${
+                textBlend ? 'mix-blend-difference' : ''
+              }`}
             >
-              {firstWord}
-            </span>{' '}
-            <span
-              style={{
-                display: 'inline-block',
-                transform: `translateX(${textTranslateX}px)`,
-                transition: 'transform 0.1s ease-out',
-              }}
-            >
-              {restOfTitle}
-            </span>
-          </h1>
-          {scrollToExpand && (
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-white/70 text-sm mt-8"
-            >
-              {scrollToExpand}
-            </motion.p>
-          )}
-        </div>
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: `translateX(-${textTranslateX}px)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+              >
+                {firstWord}
+              </span>{' '}
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: `translateX(${textTranslateX}px)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+              >
+                {restOfTitle}
+              </span>
+            </h1>
+            {scrollToExpand && (
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="text-white/70 text-sm mt-8"
+              >
+                {scrollToExpand}
+              </motion.p>
+            )}
+          </div>
+        )}
 
         {/* Media Container */}
         <div
