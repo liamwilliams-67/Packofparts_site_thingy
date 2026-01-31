@@ -371,66 +371,6 @@ function Members() {
         </div>
       </section>
 
-      {/* Important Links Section */}
-      <section className="section-padding bg-navy">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white mb-4">
-              Important <span className="text-gradient">Links</span>
-            </h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Quick access to frequently used resources and platforms
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: 'Chief Delphi',
-                description: 'FRC community forum',
-                icon: ExternalLink,
-                href: 'https://www.chiefdelphi.com'
-              },
-              {
-                title: 'GitHub',
-                description: 'Team code repository',
-                icon: Github,
-                href: '#'
-              },
-              {
-                title: 'Drive Team',
-                description: 'Google Drive folders',
-                icon: ExternalLink,
-                href: '#'
-              },
-              {
-                title: 'Slack',
-                description: 'Team communication',
-                icon: ExternalLink,
-                href: '#'
-              }
-            ].map((link, index) => (
-              <a
-                key={index}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="reveal important-link-card group"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <link.icon className="w-8 h-8 text-light-blue mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-orbitron font-semibold text-lg mb-2">
-                  {link.title}
-                </h3>
-                <p className="text-white/70 text-sm">
-                  {link.description}
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* New Member Checklist */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
