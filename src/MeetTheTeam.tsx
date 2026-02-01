@@ -35,6 +35,7 @@ interface TeamMember {
 function MeetTheTeam() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // ScrollY state used by handleScroll to track scroll position for nav visibility
   const [, setScrollY] = useState(0);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
 
@@ -464,9 +465,9 @@ function MeetTheTeam() {
                 <li><a href="/contact" className="text-white/70 hover:text-light-blue transition-colors text-sm">Contact Us</a></li>
                 <li><a href="/summer-camps" className="text-white/70 hover:text-light-blue transition-colors text-sm">Summer Camps</a></li>
                 <li><a href="/community" className="text-white/70 hover:text-light-blue transition-colors text-sm">Community</a></li>
-                <li><a href="/community/meet-the-team" className="text-white/50 hover:text-light-blue transition-colors text-sm">→ Meet the Team</a></li>
-                <li><a href="/community/stem-kits" className="text-white/50 hover:text-light-blue transition-colors text-sm">→ STEM Kits</a></li>
-                <li><a href="/community/recycling" className="text-white/50 hover:text-light-blue transition-colors text-sm">→ Recycling Initiative</a></li>
+                <li><a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors text-sm pl-4">→ Meet the Team</a></li>
+                <li><a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors text-sm pl-4">→ STEM Kits</a></li>
+                <li><a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors text-sm pl-4">→ Recycling Initiative</a></li>
               </ul>
             </div>
 
