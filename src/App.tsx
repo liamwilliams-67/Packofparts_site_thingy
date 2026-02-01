@@ -69,18 +69,21 @@ function App() {
   { name: 'Summer Camps', href: '/summer-camps' },
 ];
 
-  // Sponsor logos
+  // Sponsor logos with homepage links
+  // To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
+  // Format: { image: '/sponsor-X.png', url: 'https://example.com', name: 'Sponsor Name' }
+  // Set url to '' (empty string) if no link is available yet
   const sponsors = [
-    '/sponsor-1.png',
-    '/sponsor-2.png',
-    '/sponsor-3.png',
-    '/sponsor-4.png',
-    '/sponsor-5.png',
-    '/sponsor-6.png',
-    '/sponsor-7.png',
-    '/sponsor-8.png',
-    '/sponsor-9.png',
-    '/sponsor-10.png',
+    { image: '/sponsor-1.png', url: '', name: 'Sponsor 1' },
+    { image: '/sponsor-2.png', url: '', name: 'Sponsor 2' },
+    { image: '/sponsor-3.png', url: '', name: 'Sponsor 3' },
+    { image: '/sponsor-4.png', url: '', name: 'Sponsor 4' },
+    { image: '/sponsor-5.png', url: '', name: 'Sponsor 5' },
+    { image: '/sponsor-6.png', url: '', name: 'Sponsor 6' },
+    { image: '/sponsor-7.png', url: '', name: 'Sponsor 7' },
+    { image: '/sponsor-8.png', url: '', name: 'Sponsor 8' },
+    { image: '/sponsor-9.png', url: '', name: 'Sponsor 9' },
+    { image: '/sponsor-10.png', url: '', name: 'Sponsor 10' },
   ];
 
   // Team photos
@@ -503,22 +506,46 @@ function App() {
             - Images are 2x the original size (w-80 h-48)
             - Animation speed is controlled by 'animate-marquee' class in tailwind.config.js
             - To change speed manually, edit the 'marquee' animation duration in tailwind.config.js
-              under theme.extend.animation (currently set to 23s for 1.75x speed)
+              under theme.extend.animation (currently set to 15s for 2.67x speed)
+            - To update sponsor links, modify the 'sponsors' array at the top of this component
+              Each sponsor has: { image: '/sponsor-X.png', url: 'https://...', name: 'Sponsor Name' }
+              Set url to '' (empty string) if no link is available yet
         */}
         <div className="relative">
           <div className="flex animate-marquee pause-on-hover">
-            {[...sponsors, ...sponsors].map((sponsor, index) => (
-              <div 
-                key={index}
-                className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center"
-              >
-                <img 
-                  src={sponsor} 
-                  alt={`Sponsor ${index + 1}`}
-                  className="sponsor-logo max-w-full max-h-full object-contain"
-                />
-              </div>
-            ))}
+            {[...sponsors, ...sponsors].map((sponsor, index) => {
+              const hasValidUrl = sponsor.url && sponsor.url !== '#' && sponsor.url !== '';
+              const isExternalUrl = hasValidUrl && (sponsor.url.startsWith('http://') || sponsor.url.startsWith('https://'));
+              
+              return hasValidUrl ? (
+                <a
+                  key={index}
+                  href={sponsor.url}
+                  target={isExternalUrl ? "_blank" : undefined}
+                  rel={isExternalUrl ? "noopener noreferrer" : undefined}
+                  className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                  title={sponsor.name}
+                >
+                  <img 
+                    src={sponsor.image} 
+                    alt={sponsor.name}
+                    className="sponsor-logo max-w-full max-h-full object-contain"
+                  />
+                </a>
+              ) : (
+                <div 
+                  key={index}
+                  className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center"
+                  title={sponsor.name}
+                >
+                  <img 
+                    src={sponsor.image} 
+                    alt={sponsor.name}
+                    className="sponsor-logo max-w-full max-h-full object-contain"
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
