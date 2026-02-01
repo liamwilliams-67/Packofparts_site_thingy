@@ -38,6 +38,7 @@ function StemKits() {
       href: '/community',
       hasDropdown: true,
       dropdownItems: [
+        { name: 'Meet the Team', href: '/community/meet-the-team' },
         { name: 'STEM Kits', href: '/community/stem-kits' },
         { name: 'Recycling Initiative', href: '/community/recycling' }
       ]
@@ -526,6 +527,11 @@ function StemKits() {
                 <li>
                   <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200">
                     Community
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → Meet the Team
                   </a>
                 </li>
                 <li>
