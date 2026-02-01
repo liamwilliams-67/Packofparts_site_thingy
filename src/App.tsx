@@ -315,7 +315,7 @@ function App() {
               style={{ animationDelay: '1.4s' }}
             >
               <button 
-                onClick={() => scrollToSection('#join')}
+                onClick={() => window.location.href = '/join'}
                 className="btn-primary text-sm md:text-base animate-pulse-glow"
               >
                 Join The Club
