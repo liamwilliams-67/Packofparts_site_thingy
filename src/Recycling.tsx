@@ -10,22 +10,20 @@ import {
   Github,
   Menu,
   X,
-  Heart,
-  Award,
-  Globe,
-  Handshake,
+  Recycle,
   Calendar,
-  Megaphone,
-  GraduationCap,
-  Rocket,
-  Target,
-  Sparkles,
+  Clock,
+  Package,
+  Truck,
+  CheckCircle,
   ChevronDown,
-  ChevronRight
+  Heart,
+  ArrowDownToLine,
+  ArrowUpFromLine
 } from 'lucide-react';
-import './Community.css';
+import './Recycling.css';
 
-function Community() {
+function Recycling() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
@@ -219,7 +217,7 @@ function Community() {
             style={{ animationDelay: '0.2s' }}
           >
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
-              COMMUNITY IMPACT
+              4TH ANNUAL
             </span>
           </div>
           
@@ -227,338 +225,279 @@ function Community() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Making a <span className="text-gradient">Difference</span>
+            Pack Up Your <span className="text-gradient">Parts</span>
           </h1>
           
           <p 
             className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up"
             style={{ animationDelay: '0.6s' }}
           >
-            Beyond building robots, we're building a better community through 
-            outreach, education, and inspiring the next generation.
+            An Inter-FRC pop up thrift store creating a sustainable cycle of robotics parts 
+            right out of our shop at Eastlake High School!
           </p>
         </div>
       </section>
 
-      {/* Core Values Section */}
+      {/* About the Initiative Section */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Our Core Values
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              FIRST's core values guide everything we do, from the workshop to the community
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Handshake,
-                title: 'Coopertition',
-                description: 'Competing while cooperating. We help other teams succeed even as we compete against them.'
-              },
-              {
-                icon: Target,
-                title: 'Gracious Professionalism',
-                description: 'Competing fiercely while treating everyone with respect and kindness.'
-              },
-              {
-                icon: Sparkles,
-                title: 'Discovery',
-                description: 'Exploring new skills and ideas, learning from mistakes, and celebrating innovation.'
-              },
-              {
-                icon: Heart,
-                title: 'Fun',
-                description: 'Enjoying and celebrating what we do, building lasting friendships and memories.'
-              },
-              {
-                icon: Users,
-                title: 'Teamwork',
-                description: 'Working together, respecting all team members, and achieving more than individuals could alone.'
-              },
-              {
-                icon: Rocket,
-                title: 'Innovation',
-                description: 'Thinking creatively, taking risks, and pushing the boundaries of what\'s possible.'
-              }
-            ].map((value, index) => (
-              <div 
-                key={index}
-                className="reveal value-card"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-light-blue/10 flex items-center justify-center mb-4">
-                    <value.icon className="w-8 h-8 text-light-blue" />
-                  </div>
-                  <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {value.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Outreach Programs Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Outreach Programs
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We're committed to spreading STEM education and robotics throughout our community
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {[
-              {
-                icon: GraduationCap,
-                title: 'Summer Robotics Camps',
-                description: 'Week-long camps for middle school students introducing robotics, programming, and engineering concepts.',
-                impact: '100+ students reached annually'
-              },
-              {
-                icon: School,
-                title: 'Elementary School Demos',
-                description: 'Interactive robot demonstrations at local elementary schools to inspire young students.',
-                impact: '15+ schools visited each year'
-              },
-              {
-                icon: Globe,
-                title: 'FLL/FTC Mentorship',
-                description: 'Mentoring younger FIRST Lego League and FIRST Tech Challenge teams in our area.',
-                impact: '8+ teams mentored'
-              },
-              {
-                icon: Megaphone,
-                title: 'STEM Advocacy',
-                description: 'Promoting STEM education through community events, presentations, and demonstrations.',
-                impact: '1000+ community members engaged'
-              }
-            ].map((program, index) => (
-              <div 
-                key={index}
-                className="reveal outreach-card"
-                style={{ transitionDelay: `${index * 0.15}s` }}
-              >
-                <div className="p-8">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                      <program.icon className="w-7 h-7 text-light-blue" />
-                    </div>
-                    <div>
-                      <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
-                        {program.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {program.description}
-                      </p>
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-light-blue/10 rounded-full">
-                        <Award className="w-4 h-4 text-light-blue" />
-                        <span className="text-navy font-semibold text-sm">{program.impact}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Community Events Section */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Community Events
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Throughout the year, we host and participate in events that bring our community together
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Open Houses',
-                description: 'Visit our lab, meet the team, and see our robots in action',
-                frequency: 'Quarterly'
-              },
-              {
-                title: 'Robot Demonstrations',
-                description: 'Public demos at schools, fairs, and community events',
-                frequency: 'Monthly'
-              },
-              {
-                title: 'Fundraising Events',
-                description: 'Community fundraisers supporting our team and local causes',
-                frequency: 'Seasonal'
-              },
-              {
-                title: 'STEM Nights',
-                description: 'Family-friendly STEM activities and hands-on learning',
-                frequency: 'Bi-annual'
-              },
-              {
-                title: 'Competition Viewing',
-                description: 'Watch our team compete live at regional championships',
-                frequency: 'Annual'
-              },
-              {
-                title: 'Volunteer Days',
-                description: 'Give back to our community through service projects',
-                frequency: 'Monthly'
-              }
-            ].map((event, index) => (
-              <div 
-                key={index}
-                className="reveal event-card"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <Calendar className="w-6 h-6 text-light-blue flex-shrink-0" />
-                  <span className="text-xs font-semibold text-light-blue uppercase tracking-wide">
-                    {event.frequency}
-                  </span>
-                </div>
-                <h3 className="text-navy font-orbitron font-semibold text-xl mb-2">
-                  {event.title}
-                </h3>
-                <p className="text-gray-600">
-                  {event.description}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="reveal">
+              <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
+                Recycling Initiative
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
+                How It Works
+              </h2>
+              <div className="space-y-4 text-gray-600 leading-relaxed">
+                <p>
+                  EHS Robotics is excited to announce our 4th annual recycling initiative! Every year, 
+                  hundreds of FRC parts go unused or are discarded by teams. The Pack Up Your Parts 
+                  Recycling program gives these parts a second life.
+                </p>
+                <p>
+                  During the first week, teams can drop off their unused or lightly used parts including 
+                  motors, electronics, raw materials, and tools. Then the following week, teams can come 
+                  back and pick up parts left by other teams – creating a sustainable cycle of FRC parts!
+                </p>
+                <p>
+                  We'll be posting pictures on our Instagram (<a href="https://instagram.com/packofparts" target="_blank" rel="noopener noreferrer" className="text-light-blue hover:underline">@packofparts</a>) 
+                  of available items before every pickup date so you know what's in stock!
                 </p>
               </div>
-            ))}
+            </div>
+
+            <div className="reveal" style={{ transitionDelay: '0.2s' }}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="recycling-card p-6">
+                  <Recycle className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Sustainable</h3>
+                  <p className="text-gray-600 text-sm">Give parts a second life instead of the landfill</p>
+                </div>
+                <div className="recycling-card p-6">
+                  <Heart className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Community</h3>
+                  <p className="text-gray-600 text-sm">FRC teams helping other FRC teams succeed</p>
+                </div>
+                <div className="recycling-card p-6">
+                  <Package className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Free Parts</h3>
+                  <p className="text-gray-600 text-sm">Pick up what you need at no cost</p>
+                </div>
+                <div className="recycling-card p-6">
+                  <Truck className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Easy Access</h3>
+                  <p className="text-gray-600 text-sm">Convenient drop-off and pick-up times</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Impact Stats Section */}
-      <section className="section-padding bg-navy">
+      {/* Dates and Times Section */}
+      <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white mb-4">
-              Our <span className="text-gradient">Impact</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
+              Dates & Times
             </h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Numbers that showcase our commitment to community engagement and STEM education
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Mark your calendar for drop-off and pick-up dates
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Drop Off Dates */}
+            <div className="reveal schedule-card">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center">
+                  <ArrowDownToLine className="w-6 h-6 text-light-blue" />
+                </div>
+                <h3 className="text-navy font-orbitron font-bold text-2xl">Drop Off Dates</h3>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { day: 'Saturday', date: 'Jan 11', time: '2 pm - 5 pm' },
+                  { day: 'Monday', date: 'Jan 13', time: '7 pm - 9 pm' },
+                  { day: 'Friday', date: 'Jan 17', time: '7 pm - 9 pm' }
+                ].map((slot, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="w-5 h-5 text-light-blue" />
+                      <div>
+                        <span className="font-semibold text-navy">{slot.day}</span>
+                        <span className="text-gray-500 ml-2">| {slot.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Clock className="w-4 h-4" />
+                      <span>{slot.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Pick Up Dates */}
+            <div className="reveal schedule-card" style={{ transitionDelay: '0.1s' }}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center">
+                  <ArrowUpFromLine className="w-6 h-6 text-light-blue" />
+                </div>
+                <h3 className="text-navy font-orbitron font-bold text-2xl">Pick Up Dates</h3>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { day: 'Monday', date: 'Jan 20', time: '7 pm - 9 pm' },
+                  { day: 'Wednesday', date: 'Jan 22', time: '7 pm - 9 pm' },
+                  { day: 'Saturday', date: 'Jan 25', time: '2 pm - 5 pm' }
+                ].map((slot, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="w-5 h-5 text-light-blue" />
+                      <div>
+                        <span className="font-semibold text-navy">{slot.day}</span>
+                        <span className="text-gray-500 ml-2">| {slot.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Clock className="w-4 h-4" />
+                      <span>{slot.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-8 reveal">
+            <p className="text-gray-600">
+              If none of these times work for you, please{' '}
+              <a href="/contact" className="text-light-blue hover:underline font-semibold">contact us</a>{' '}
+              and we would be happy to accommodate you.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Accept Section */}
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16 reveal">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
+              What to Bring
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Unused or lightly used FRC parts that other teams could benefit from
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              {
-                number: '20+',
-                label: 'Years of Service',
-                icon: Award
-              },
-              {
-                number: '500+',
-                label: 'Students Inspired',
-                icon: GraduationCap
-              },
-              {
-                number: '1000+',
-                label: 'Volunteer Hours',
-                icon: Heart
-              },
-              {
-                number: '5',
-                label: 'Schools Represented',
-                icon: School
-              }
-            ].map((stat, index) => (
+              { icon: Package, title: 'Motors', items: ['NEO Motors', 'Falcon 500s', 'CIM Motors', 'Servos'] },
+              { icon: Recycle, title: 'Electronics', items: ['Controllers', 'Sensors', 'Power Distribution', 'Radio Equipment'] },
+              { icon: Truck, title: 'Raw Materials', items: ['Aluminum Stock', 'Steel Tubing', 'Polycarbonate', 'Sheet Metal'] },
+              { icon: Heart, title: 'Tools', items: ['Hand Tools', 'Drill Bits', 'Measuring Tools', 'Safety Equipment'] }
+            ].map((category, index) => (
               <div 
                 key={index}
-                className="reveal text-center"
+                className="reveal accept-card p-6"
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-light-blue/10 mb-4">
-                  <stat.icon className="w-10 h-10 text-light-blue" />
+                <div className="w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center mb-4">
+                  <category.icon className="w-6 h-6 text-light-blue" />
                 </div>
-                <div className="text-5xl font-orbitron font-bold text-white mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-white/70 text-lg">
-                  {stat.label}
-                </div>
+                <h3 className="text-navy font-orbitron font-semibold text-lg mb-3">
+                  {category.title}
+                </h3>
+                <ul className="space-y-2">
+                  {category.items.map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle className="w-4 h-4 text-light-blue flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Get Involved Section */}
-      <section className="section-padding bg-gray-50">
+      {/* Location Section */}
+      <section className="section-padding bg-navy">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12 reveal">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-                Get Involved
-              </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                There are many ways to support our mission and be part of our community
-              </p>
+          <div className="max-w-3xl mx-auto text-center reveal">
+            <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-6">
+              <span className="text-gradient">Location</span>
+            </h2>
+            <p className="text-white/70 mb-8 text-lg">
+              The Pack Up Your Parts Recycling Initiative operates out of our shop at Eastlake High School 
+              in Sammamish. The robotics shop entrance is located at the back of the school.
+            </p>
+            
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+              <div className="flex items-start gap-4 justify-center">
+                <MapPin className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
+                <div className="text-left">
+                  <h3 className="text-white font-orbitron font-semibold text-xl mb-2">
+                    Eastlake High School
+                  </h3>
+                  <p className="text-white/70">
+                    228th Avenue Northeast<br />
+                    Sammamish, WA
+                  </p>
+                  <p className="text-light-blue mt-3 text-sm">
+                    * Enter through the back of the school to access the robotics shop
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: 'Volunteer',
-                  description: 'Help at events, mentor students, or share your expertise',
-                  cta: 'Learn More',
-                  href: '/contact'
-                },
-                {
-                  title: 'Sponsor',
-                  description: 'Support our team and help make STEM education accessible',
-                  cta: 'Become a Sponsor',
-                  href: '/#donate'
-                },
-                {
-                  title: 'Partner',
-                  description: 'Collaborate with us on community programs and initiatives',
-                  cta: 'Partner With Us',
-                  href: '/contact'
-                },
-                {
-                  title: 'Attend Events',
-                  description: 'Join us at competitions, open houses, and community events',
-                  cta: 'View Calendar',
-                  href: '/contact'
-                }
-              ].map((item, index) => (
-                <div 
-                  key={index}
-                  className="reveal involvement-card"
-                  style={{ transitionDelay: `${index * 0.1}s` }}
-                >
-                  <h3 className="text-navy font-orbitron font-semibold text-2xl mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    {item.description}
-                  </p>
-                  <a 
-                    href={item.href}
-                    className="inline-flex items-center gap-2 text-light-blue font-semibold hover:gap-3 transition-all duration-200"
-                  >
-                    {item.cta}
-                    <ChevronRight className="w-5 h-5" />
-                  </a>
-                </div>
-              ))}
+            <div className="mt-8">
+              <a 
+                href="https://maps.google.com/?q=Eastlake+High+School+228th+Avenue+Northeast+Sammamish+WA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-flex items-center gap-2"
+              >
+                <MapPin className="w-5 h-5" />
+                Get Directions
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="max-w-2xl mx-auto text-center reveal">
+            <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-6">
+              Questions?
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Have questions about the recycling initiative or need to arrange a different time? 
+              We're here to help!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="/contact"
+                className="btn-primary-light inline-flex items-center justify-center gap-2"
+              >
+                <Mail className="w-5 h-5" />
+                Contact Us
+              </a>
+              <a 
+                href="https://instagram.com/packofparts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 border-2 border-light-blue text-light-blue font-semibold rounded-pill transition-all duration-300 hover:bg-light-blue hover:text-navy inline-flex items-center justify-center gap-2"
+              >
+                <Instagram className="w-5 h-5" />
+                Follow @packofparts
+              </a>
             </div>
           </div>
         </div>
@@ -591,7 +530,7 @@ function Community() {
               {/* Social Icons */}
               <div className="flex gap-4">
                 {[
-                  { icon: Instagram, href: '#', label: 'Instagram' },
+                  { icon: Instagram, href: 'https://instagram.com/packofparts', label: 'Instagram' },
                   { icon: Facebook, href: '#', label: 'Facebook' },
                   { icon: Youtube, href: '#', label: 'YouTube' },
                   { icon: Github, href: '#', label: 'GitHub' },
@@ -693,4 +632,4 @@ function Community() {
   );
 }
 
-export default Community;
+export default Recycling;

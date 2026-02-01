@@ -10,22 +10,19 @@ import {
   Github,
   Menu,
   X,
-  Heart,
-  Award,
-  Globe,
-  Handshake,
-  Calendar,
-  Megaphone,
-  GraduationCap,
+  BookOpen,
   Rocket,
+  GraduationCap,
+  CheckCircle,
+  ChevronRight,
+  ChevronDown,
   Target,
   Sparkles,
-  ChevronDown,
-  ChevronRight
+  DollarSign
 } from 'lucide-react';
-import './Community.css';
+import './StemKits.css';
 
-function Community() {
+function StemKits() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
@@ -219,7 +216,7 @@ function Community() {
             style={{ animationDelay: '0.2s' }}
           >
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
-              COMMUNITY IMPACT
+              STEMUNBOXED
             </span>
           </div>
           
@@ -227,280 +224,153 @@ function Community() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Making a <span className="text-gradient">Difference</span>
+            STEM <span className="text-gradient">Kits</span>
           </h1>
           
           <p 
             className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up"
             style={{ animationDelay: '0.6s' }}
           >
-            Beyond building robots, we're building a better community through 
-            outreach, education, and inspiring the next generation.
+            Providing affordable and accessible STEM enrichment through engaging, 
+            hands-on educational kits for elementary school students.
           </p>
         </div>
       </section>
 
-      {/* Core Values Section */}
+      {/* About STEMUnboxed Section */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Our Core Values
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              FIRST's core values guide everything we do, from the workshop to the community
-            </p>
-          </div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="reveal">
+              <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
+                Our Initiative
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
+                What is STEMUnboxed?
+              </h2>
+              <div className="space-y-4 text-gray-600 leading-relaxed">
+                <p>
+                  STEMUnboxed is Pack of Parts' initiative to bring engaging STEM education 
+                  activities directly to elementary school students. Our kits are designed 
+                  to immerse young learners in scientific concepts through interactive, 
+                  hands-on experiences.
+                </p>
+                <p>
+                  Each kit is carefully aligned with Next Generation Science Standards (NGSS), 
+                  making them perfect for classroom integration. Teachers can easily incorporate 
+                  our activities into their existing curriculum to enhance student learning.
+                </p>
+                <p>
+                  We believe every student deserves access to quality STEM education. That's why 
+                  our kits are designed to be cost-effective alternatives to commercial options, 
+                  making hands-on science accessible to schools and families with any budget.
+                </p>
+              </div>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Handshake,
-                title: 'Coopertition',
-                description: 'Competing while cooperating. We help other teams succeed even as we compete against them.'
-              },
-              {
-                icon: Target,
-                title: 'Gracious Professionalism',
-                description: 'Competing fiercely while treating everyone with respect and kindness.'
-              },
-              {
-                icon: Sparkles,
-                title: 'Discovery',
-                description: 'Exploring new skills and ideas, learning from mistakes, and celebrating innovation.'
-              },
-              {
-                icon: Heart,
-                title: 'Fun',
-                description: 'Enjoying and celebrating what we do, building lasting friendships and memories.'
-              },
-              {
-                icon: Users,
-                title: 'Teamwork',
-                description: 'Working together, respecting all team members, and achieving more than individuals could alone.'
-              },
-              {
-                icon: Rocket,
-                title: 'Innovation',
-                description: 'Thinking creatively, taking risks, and pushing the boundaries of what\'s possible.'
-              }
-            ].map((value, index) => (
-              <div 
-                key={index}
-                className="reveal value-card"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-light-blue/10 flex items-center justify-center mb-4">
-                    <value.icon className="w-8 h-8 text-light-blue" />
-                  </div>
-                  <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {value.description}
-                  </p>
+            <div className="reveal" style={{ transitionDelay: '0.2s' }}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="stem-kit-card p-6">
+                  <GraduationCap className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">NGSS Aligned</h3>
+                  <p className="text-gray-600 text-sm">Meets Next Generation Science Standards</p>
+                </div>
+                <div className="stem-kit-card p-6">
+                  <Sparkles className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Hands-On Learning</h3>
+                  <p className="text-gray-600 text-sm">Interactive experiences that spark curiosity</p>
+                </div>
+                <div className="stem-kit-card p-6">
+                  <BookOpen className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Curriculum Ready</h3>
+                  <p className="text-gray-600 text-sm">Easy to incorporate into classroom teaching</p>
+                </div>
+                <div className="stem-kit-card p-6">
+                  <DollarSign className="w-12 h-12 text-light-blue mb-4" />
+                  <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">Cost Effective</h3>
+                  <p className="text-gray-600 text-sm">Affordable alternative to commercial kits</p>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Outreach Programs Section */}
+      {/* Our Products Section */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Outreach Programs
+              Our Products
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We're committed to spreading STEM education and robotics throughout our community
+              Engaging STEM kits designed specifically for elementary school students
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            {[
-              {
-                icon: GraduationCap,
-                title: 'Summer Robotics Camps',
-                description: 'Week-long camps for middle school students introducing robotics, programming, and engineering concepts.',
-                impact: '100+ students reached annually'
-              },
-              {
-                icon: School,
-                title: 'Elementary School Demos',
-                description: 'Interactive robot demonstrations at local elementary schools to inspire young students.',
-                impact: '15+ schools visited each year'
-              },
-              {
-                icon: Globe,
-                title: 'FLL/FTC Mentorship',
-                description: 'Mentoring younger FIRST Lego League and FIRST Tech Challenge teams in our area.',
-                impact: '8+ teams mentored'
-              },
-              {
-                icon: Megaphone,
-                title: 'STEM Advocacy',
-                description: 'Promoting STEM education through community events, presentations, and demonstrations.',
-                impact: '1000+ community members engaged'
-              }
-            ].map((program, index) => (
-              <div 
-                key={index}
-                className="reveal outreach-card"
-                style={{ transitionDelay: `${index * 0.15}s` }}
-              >
-                <div className="p-8">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                      <program.icon className="w-7 h-7 text-light-blue" />
-                    </div>
-                    <div>
-                      <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
-                        {program.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {program.description}
-                      </p>
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-light-blue/10 rounded-full">
-                        <Award className="w-4 h-4 text-light-blue" />
-                        <span className="text-navy font-semibold text-sm">{program.impact}</span>
-                      </div>
-                    </div>
-                  </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Crazy Catapult Kit */}
+            <div className="reveal kit-type-card">
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-full bg-light-blue/10 flex items-center justify-center mb-6">
+                  <Rocket className="w-8 h-8 text-light-blue" />
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Community Events Section */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Community Events
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Throughout the year, we host and participate in events that bring our community together
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Open Houses',
-                description: 'Visit our lab, meet the team, and see our robots in action',
-                frequency: 'Quarterly'
-              },
-              {
-                title: 'Robot Demonstrations',
-                description: 'Public demos at schools, fairs, and community events',
-                frequency: 'Monthly'
-              },
-              {
-                title: 'Fundraising Events',
-                description: 'Community fundraisers supporting our team and local causes',
-                frequency: 'Seasonal'
-              },
-              {
-                title: 'STEM Nights',
-                description: 'Family-friendly STEM activities and hands-on learning',
-                frequency: 'Bi-annual'
-              },
-              {
-                title: 'Competition Viewing',
-                description: 'Watch our team compete live at regional championships',
-                frequency: 'Annual'
-              },
-              {
-                title: 'Volunteer Days',
-                description: 'Give back to our community through service projects',
-                frequency: 'Monthly'
-              }
-            ].map((event, index) => (
-              <div 
-                key={index}
-                className="reveal event-card"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <Calendar className="w-6 h-6 text-light-blue flex-shrink-0" />
-                  <span className="text-xs font-semibold text-light-blue uppercase tracking-wide">
-                    {event.frequency}
-                  </span>
-                </div>
-                <h3 className="text-navy font-orbitron font-semibold text-xl mb-2">
-                  {event.title}
+                <span className="text-xs font-semibold text-light-blue uppercase tracking-wide">
+                  Available Now
+                </span>
+                <h3 className="text-navy font-orbitron font-bold text-2xl mb-4 mt-2">
+                  Crazy Catapult STEM Kit
                 </h3>
-                <p className="text-gray-600">
-                  {event.description}
+                <p className="text-gray-600 mb-6">
+                  An exciting STEM kit that introduces students to fundamental physics concepts 
+                  through the hands-on experience of building and launching their own catapult! 
+                  Students learn about projectile motion, force, and energy transfer while having 
+                  a blast with their creations.
                 </p>
+                <ul className="space-y-2">
+                  {['Physics Concepts', 'Hands-On Building', 'Launching Activities', 'NGSS Aligned'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle className="w-4 h-4 text-light-blue" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* Impact Stats Section */}
-      <section className="section-padding bg-navy">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white mb-4">
-              Our <span className="text-gradient">Impact</span>
-            </h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Numbers that showcase our commitment to community engagement and STEM education
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                number: '20+',
-                label: 'Years of Service',
-                icon: Award
-              },
-              {
-                number: '500+',
-                label: 'Students Inspired',
-                icon: GraduationCap
-              },
-              {
-                number: '1000+',
-                label: 'Volunteer Hours',
-                icon: Heart
-              },
-              {
-                number: '5',
-                label: 'Schools Represented',
-                icon: School
-              }
-            ].map((stat, index) => (
-              <div 
-                key={index}
-                className="reveal text-center"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-light-blue/10 mb-4">
-                  <stat.icon className="w-10 h-10 text-light-blue" />
+            {/* Coming Soon */}
+            <div className="reveal kit-type-card" style={{ transitionDelay: '0.1s' }}>
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-full bg-light-blue/10 flex items-center justify-center mb-6">
+                  <Target className="w-8 h-8 text-light-blue" />
                 </div>
-                <div className="text-5xl font-orbitron font-bold text-white mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-white/70 text-lg">
-                  {stat.label}
-                </div>
+                <span className="text-xs font-semibold text-light-blue uppercase tracking-wide">
+                  Coming Soon
+                </span>
+                <h3 className="text-navy font-orbitron font-bold text-2xl mb-4 mt-2">
+                  More Kits in Development
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  We're constantly developing new STEM kits covering various scientific topics. 
+                  Stay tuned for more exciting hands-on learning experiences that will inspire 
+                  the next generation of scientists, engineers, and innovators!
+                </p>
+                <ul className="space-y-2">
+                  {['New Topics', 'More Experiments', 'Expanded Grade Levels', 'Teacher Resources'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle className="w-4 h-4 text-light-blue" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Get Involved Section */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12 reveal">
@@ -508,35 +378,35 @@ function Community() {
                 Get Involved
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                There are many ways to support our mission and be part of our community
+                There are many ways to engage with STEMUnboxed and bring STEM education to students
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 {
-                  title: 'Volunteer',
-                  description: 'Help at events, mentor students, or share your expertise',
-                  cta: 'Learn More',
+                  title: 'Classroom Activities',
+                  description: 'Invite us to conduct interactive STEM activities with students in your class or grade using our kits.',
+                  cta: 'Schedule a Visit',
                   href: '/contact'
                 },
                 {
-                  title: 'Sponsor',
-                  description: 'Support our team and help make STEM education accessible',
-                  cta: 'Become a Sponsor',
-                  href: '/#donate'
-                },
-                {
-                  title: 'Partner',
-                  description: 'Collaborate with us on community programs and initiatives',
-                  cta: 'Partner With Us',
+                  title: 'Take-Home Kits',
+                  description: 'Distribute kits to students to take home and engage with the activities on their own time.',
+                  cta: 'Request Kits',
                   href: '/contact'
                 },
                 {
-                  title: 'Attend Events',
-                  description: 'Join us at competitions, open houses, and community events',
-                  cta: 'View Calendar',
+                  title: 'Teacher-Led Sessions',
+                  description: 'Get kits for your classrooms and lead the activities on your own schedule with our teacher guides.',
+                  cta: 'Get Started',
                   href: '/contact'
+                },
+                {
+                  title: 'Make a Donation',
+                  description: 'Support our mission to bring STEM education to more students by making a donation.',
+                  cta: 'Donate Now',
+                  href: '/donate'
                 }
               ].map((item, index) => (
                 <div 
@@ -559,6 +429,37 @@ function Community() {
                   </a>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="section-padding bg-navy">
+        <div className="container-custom">
+          <div className="max-w-2xl mx-auto text-center reveal">
+            <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-6">
+              Connect With <span className="text-gradient">STEMUnboxed</span>
+            </h2>
+            <p className="text-white/70 mb-8">
+              We'd love to hear from you! Whether you want to get involved, have questions, 
+              or want to give us feedback, reach out and let's bring STEM education to more students together.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="mailto:packofparts@gmail.com"
+                className="btn-primary inline-flex items-center justify-center gap-2"
+              >
+                <Mail className="w-5 h-5" />
+                packofparts@gmail.com
+              </a>
+              <a 
+                href="/contact"
+                className="px-8 py-3 border-2 border-light-blue text-light-blue font-semibold rounded-pill transition-all duration-300 hover:bg-light-blue hover:text-navy inline-flex items-center justify-center gap-2"
+              >
+                Contact Form
+                <ChevronRight className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>
@@ -693,4 +594,4 @@ function Community() {
   );
 }
 
-export default Community;
+export default StemKits;
