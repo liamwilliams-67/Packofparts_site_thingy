@@ -85,16 +85,16 @@ function App() {
   // Format: { image: '/sponsor-X.png', url: 'https://example.com', name: 'Sponsor Name' }
   // Set url to '' (empty string) if no link is available yet
   const sponsors = [
-    { image: '/sponsor-1.png', url: '', name: 'Sponsor 1' },
-    { image: '/sponsor-2.png', url: '', name: 'Sponsor 2' },
-    { image: '/sponsor-3.png', url: '', name: 'Sponsor 3' },
-    { image: '/sponsor-4.png', url: '', name: 'Sponsor 4' },
-    { image: '/sponsor-5.png', url: '', name: 'Sponsor 5' },
-    { image: '/sponsor-6.png', url: '', name: 'Sponsor 6' },
-    { image: '/sponsor-7.png', url: '', name: 'Sponsor 7' },
+    { image: '/sponsor-1.png', url: 'https://www.argosyfnd.org/', name: 'Argosy Foundation' },
+    { image: '/sponsor-2.png', url: 'https://firstwa.org/', name: 'FIRST Washington' },
+    { image: '/sponsor-3.png', url: 'https://www.ghaasfoundation.org/', name: 'Gene Haas Foundation' },
+    { image: '/sponsor-4.png', url: 'https://ehsptsa.org/Home', name: 'EHS PTSA' },
+    { image: '/sponsor-5.png', url: 'https://grizzlyjunk.com/', name: 'Grizzly Junk Removal' },
+    { image: '/sponsor-6.png', url: 'https://www.ebay.com/str/happyglobalschoice', name: 'Happy Globals Choice' },
+    { image: '/sponsor-7.png', url: 'https://www.speea.org/', name: 'SPEEA' },
     { image: '/sponsor-8.png', url: '', name: 'Sponsor 8' },
     { image: '/sponsor-9.png', url: '', name: 'Sponsor 9' },
-    { image: '/sponsor-10.png', url: '', name: 'Sponsor 10' },
+    { image: '/sponsor-10.png', url: 'https://happyglobalinc.com/', name: 'Sponsor 10' },
   ];
 
   // Team photos
@@ -273,7 +273,7 @@ function App() {
       {/* Scroll Expansion Hero Section */}
       <ScrollExpandMedia
         mediaType="video"
-        mediaSrc="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-working-on-an-assembly-line-21913-large.mp4"
+        mediaSrc="/IMG_1496.MOV"
         posterSrc="/team-photo-2.jpg"
         bgImageSrc="/team-photo-2.jpg"
         heroContent={({ textTranslateX }: HeroContentRenderProps) => (
