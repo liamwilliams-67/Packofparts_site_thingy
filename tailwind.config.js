@@ -112,10 +112,10 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
-        // Sponsor marquee animation - change the duration (23s) to adjust speed
+        // Sponsor marquee animation - change the duration (15s) to adjust speed
         // Lower value = faster, higher value = slower. Original was 40s.
-        // Current setting: 23s = 1.75x speed (40s / 1.75 ≈ 23s)
-        "marquee": "marquee 23s linear infinite",
+        // Current setting: 15s = 2.67x speed (40s / 15s ≈ 2.67x)
+        "marquee": "marquee 15s linear infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "float": "float 4s ease-in-out infinite",
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",
