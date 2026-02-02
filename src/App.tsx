@@ -12,9 +12,7 @@ import {
   Play,
   MapPin,
   School,
-  Calendar,
   Users,
-  Trophy,
   ArrowRight
 } from 'lucide-react';
 import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
@@ -351,24 +349,7 @@ function App() {
                 </p>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mt-8 stagger-children">
-                <div className="text-center p-4 bg-gray-50 rounded-xl">
-                  <Trophy className="w-6 h-6 text-light-blue mx-auto mb-2" />
-                  <div className="text-2xl md:text-3xl font-orbitron font-bold text-navy">22+</div>
-                  <div className="text-xs text-gray-500">Years</div>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-xl">
-                  <School className="w-6 h-6 text-light-blue mx-auto mb-2" />
-                  <div className="text-2xl md:text-3xl font-orbitron font-bold text-navy">5</div>
-                  <div className="text-xs text-gray-500">Schools</div>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-xl">
-                  <Calendar className="w-6 h-6 text-light-blue mx-auto mb-2" />
-                  <div className="text-2xl md:text-3xl font-orbitron font-bold text-navy">6</div>
-                  <div className="text-xs text-gray-500">Weeks</div>
-                </div>
-              </div>
+              {/* Stats - REMOVED: Cards removed, (22+ years, 5 schools, 6 weeks) add to a text? */}
             </div>
 
             {/* Photo Grid */}
