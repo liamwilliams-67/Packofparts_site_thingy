@@ -239,50 +239,6 @@ function Members() {
         </div>
       </section>
 
-      {/* Quick Links Section */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {[
-              {
-                title: 'Meeting Calendar',
-                icon: Calendar,
-                description: 'View upcoming meetings and events',
-                href: '#calendar'
-              },
-              {
-                title: 'Team Handbook',
-                icon: BookOpen,
-                description: 'Read our complete team handbook',
-                href: '#handbook'
-              },
-              {
-                title: 'Safety Resources',
-                icon: Shield,
-                description: 'Safety guidelines and protocols',
-                href: '#safety'
-              }
-            ].map((link, index) => (
-              <a
-                key={index}
-                href={link.href}
-                className="reveal quick-link-card group"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="p-6">
-                  <link.icon className="w-10 h-10 text-light-blue mb-4" />
-                  <h3 className="text-navy font-orbitron font-semibold text-xl mb-2 group-hover:text-light-blue transition-colors">
-                    {link.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {link.description}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Essential Documents Section */}
       <section className="section-padding bg-gray-50">
@@ -309,7 +265,7 @@ function Members() {
                 title: 'Team Handbook',
                 icon: BookOpen,
                 description: 'Our Team Handbook outlines the expectations for all users and is a helpful resource for all new members.',
-                link: '#',
+                link: './public/handbook.pdf',
                 badge: 'Essential'
               },
               {

@@ -3,7 +3,6 @@ import {
   Instagram, 
   Facebook, 
   Youtube, 
-  Github, 
   Mail, 
   Menu, 
   X, 
@@ -444,7 +443,7 @@ function App() {
               </div>
 
               <button 
-                onClick={() => scrollToSection('#join')}
+                onClick={() => window.location.href = '/join'}
                 className="btn-primary-light mt-8 inline-flex items-center gap-2"
               >
                 Learn More About Joining
@@ -539,7 +538,7 @@ function App() {
               If you would like to become a sponsor, please contact us.
             </p>
             <button 
-              onClick={() => scrollToSection('#contact')}
+              onClick={() => window.location.href = '/donate'}
               className="mt-6 btn-primary"
             >
               Become a Sponsor
@@ -625,8 +624,7 @@ function App() {
                   { icon: Instagram, href: '#', label: 'Instagram' },
                   { icon: Facebook, href: '#', label: 'Facebook' },
                   { icon: Youtube, href: '#', label: 'YouTube' },
-                  { icon: Github, href: '#', label: 'GitHub' },
-                  { icon: Mail, href: 'mailto:contact@packofparts.org', label: 'Email' },
+                  { icon: Mail, href: 'mailto:info@packofparts.org', label: 'Email' },
                 ].map((social) => (
                   <a
                     key={social.label}
@@ -686,7 +684,7 @@ function App() {
                 <li className="flex items-start gap-3">
                   <Mail className="w-5 h-5 text-light-blue mt-0.5" />
                   <div>
-                    <p className="text-white/70">contact@packofparts.org</p>
+                    <p className="text-white/70">info@packofparts.org</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -715,9 +713,6 @@ function App() {
           <div className="border-t border-white/10 pt-8 text-center">
             <p className="text-white/50 text-sm">
               &copy; {new Date().getFullYear()} Pack of Parts (FRC 1294). All rights reserved.
-            </p>
-            <p className="text-white/30 text-xs mt-2">
-              Made with ❤️ and lots of ☕
             </p>
           </div>
         </div>
