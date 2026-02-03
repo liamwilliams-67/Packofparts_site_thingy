@@ -268,23 +268,3 @@
 .bg-gray-50 {
   background-color: #f9fafb;
 }
-
-/* Link underline animation */
-.link-underline {
-  position: relative;
-}
-
-.link-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #00b4d8;
-  transition: width 0.3s ease;
-}
-
-.link-underline:hover::after {
-  width: 100%;
-}
