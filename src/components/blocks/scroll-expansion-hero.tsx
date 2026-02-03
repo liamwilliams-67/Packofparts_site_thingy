@@ -14,6 +14,8 @@ const TOUCH_SCROLL_BACK_SENSITIVITY = 0.008;
 const TOUCH_SCROLL_FORWARD_SENSITIVITY = 0.005;
 const SCROLL_THRESHOLD = 5;
 const TOUCH_SWIPE_THRESHOLD = -20;
+const ANIMATION_HOLD_PROGRESS = 0.2;
+const MAX_SCROLL_PROGRESS = 1 + ANIMATION_HOLD_PROGRESS;
 
 // Dimension constants for responsive media sizing
 const MEDIA_BASE_WIDTH = 300;
@@ -29,6 +31,8 @@ interface HeroContentRenderProps {
   scrollProgress: number;
   isMobile: boolean;
   textTranslateX: number;
+  leftTextTranslateX?: number;
+  rightTextTranslateX?: number;
 }
 
 interface ScrollExpandMediaProps {
@@ -61,6 +65,7 @@ const ScrollExpandMedia = ({
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(0);
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -76,24 +81,21 @@ const ScrollExpandMedia = ({
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
-        setMediaFullyExpanded(false);
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        const scrollDelta = e.deltaY * WHEEL_SCROLL_SENSITIVITY;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
+      if (mediaFullyExpanded) return;
 
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
+      e.preventDefault();
+      const scrollDelta = e.deltaY * WHEEL_SCROLL_SENSITIVITY;
+      const newProgress = Math.min(
+        Math.max(scrollProgress + scrollDelta, 0),
+        MAX_SCROLL_PROGRESS
+      );
+      setScrollProgress(newProgress);
+
+      if (newProgress >= MAX_SCROLL_PROGRESS) {
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+      } else if (newProgress < 0.75) {
+        setShowContent(false);
       }
     };
 
@@ -103,33 +105,29 @@ const ScrollExpandMedia = ({
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!touchStartY) return;
+      if (mediaFullyExpanded) return;
 
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
-      if (mediaFullyExpanded && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
-        setMediaFullyExpanded(false);
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        // Increase sensitivity for mobile, especially when scrolling back
-        const scrollFactor = deltaY < 0 ? TOUCH_SCROLL_BACK_SENSITIVITY : TOUCH_SCROLL_FORWARD_SENSITIVITY;
-        const scrollDelta = deltaY * scrollFactor;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
+      e.preventDefault();
+      // Increase sensitivity for mobile, especially when scrolling back
+      const scrollFactor = deltaY < 0 ? TOUCH_SCROLL_BACK_SENSITIVITY : TOUCH_SCROLL_FORWARD_SENSITIVITY;
+      const scrollDelta = deltaY * scrollFactor;
+      const newProgress = Math.min(
+        Math.max(scrollProgress + scrollDelta, 0),
+        MAX_SCROLL_PROGRESS
+      );
+      setScrollProgress(newProgress);
 
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
-
-        setTouchStartY(touchY);
+      if (newProgress >= MAX_SCROLL_PROGRESS) {
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+      } else if (newProgress < 0.75) {
+        setShowContent(false);
       }
+
+      setTouchStartY(touchY);
     };
 
     const handleTouchEnd = (): void => {
@@ -160,6 +158,7 @@ const ScrollExpandMedia = ({
   useEffect(() => {
     const checkIfMobile = (): void => {
       setIsMobileState(window.innerWidth < 768);
+      setViewportWidth(window.innerWidth);
     };
 
     checkIfMobile();
@@ -168,9 +167,12 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  const mediaWidth = MEDIA_BASE_WIDTH + scrollProgress * (isMobileState ? MEDIA_MOBILE_WIDTH_DELTA : MEDIA_DESKTOP_WIDTH_DELTA);
-  const mediaHeight = MEDIA_BASE_HEIGHT + scrollProgress * (isMobileState ? MEDIA_MOBILE_HEIGHT_DELTA : MEDIA_DESKTOP_HEIGHT_DELTA);
-  const textTranslateX = scrollProgress * (isMobileState ? TEXT_MOBILE_TRANSLATE_FACTOR : TEXT_DESKTOP_TRANSLATE_FACTOR);
+  const animationProgress = Math.min(scrollProgress, 1);
+  const mediaWidth = MEDIA_BASE_WIDTH + animationProgress * (isMobileState ? MEDIA_MOBILE_WIDTH_DELTA : MEDIA_DESKTOP_WIDTH_DELTA);
+  const mediaHeight = MEDIA_BASE_HEIGHT + animationProgress * (isMobileState ? MEDIA_MOBILE_HEIGHT_DELTA : MEDIA_DESKTOP_HEIGHT_DELTA);
+  const textTranslateX = animationProgress * (isMobileState ? TEXT_MOBILE_TRANSLATE_FACTOR : TEXT_DESKTOP_TRANSLATE_FACTOR);
+  const leftTextTranslateX = animationProgress * viewportWidth * 0.65;
+  const rightTextTranslateX = animationProgress * viewportWidth * 0.85;
 
   // Split title for the animation effect
   const titleWords = title ? title.split(' ') : [];
@@ -207,7 +209,13 @@ const ScrollExpandMedia = ({
           // Custom hero content provided by parent
           <div className="absolute inset-0 z-20 flex items-center justify-center">
             {typeof heroContent === 'function' 
-              ? heroContent({ scrollProgress, isMobile: isMobileState, textTranslateX })
+              ? heroContent({
+                scrollProgress: animationProgress,
+                isMobile: isMobileState,
+                textTranslateX,
+                leftTextTranslateX,
+                rightTextTranslateX,
+              })
               : heroContent}
           </div>
         ) : (
