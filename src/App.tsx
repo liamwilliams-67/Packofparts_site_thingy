@@ -18,39 +18,31 @@ import {
 import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
 
-// Helper component for center-split text animation
-interface SplitTextProps {
+// Helper component for directional text sliding animation
+interface SlideTextProps {
   text: string;
   translateX: number;
+  direction: 'left' | 'right';
+  speedMultiplier?: number; // Allows different text to move at different speeds
   className?: string;
 }
 
-const SplitText = ({ text, translateX, className = '' }: SplitTextProps) => {
-  // Find the center point of the text (split at character level)
-  const centerIndex = Math.ceil(text.length / 2);
-  const leftPart = text.slice(0, centerIndex);
-  const rightPart = text.slice(centerIndex);
+const SlideText = ({ text, translateX, direction, speedMultiplier = 1, className = '' }: SlideTextProps) => {
+  const adjustedTranslate = translateX * speedMultiplier;
+  const transform = direction === 'left' 
+    ? `translateX(-${adjustedTranslate}px)` 
+    : `translateX(${adjustedTranslate}px)`;
 
   return (
-    <span className={className}>
-      <span
-        style={{
-          display: 'inline-block',
-          transform: `translateX(-${translateX}px)`,
-          transition: 'transform 0.1s ease-out',
-        }}
-      >
-        {leftPart}
-      </span>
-      <span
-        style={{
-          display: 'inline-block',
-          transform: `translateX(${translateX}px)`,
-          transition: 'transform 0.1s ease-out',
-        }}
-      >
-        {rightPart}
-      </span>
+    <span
+      className={className}
+      style={{
+        display: 'inline-block',
+        transform,
+        transition: 'transform 0.1s ease-out',
+      }}
+    >
+      {text}
     </span>
   );
 };
@@ -280,9 +272,11 @@ function App() {
               className="animate-fade-in-up"
               style={{ animationDelay: '0.3s' }}
             >
-              <SplitText 
+              <SlideText 
                 text="#1294" 
-                translateX={textTranslateX} 
+                translateX={textTranslateX}
+                direction="left"
+                speedMultiplier={8}
                 className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4"
               />
             </div>
@@ -291,21 +285,21 @@ function App() {
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
               style={{ animationDelay: '0.5s' }}
             >
-              <SplitText text="Eastlake Robotics Club" translateX={textTranslateX} />
+              <SlideText text="Eastlake Robotics Club" translateX={textTranslateX} direction="right" speedMultiplier={12} />
             </h1>
             
             <h2 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
               style={{ animationDelay: '0.8s' }}
             >
-              <SplitText text="Pack of Parts" translateX={textTranslateX} />
+              <SlideText text="Pack of Parts" translateX={textTranslateX} direction="right" speedMultiplier={10} />
             </h2>
             
             <p 
               className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
               style={{ animationDelay: '1.1s' }}
             >
-              <SplitText text="FRC Team 1294 | Sammamish, Washington" translateX={textTranslateX} />
+              <SlideText text="FRC Team 1294 | Sammamish, Washington" translateX={textTranslateX} direction="left" speedMultiplier={14} />
             </p>
             
             <div 
