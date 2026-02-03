@@ -18,6 +18,8 @@ export default defineConfig({
         meetTheTeam: resolve(__dirname, "meet-the-team.html"),
         stemKits: resolve(__dirname, "stem-kits.html"),
         recycling: resolve(__dirname, "recycling.html"),
+        members: resolve(__dirname, "members.html"),
+        summerCamps: resolve(__dirname, "summer-camps.html"),
       },
     },
   },
