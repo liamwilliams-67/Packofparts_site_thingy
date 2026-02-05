@@ -71,29 +71,6 @@ button, a {
   animation-delay: 500ms;
 }
 
-/* Hero reappear animations - slide in from sides */
-@keyframes slideInFromLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInFromRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 /* Responsive typography */
 @media (max-width: 640px) {
   h1 {
