@@ -323,23 +323,6 @@ function App() {
                 speedMultiplier={1.0}
               />
             </p>
-            
-            {/* Join The Club button - Goes RIGHT */}
-            <div 
-              className="animate-fade-in-up"
-              style={{ 
-                animationDelay: '1.4s',
-                transform: `translateX(${textTranslateX * OFF_SCREEN_MULTIPLIER * 1.4}px)`,
-                transition: 'transform 0.1s ease-out',
-              }}
-            >
-              <button 
-                onClick={() => window.location.href = '/join'}
-                className="btn-primary text-sm md:text-base animate-pulse-glow"
-              >
-                Join The Club
-              </button>
-            </div>
           </div>
         )}
         frozenContent={
