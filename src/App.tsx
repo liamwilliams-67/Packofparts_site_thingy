@@ -342,6 +342,37 @@ function App() {
             </div>
           </div>
         )}
+        frozenContent={
+          <div className="container-custom text-center px-4">
+            {/* Static content for frozen section - same format as original hero */}
+            <div className="mb-4">
+              <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
+                #1294
+              </span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4">
+              Eastlake Robotics Club
+            </h1>
+            
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6">
+              Pack of Parts
+            </h2>
+            
+            <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
+              FRC Team 1294 | Sammamish, Washington
+            </p>
+            
+            <div>
+              <button 
+                onClick={() => window.location.href = '/join'}
+                className="btn-primary text-sm md:text-base animate-pulse-glow"
+              >
+                Join The Club
+              </button>
+            </div>
+          </div>
+        }
       >
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">

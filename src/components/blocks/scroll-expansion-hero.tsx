@@ -49,6 +49,7 @@ interface ScrollExpandMediaProps {
   textBlend?: boolean;
   children?: ReactNode;
   heroContent?: ReactNode | ((props: HeroContentRenderProps) => ReactNode); // Custom hero content to display above the expanding media
+  frozenContent?: ReactNode; // Static content to display in the frozen section after animation completes
 }
 
 const ScrollExpandMedia = ({
@@ -62,6 +63,7 @@ const ScrollExpandMedia = ({
   textBlend,
   children,
   heroContent,
+  frozenContent,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
@@ -374,6 +376,13 @@ const ScrollExpandMedia = ({
             )}
             <div className="absolute inset-0 bg-black/40" />
           </div>
+          
+          {/* Frozen content - displays the static text with original formatting */}
+          {frozenContent && (
+            <div className="relative z-10">
+              {frozenContent}
+            </div>
+          )}
         </div>
       )}
 
