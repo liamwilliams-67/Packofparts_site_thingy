@@ -17,39 +17,35 @@ import {
 import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
 
-// Helper component for center-split text animation
-interface SplitTextProps {
+// Animation constants for hero text movement
+// This multiplier ensures text moves completely off-screen during the scroll animation
+const OFF_SCREEN_MULTIPLIER = 8;
+
+// Helper component for directional text animation (moves entire text block left or right)
+interface DirectionalTextProps {
   text: string;
   translateX: number;
+  direction: 'left' | 'right';
   className?: string;
+  speedMultiplier?: number; // Multiplier to adjust speed for different text elements
 }
 
-const SplitText = ({ text, translateX, className = '' }: SplitTextProps) => {
-  // Find the center point of the text (split at character level)
-  const centerIndex = Math.ceil(text.length / 2);
-  const leftPart = text.slice(0, centerIndex);
-  const rightPart = text.slice(centerIndex);
-
+const DirectionalText = ({ text, translateX, direction, className = '', speedMultiplier = 1 }: DirectionalTextProps) => {
+  // Calculate the actual translation with direction and speed multiplier
+  const actualTranslateX = translateX * speedMultiplier * OFF_SCREEN_MULTIPLIER;
+  
   return (
-    <span className={className}>
-      <span
-        style={{
-          display: 'inline-block',
-          transform: `translateX(-${translateX}px)`,
-          transition: 'transform 0.1s ease-out',
-        }}
-      >
-        {leftPart}
-      </span>
-      <span
-        style={{
-          display: 'inline-block',
-          transform: `translateX(${translateX}px)`,
-          transition: 'transform 0.1s ease-out',
-        }}
-      >
-        {rightPart}
-      </span>
+    <span
+      className={className}
+      style={{
+        display: 'inline-block',
+        transform: direction === 'left' 
+          ? `translateX(-${actualTranslateX}px)` 
+          : `translateX(${actualTranslateX}px)`,
+        transition: 'transform 0.1s ease-out',
+      }}
+    >
+      {text}
     </span>
   );
 };
@@ -275,41 +271,67 @@ function App() {
         bgImageSrc="/team-photo-2.jpg"
         heroContent={({ textTranslateX }: HeroContentRenderProps) => (
           <div className="container-custom text-center px-4">
+            {/* #1294 - Goes LEFT */}
             <div 
               className="animate-fade-in-up"
               style={{ animationDelay: '0.3s' }}
             >
-              <SplitText 
+              <DirectionalText 
                 text="#1294" 
                 translateX={textTranslateX} 
+                direction="left"
+                speedMultiplier={1.2}
                 className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4"
               />
             </div>
             
+            {/* Eastlake Robotics Club - Goes RIGHT */}
             <h1 
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
               style={{ animationDelay: '0.5s' }}
             >
-              <SplitText text="Eastlake Robotics Club" translateX={textTranslateX} />
+              <DirectionalText 
+                text="Eastlake Robotics Club" 
+                translateX={textTranslateX} 
+                direction="right"
+                speedMultiplier={1.5}
+              />
             </h1>
             
+            {/* Pack of Parts - Goes LEFT (same direction as #1294 for visual consistency) */}
             <h2 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
               style={{ animationDelay: '0.8s' }}
             >
-              <SplitText text="Pack of Parts" translateX={textTranslateX} />
+              <DirectionalText 
+                text="Pack of Parts" 
+                translateX={textTranslateX} 
+                direction="left"
+                speedMultiplier={1.3}
+              />
             </h2>
             
+            {/* FRC Team 1294 | Sammamish, Washington - Goes LEFT */}
             <p 
               className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
               style={{ animationDelay: '1.1s' }}
             >
-              <SplitText text="FRC Team 1294 | Sammamish, Washington" translateX={textTranslateX} />
+              <DirectionalText 
+                text="FRC Team 1294 | Sammamish, Washington" 
+                translateX={textTranslateX} 
+                direction="left"
+                speedMultiplier={1.0}
+              />
             </p>
             
+            {/* Join The Club button - Goes RIGHT */}
             <div 
               className="animate-fade-in-up"
-              style={{ animationDelay: '1.4s' }}
+              style={{ 
+                animationDelay: '1.4s',
+                transform: `translateX(${textTranslateX * OFF_SCREEN_MULTIPLIER * 1.4}px)`,
+                transition: 'transform 0.1s ease-out',
+              }}
             >
               <button 
                 onClick={() => window.location.href = '/join'}
@@ -320,6 +342,37 @@ function App() {
             </div>
           </div>
         )}
+        frozenContent={
+          <div className="container-custom text-center px-4">
+            {/* Static content for frozen section - same format as original hero */}
+            <div className="mb-4">
+              <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
+                #1294
+              </span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4">
+              Eastlake Robotics Club
+            </h1>
+            
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6">
+              Pack of Parts
+            </h2>
+            
+            <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
+              FRC Team 1294 | Sammamish, Washington
+            </p>
+            
+            <div>
+              <button 
+                onClick={() => window.location.href = '/join'}
+                className="btn-primary text-sm md:text-base animate-pulse-glow"
+              >
+                Join The Club
+              </button>
+            </div>
+          </div>
+        }
       >
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">

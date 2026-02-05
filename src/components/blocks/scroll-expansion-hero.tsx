@@ -16,14 +16,21 @@ const SCROLL_THRESHOLD = 5;
 const TOUCH_SWIPE_THRESHOLD = -20;
 
 // Dimension constants for responsive media sizing
+// MODIFIED: Increased delta values to ensure video fully covers background image
 const MEDIA_BASE_WIDTH = 300;
-const MEDIA_MOBILE_WIDTH_DELTA = 650;
-const MEDIA_DESKTOP_WIDTH_DELTA = 1250;
+const MEDIA_MOBILE_WIDTH_DELTA = 800;  // Increased from 650 to cover full screen
+const MEDIA_DESKTOP_WIDTH_DELTA = 1800; // Increased from 1250 to cover full screen
 const MEDIA_BASE_HEIGHT = 400;
-const MEDIA_MOBILE_HEIGHT_DELTA = 200;
-const MEDIA_DESKTOP_HEIGHT_DELTA = 400;
+const MEDIA_MOBILE_HEIGHT_DELTA = 500;  // Increased from 200 to cover full screen
+const MEDIA_DESKTOP_HEIGHT_DELTA = 700; // Increased from 400 to cover full screen
 const TEXT_MOBILE_TRANSLATE_FACTOR = 180;
 const TEXT_DESKTOP_TRANSLATE_FACTOR = 150;
+
+// Delay (in ms) before marking animation as complete, allows the hero to become a frozen section
+const ANIMATION_COMPLETION_DELAY_MS = 100;
+
+// Threshold for when border radius should transition to 0 (95% = near full expansion)
+const BORDER_RADIUS_THRESHOLD = 0.95;
 
 interface HeroContentRenderProps {
   scrollProgress: number;
@@ -42,6 +49,7 @@ interface ScrollExpandMediaProps {
   textBlend?: boolean;
   children?: ReactNode;
   heroContent?: ReactNode | ((props: HeroContentRenderProps) => ReactNode); // Custom hero content to display above the expanding media
+  frozenContent?: ReactNode; // Static content to display in the frozen section after animation completes
 }
 
 const ScrollExpandMedia = ({
@@ -55,12 +63,14 @@ const ScrollExpandMedia = ({
   textBlend,
   children,
   heroContent,
+  frozenContent,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
+  const [hasAnimationCompleted, setHasAnimationCompleted] = useState(false);
 
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -71,13 +81,27 @@ const ScrollExpandMedia = ({
       setScrollProgress(0);
       setShowContent(false);
       setMediaFullyExpanded(false);
+      setHasAnimationCompleted(false);
     });
   }, [mediaType]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
+      // After animation is complete and user has scrolled past the freeze section
+      if (hasAnimationCompleted) {
+        // Allow normal scrolling - don't prevent default
+        // Check if we're at the top and trying to scroll up
+        if (e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
+          // Don't reset the animation when scrolling back up
+          // Just allow normal scroll behavior
+          return;
+        }
+        return;
+      }
+      
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
         setMediaFullyExpanded(false);
+        setHasAnimationCompleted(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
@@ -91,6 +115,10 @@ const ScrollExpandMedia = ({
         if (newProgress >= 1) {
           setMediaFullyExpanded(true);
           setShowContent(true);
+          // Mark animation as completed after a short delay to create the "freeze" effect
+          setTimeout(() => {
+            setHasAnimationCompleted(true);
+          }, ANIMATION_COMPLETION_DELAY_MS);
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
@@ -107,8 +135,19 @@ const ScrollExpandMedia = ({
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
+      // After animation is complete
+      if (hasAnimationCompleted) {
+        // Allow normal scrolling
+        if (deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
+          // Don't reset animation on scroll up
+          return;
+        }
+        return;
+      }
+
       if (mediaFullyExpanded && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
         setMediaFullyExpanded(false);
+        setHasAnimationCompleted(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
@@ -124,6 +163,9 @@ const ScrollExpandMedia = ({
         if (newProgress >= 1) {
           setMediaFullyExpanded(true);
           setShowContent(true);
+          setTimeout(() => {
+            setHasAnimationCompleted(true);
+          }, ANIMATION_COMPLETION_DELAY_MS);
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
@@ -137,7 +179,7 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
+      if (!mediaFullyExpanded && !hasAnimationCompleted) {
         window.scrollTo(0, 0);
       }
     };
@@ -155,7 +197,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [scrollProgress, mediaFullyExpanded, touchStartY, hasAnimationCompleted]);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -185,7 +227,7 @@ const ScrollExpandMedia = ({
         minHeight: mediaFullyExpanded ? 'auto' : '100vh',
       }}
     >
-      {/* Fixed Background Section */}
+      {/* Fixed Background Section - During animation */}
       <div
         className="fixed inset-0 z-0 flex items-center justify-center"
         style={{
@@ -269,18 +311,21 @@ const ScrollExpandMedia = ({
           </div>
         )}
 
-        {/* Media Container */}
+        {/* Media Container - MODIFIED: Removed max constraints for full coverage */}
         <div
           className="relative z-10 flex items-center justify-center"
           style={{
             width: `${mediaWidth}px`,
             height: `${mediaHeight}px`,
-            maxWidth: '95vw',
-            maxHeight: '85vh',
+            maxWidth: '100vw',  // Changed from 95vw to allow full coverage
+            maxHeight: '100vh', // Changed from 85vh to allow full coverage
             transition: 'all 0.1s ease-out',
           }}
         >
-          <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl">
+          <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl" style={{
+            // Remove border radius when fully expanded
+            borderRadius: scrollProgress >= BORDER_RADIUS_THRESHOLD ? '0px' : '16px',
+          }}>
             {mediaType === 'video' ? (
               <video
                 src={mediaSrc}
@@ -301,6 +346,45 @@ const ScrollExpandMedia = ({
           </div>
         </div>
       </div>
+
+      {/* Frozen Hero Section - Shows as a static section after animation completes */}
+      {mediaFullyExpanded && hasAnimationCompleted && (
+        <div 
+          className="relative z-20 min-h-screen flex items-center justify-center"
+          style={{ 
+            background: 'black',
+          }}
+        >
+          {/* Video/Image Background for frozen section */}
+          <div className="absolute inset-0 z-0">
+            {mediaType === 'video' ? (
+              <video
+                src={mediaSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster={posterSrc}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : (
+              <img
+                src={mediaSrc}
+                alt={title || 'Media content'}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-black/40" />
+          </div>
+          
+          {/* Frozen content - displays the static text with original formatting */}
+          {frozenContent && (
+            <div className="relative z-10">
+              {frozenContent}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Scrollable Content Section */}
       <div
