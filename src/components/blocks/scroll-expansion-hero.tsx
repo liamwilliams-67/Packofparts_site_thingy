@@ -16,19 +16,30 @@ const SCROLL_THRESHOLD = 5;
 const TOUCH_SWIPE_THRESHOLD = -20;
 
 // Dimension constants for responsive media sizing
+// MODIFIED: Increased delta values to ensure video fully covers background image
 const MEDIA_BASE_WIDTH = 300;
-const MEDIA_MOBILE_WIDTH_DELTA = 650;
-const MEDIA_DESKTOP_WIDTH_DELTA = 1250;
+const MEDIA_MOBILE_WIDTH_DELTA = 800;  // Increased from 650 to cover full screen
+const MEDIA_DESKTOP_WIDTH_DELTA = 1800; // Increased from 1250 to cover full screen
 const MEDIA_BASE_HEIGHT = 400;
-const MEDIA_MOBILE_HEIGHT_DELTA = 200;
-const MEDIA_DESKTOP_HEIGHT_DELTA = 400;
+const MEDIA_MOBILE_HEIGHT_DELTA = 500;  // Increased from 200 to cover full screen
+const MEDIA_DESKTOP_HEIGHT_DELTA = 700; // Increased from 400 to cover full screen
 const TEXT_MOBILE_TRANSLATE_FACTOR = 180;
 const TEXT_DESKTOP_TRANSLATE_FACTOR = 150;
+
+// Height for the "freeze" section where user can scroll normally after animation
+const FREEZE_SECTION_HEIGHT = 300; // pixels
+
+// Delay (in ms) before marking animation as complete, creates the "freeze" effect
+const ANIMATION_COMPLETION_DELAY_MS = 100;
+
+// Threshold for when border radius should transition to 0 (95% = near full expansion)
+const BORDER_RADIUS_THRESHOLD = 0.95;
 
 interface HeroContentRenderProps {
   scrollProgress: number;
   isMobile: boolean;
   textTranslateX: number;
+  isReappearSection?: boolean;
 }
 
 interface ScrollExpandMediaProps {
@@ -42,6 +53,7 @@ interface ScrollExpandMediaProps {
   textBlend?: boolean;
   children?: ReactNode;
   heroContent?: ReactNode | ((props: HeroContentRenderProps) => ReactNode); // Custom hero content to display above the expanding media
+  heroReappearContent?: ReactNode | ((props: HeroContentRenderProps) => ReactNode); // Content for the reappear section
 }
 
 const ScrollExpandMedia = ({
@@ -55,14 +67,18 @@ const ScrollExpandMedia = ({
   textBlend,
   children,
   heroContent,
+  heroReappearContent,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
+  const [hasAnimationCompleted, setHasAnimationCompleted] = useState(false);
+  const [showReappearSection, setShowReappearSection] = useState(false);
 
   const sectionRef = useRef<HTMLDivElement>(null);
+  const reappearSectionRef = useRef<HTMLDivElement>(null);
 
   // Reset state when mediaType changes - this is an intentional pattern for resetting animation state
   useEffect(() => {
@@ -71,13 +87,28 @@ const ScrollExpandMedia = ({
       setScrollProgress(0);
       setShowContent(false);
       setMediaFullyExpanded(false);
+      setHasAnimationCompleted(false);
+      setShowReappearSection(false);
     });
   }, [mediaType]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
+      // After animation is complete and user has scrolled past the freeze section
+      if (hasAnimationCompleted) {
+        // Allow normal scrolling - don't prevent default
+        // Check if we're at the top and trying to scroll up
+        if (e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
+          // Don't reset the animation when scrolling back up
+          // Just allow normal scroll behavior
+          return;
+        }
+        return;
+      }
+      
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
         setMediaFullyExpanded(false);
+        setHasAnimationCompleted(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
@@ -91,6 +122,10 @@ const ScrollExpandMedia = ({
         if (newProgress >= 1) {
           setMediaFullyExpanded(true);
           setShowContent(true);
+          // Mark animation as completed after a short delay to create the "freeze" effect
+          setTimeout(() => {
+            setHasAnimationCompleted(true);
+          }, ANIMATION_COMPLETION_DELAY_MS);
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
@@ -107,8 +142,19 @@ const ScrollExpandMedia = ({
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
+      // After animation is complete
+      if (hasAnimationCompleted) {
+        // Allow normal scrolling
+        if (deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
+          // Don't reset animation on scroll up
+          return;
+        }
+        return;
+      }
+
       if (mediaFullyExpanded && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
         setMediaFullyExpanded(false);
+        setHasAnimationCompleted(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
@@ -124,6 +170,9 @@ const ScrollExpandMedia = ({
         if (newProgress >= 1) {
           setMediaFullyExpanded(true);
           setShowContent(true);
+          setTimeout(() => {
+            setHasAnimationCompleted(true);
+          }, ANIMATION_COMPLETION_DELAY_MS);
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
@@ -137,7 +186,7 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
+      if (!mediaFullyExpanded && !hasAnimationCompleted) {
         window.scrollTo(0, 0);
       }
     };
@@ -155,7 +204,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [scrollProgress, mediaFullyExpanded, touchStartY, hasAnimationCompleted]);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -167,6 +216,26 @@ const ScrollExpandMedia = ({
 
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
+
+  // Observer for the reappear section
+  useEffect(() => {
+    if (!reappearSectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && hasAnimationCompleted) {
+            setShowReappearSection(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(reappearSectionRef.current);
+
+    return () => observer.disconnect();
+  }, [hasAnimationCompleted]);
 
   const mediaWidth = MEDIA_BASE_WIDTH + scrollProgress * (isMobileState ? MEDIA_MOBILE_WIDTH_DELTA : MEDIA_DESKTOP_WIDTH_DELTA);
   const mediaHeight = MEDIA_BASE_HEIGHT + scrollProgress * (isMobileState ? MEDIA_MOBILE_HEIGHT_DELTA : MEDIA_DESKTOP_HEIGHT_DELTA);
@@ -207,7 +276,7 @@ const ScrollExpandMedia = ({
           // Custom hero content provided by parent
           <div className="absolute inset-0 z-20 flex items-center justify-center">
             {typeof heroContent === 'function' 
-              ? heroContent({ scrollProgress, isMobile: isMobileState, textTranslateX })
+              ? heroContent({ scrollProgress, isMobile: isMobileState, textTranslateX, isReappearSection: false })
               : heroContent}
           </div>
         ) : (
@@ -269,18 +338,21 @@ const ScrollExpandMedia = ({
           </div>
         )}
 
-        {/* Media Container */}
+        {/* Media Container - MODIFIED: Removed max constraints for full coverage */}
         <div
           className="relative z-10 flex items-center justify-center"
           style={{
             width: `${mediaWidth}px`,
             height: `${mediaHeight}px`,
-            maxWidth: '95vw',
-            maxHeight: '85vh',
+            maxWidth: '100vw',  // Changed from 95vw to allow full coverage
+            maxHeight: '100vh', // Changed from 85vh to allow full coverage
             transition: 'all 0.1s ease-out',
           }}
         >
-          <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl">
+          <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl" style={{
+            // Remove border radius when fully expanded
+            borderRadius: scrollProgress >= BORDER_RADIUS_THRESHOLD ? '0px' : '16px',
+          }}>
             {mediaType === 'video' ? (
               <video
                 src={mediaSrc}
@@ -302,6 +374,17 @@ const ScrollExpandMedia = ({
         </div>
       </div>
 
+      {/* Freeze Section - Extra space after animation for normal scrolling */}
+      {mediaFullyExpanded && hasAnimationCompleted && (
+        <div 
+          className="relative z-20"
+          style={{ 
+            height: `${FREEZE_SECTION_HEIGHT}px`,
+            background: 'transparent',
+          }}
+        />
+      )}
+
       {/* Scrollable Content Section */}
       <div
         className="relative z-30 bg-transparent"
@@ -312,6 +395,53 @@ const ScrollExpandMedia = ({
         }}
       >
         {children}
+        
+        {/* Hero Reappear Section - Shows after scrolling past "Our Mission" */}
+        {heroReappearContent && (
+          <div 
+            ref={reappearSectionRef}
+            className="relative min-h-screen flex items-center justify-center"
+            style={{
+              background: 'transparent',
+            }}
+          >
+            {/* Video Background for reappear section */}
+            <div className="absolute inset-0 z-0">
+              {mediaType === 'video' ? (
+                <video
+                  src={mediaSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster={posterSrc}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={mediaSrc}
+                  alt={title || 'Media content'}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-black/40" />
+            </div>
+            
+            {/* Reappear content with animation */}
+            <div 
+              className="relative z-10"
+              style={{
+                opacity: showReappearSection ? 1 : 0,
+                transform: showReappearSection ? 'translateY(0)' : 'translateY(30px)',
+                transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
+              {typeof heroReappearContent === 'function' 
+                ? heroReappearContent({ scrollProgress: 0, isMobile: isMobileState, textTranslateX: 0, isReappearSection: true })
+                : heroReappearContent}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
