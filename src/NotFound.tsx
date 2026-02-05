@@ -130,7 +130,7 @@ function NotFound() {
 
         {/* Mobile Menu */}
         <div 
-          className={`lg:hidden fixed inset-0 top-20 bg-navy/95 backdrop-blur-lg transition-all duration-300 ${
+          className={`lg:hidden fixed inset-0 top-20 transition-all duration-300 ${
             isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
         >
