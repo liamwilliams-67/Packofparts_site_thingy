@@ -683,9 +683,6 @@ function Community() {
             <p className="text-white/50 text-sm">
               &copy; {new Date().getFullYear()} Pack of Parts (FRC 1294). All rights reserved.
             </p>
-            <p className="text-white/30 text-xs mt-2">
-              Made with ❤️ and lots of ☕
-            </p>
           </div>
         </div>
       </footer>

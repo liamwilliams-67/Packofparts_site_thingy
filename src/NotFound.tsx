@@ -12,7 +12,6 @@ import {
   X,
   Home,
   Linkedin,
-  AlertCircle,
   ChevronDown
 } from 'lucide-react';
 import './NotFound.css';
@@ -187,7 +186,6 @@ function NotFound() {
                 404
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <AlertCircle className="w-20 h-20 md:w-32 md:h-32 text-light-blue animate-pulse" />
               </div>
             </div>
 
@@ -349,9 +347,6 @@ function NotFound() {
           <div className="border-t border-white/10 pt-8 text-center">
             <p className="text-white/50 text-sm">
               &copy; {new Date().getFullYear()} Pack of Parts (FRC 1294). All rights reserved.
-            </p>
-            <p className="text-white/30 text-xs mt-2">
-              Made with ❤️ and lots of ☕
             </p>
           </div>
         </div>
