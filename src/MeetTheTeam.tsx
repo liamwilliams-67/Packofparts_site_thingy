@@ -19,7 +19,8 @@ import {
   ChevronDown,
   ChevronRight,
   Star,
-  Heart
+  Heart,
+  Linkedin
 } from 'lucide-react';
 import './MeetTheTeam.css';
 
@@ -115,6 +116,19 @@ function MeetTheTeam() {
 
     return () => observer.disconnect();
   }, []);
+
+  const scrollToSection = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to route
+      window.location.href = href;
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   // Team member card component
   const TeamMemberCard = ({ member, delay = 0 }: { member: TeamMember; delay?: number }) => (
@@ -420,54 +434,86 @@ function MeetTheTeam() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-navy pt-16 pb-8">
+      <footer id="contact" className="bg-navy pt-16 pb-8 border-t border-white/10">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-            {/* Brand Column */}
-            <div className="reveal">
-              <div className="flex items-center gap-3 mb-4">
-                <img src="/logo.png" alt="Pack of Parts Logo" className="h-12 w-auto" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            {/* Logo & Tagline */}
+            <div className="lg:col-span-2 reveal">
+              <div className="flex items-center gap-4 mb-4">
+                <img 
+                  src="/logo.png" 
+                  alt="Pack of Parts Logo" 
+                  className="h-16 w-auto"
+                />
                 <div>
-                  <h3 className="text-white font-orbitron font-bold">Pack of Parts</h3>
-                  <p className="text-white/50 text-sm">FRC Team 1294</p>
+                  <h3 className="text-white font-orbitron font-bold text-xl">
+                    Pack of Parts
+                  </h3>
+                  <p className="text-light-blue text-sm">FRC Team 1294</p>
                 </div>
               </div>
-              <p className="text-white/70 text-sm mb-4">
-                Building robots. Building futures. Inspiring the next generation of STEM leaders in Sammamish, Washington.
+              <p className="text-white/70 mb-6 max-w-md">
+                Building robots. Building futures. Inspiring the next generation of STEM leaders 
+                in Sammamish, Washington.
               </p>
-              <div className="flex gap-3">
-                <a href="https://instagram.com/packofparts" className="text-white/50 hover:text-light-blue transition-colors">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/50 hover:text-light-blue transition-colors">
-                  <Facebook className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/50 hover:text-light-blue transition-colors">
-                  <Youtube className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/50 hover:text-light-blue transition-colors">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="mailto:contact@packofparts.org" className="text-white/50 hover:text-light-blue transition-colors">
-                  <Mail className="w-5 h-5" />
-                </a>
+              
+              {/* Social Icons */}
+              <div className="flex gap-4">
+                {[
+                  { icon: Instagram, href: 'https://www.instagram.com/packofparts', label: 'Instagram' },
+                  { icon: Facebook, href: 'https://www.facebook.com/packofparts', label: 'Facebook' },
+                  { icon: Youtube, href: 'https://youtube.com/@packofparts', label: 'YouTube' },
+                  { icon: Linkedin, href: 'https://linkedin.com/company/packofparts', label: 'Linkedin' },
+                  { icon: Github, href: 'https://github.com/packofparts', label: 'Github' },
+                ].map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="w-5 h-5" />
+                  </a>
+                ))}
               </div>
             </div>
 
             {/* Quick Links */}
             <div className="reveal" style={{ transitionDelay: '0.1s' }}>
               <h4 className="text-white font-orbitron font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li><a href="/" className="text-white/70 hover:text-light-blue transition-colors text-sm">Home</a></li>
-                <li><a href="/join" className="text-white/70 hover:text-light-blue transition-colors text-sm">Join The Club</a></li>
-                <li><a href="/members" className="text-white/70 hover:text-light-blue transition-colors text-sm">For Members</a></li>
-                <li><a href="/donate" className="text-white/70 hover:text-light-blue transition-colors text-sm">Donate</a></li>
-                <li><a href="/contact" className="text-white/70 hover:text-light-blue transition-colors text-sm">Contact Us</a></li>
-                <li><a href="/summer-camps" className="text-white/70 hover:text-light-blue transition-colors text-sm">Summer Camps</a></li>
-                <li><a href="/community" className="text-white/70 hover:text-light-blue transition-colors text-sm">Community</a></li>
-                <li><a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors text-sm pl-4">→ Meet the Team</a></li>
-                <li><a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors text-sm pl-4">→ STEM Kits</a></li>
-                <li><a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors text-sm pl-4">→ Recycling Initiative</a></li>
+              <ul className="space-y-3">
+                {navLinks.filter(link => !link.hasDropdown).map((link) => (
+                  <li key={link.name}>
+                    <button
+                      onClick={() => scrollToSection(link.href)}
+                      className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group"
+                    >
+                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      {link.name}
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
+                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    Community
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → Meet the Team
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → STEM Kits
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → Recycling Initiative
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -478,7 +524,7 @@ function MeetTheTeam() {
                 <li className="flex items-start gap-3">
                   <Mail className="w-5 h-5 text-light-blue mt-0.5" />
                   <div>
-                    <p className="text-white/70">contact@packofparts.org</p>
+                    <p className="text-white/70">info@packofparts.org</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -491,12 +537,6 @@ function MeetTheTeam() {
                   <School className="w-5 h-5 text-light-blue mt-0.5" />
                   <div>
                     <p className="text-white/70">Eastlake High School</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Users className="w-5 h-5 text-light-blue mt-0.5" />
-                  <div>
-                    <p className="text-white/70">5 Schools Represented</p>
                   </div>
                 </li>
               </ul>
