@@ -3,7 +3,6 @@ import {
   Mail, 
   MapPin, 
   School, 
-  Users, 
   Instagram,
   Facebook,
   Youtube,
@@ -18,7 +17,8 @@ import {
   ChevronDown,
   Target,
   Sparkles,
-  DollarSign
+  DollarSign,
+  Linkedin
 } from 'lucide-react';
 import './StemKits.css';
 
@@ -78,6 +78,19 @@ function StemKits() {
 
     return () => observer.disconnect();
   }, []);
+
+  const scrollToSection = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to route
+      window.location.href = href;
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -466,7 +479,7 @@ function StemKits() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-navy pt-16 pb-8 border-t border-white/10">
+      <footer id="contact" className="bg-navy pt-16 pb-8 border-t border-white/10">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             {/* Logo & Tagline */}
@@ -492,11 +505,11 @@ function StemKits() {
               {/* Social Icons */}
               <div className="flex gap-4">
                 {[
-                  { icon: Instagram, href: '#', label: 'Instagram' },
-                  { icon: Facebook, href: '#', label: 'Facebook' },
-                  { icon: Youtube, href: '#', label: 'YouTube' },
-                  { icon: Github, href: '#', label: 'GitHub' },
-                  { icon: Mail, href: 'mailto:contact@packofparts.org', label: 'Email' },
+                  { icon: Instagram, href: 'https://www.instagram.com/packofparts', label: 'Instagram' },
+                  { icon: Facebook, href: 'https://www.facebook.com/packofparts', label: 'Facebook' },
+                  { icon: Youtube, href: 'https://youtube.com/@packofparts', label: 'YouTube' },
+                  { icon: Linkedin, href: 'https://linkedin.com/company/packofparts', label: 'Linkedin' },
+                  { icon: Github, href: 'https://github.com/packofparts', label: 'Github' },
                 ].map((social) => (
                   <a
                     key={social.label}
@@ -516,16 +529,18 @@ function StemKits() {
               <ul className="space-y-3">
                 {navLinks.filter(link => !link.hasDropdown).map((link) => (
                   <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-white/70 hover:text-light-blue transition-colors duration-200"
+                    <button
+                      onClick={() => scrollToSection(link.href)}
+                      className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group"
                     >
+                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                       {link.name}
-                    </a>
+                    </button>
                   </li>
                 ))}
                 <li>
-                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200">
+                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
+                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                     Community
                   </a>
                 </li>
@@ -554,7 +569,7 @@ function StemKits() {
                 <li className="flex items-start gap-3">
                   <Mail className="w-5 h-5 text-light-blue mt-0.5" />
                   <div>
-                    <p className="text-white/70">contact@packofparts.org</p>
+                    <p className="text-white/70">info@packofparts.org</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -567,12 +582,6 @@ function StemKits() {
                   <School className="w-5 h-5 text-light-blue mt-0.5" />
                   <div>
                     <p className="text-white/70">Eastlake High School</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Users className="w-5 h-5 text-light-blue mt-0.5" />
-                  <div>
-                    <p className="text-white/70">5 Schools Represented</p>
                   </div>
                 </li>
               </ul>

@@ -12,7 +12,8 @@ import {
   Menu,
   X,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Linkedin
 } from 'lucide-react';
 import './contact.css';
 
@@ -82,6 +83,19 @@ function Contact() {
 
     return () => observer.disconnect();
   }, []);
+
+  const scrollToSection = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to route
+      window.location.href = href;
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -509,7 +523,7 @@ function Contact() {
       </section>
 
       {/* Footer - Reusing App.tsx footer styles */}
-      <footer className="bg-navy pt-16 pb-8 border-t border-white/10">
+      <footer id="contact" className="bg-navy pt-16 pb-8 border-t border-white/10">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div className="lg:col-span-2 reveal">
@@ -520,32 +534,96 @@ function Contact() {
                   <p className="text-light-blue text-sm">FRC Team 1294</p>
                 </div>
               </div>
-              <p className="text-white/70 mb-6 max-w-md">Inspiring the next generation of STEM leaders.</p>
+              <p className="text-white/70 mb-6 max-w-md">
+                Building robots. Building futures. Inspiring the next generation of STEM leaders 
+                in Sammamish, Washington.
+              </p>
+              
+              {/* Social Icons */}
+              <div className="flex gap-4">
+                {[
+                  { icon: Instagram, href: 'https://www.instagram.com/packofparts', label: 'Instagram' },
+                  { icon: Facebook, href: 'https://www.facebook.com/packofparts', label: 'Facebook' },
+                  { icon: Youtube, href: 'https://youtube.com/@packofparts', label: 'YouTube' },
+                  { icon: Linkedin, href: 'https://linkedin.com/company/packofparts', label: 'Linkedin' },
+                  { icon: Github, href: 'https://github.com/packofparts', label: 'Github' },
+                ].map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
             </div>
             
             <div className="reveal">
               <h4 className="text-white font-orbitron font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-3">
-                {navLinks.map((link) => (
+                {navLinks.filter(link => !link.hasDropdown).map((link) => (
                   <li key={link.name}>
-                    <a href={link.href} className="text-white/70 hover:text-light-blue flex items-center gap-2 group">
-                      <ChevronRight className="w-4 h-4" /> {link.name}
-                    </a>
+                    <button
+                      onClick={() => scrollToSection(link.href)}
+                      className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group"
+                    >
+                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      {link.name}
+                    </button>
                   </li>
                 ))}
+                <li>
+                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
+                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    Community
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → Meet the Team
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → STEM Kits
+                  </a>
+                </li>
+                <li>
+                  <a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
+                    → Recycling Initiative
+                  </a>
+                </li>
               </ul>
             </div>
 
             <div className="reveal">
               <h4 className="text-white font-orbitron font-semibold mb-4">Contact Us</h4>
               <ul className="space-y-4">
-                <li className="flex gap-3 text-white/70"><Mail className="w-5 h-5 text-light-blue" /> contact@packofparts.org</li>
-                <li className="flex gap-3 text-white/70"><MapPin className="w-5 h-5 text-light-blue" /> Sammamish, WA</li>
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-light-blue mt-0.5" />
+                  <div>
+                    <p className="text-white/70">info@packofparts.org</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-light-blue mt-0.5" />
+                  <div>
+                    <p className="text-white/70">Sammamish, Washington</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <School className="w-5 h-5 text-light-blue mt-0.5" />
+                  <div>
+                    <p className="text-white/70">Eastlake High School</p>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
           <div className="border-t border-white/10 pt-8 text-center text-white/50 text-sm">
-            &copy; {new Date().getFullYear()} Pack of Parts (FRC 1294).
+            &copy; {new Date().getFullYear()} Pack of Parts (FRC 1294). All rights reserved.
           </div>
         </div>
       </footer>
