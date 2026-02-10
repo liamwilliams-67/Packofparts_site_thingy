@@ -1,2 +1,4 @@
 node_modules
 dist
+# Large video file - keep for reference but don't use in production
+# public/IMG_1496.MOV
