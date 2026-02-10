@@ -266,8 +266,8 @@ function App() {
 
       {/* Scroll Expansion Hero Section */}
       <ScrollExpandMedia
-        mediaType="video"
-        mediaSrc="/IMG_1496.MOV"
+        mediaType="image"
+        mediaSrc="/team-photo-2.jpg"
         posterSrc="/team-photo-2.jpg"
         bgImageSrc="/team-photo-2.jpg"
         heroContent={({ textTranslateX }: HeroContentRenderProps) => (
