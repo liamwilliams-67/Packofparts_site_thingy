@@ -148,7 +148,7 @@ After deployment, verify:
 ```json
 {
   "devDependencies": {
-    "sharp": "^0.33.5"
+    "sharp": "^0.34.5"
   }
 }
 ```
