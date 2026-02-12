@@ -406,6 +406,117 @@ function MeetTheTeam() {
         </div>
       </section>
 
+      {/* Team Hierarchy Tree */}
+      <section className="py-20 bg-white">
+        <div className="container-custom">
+          <div className="section-header reveal">
+            <h2 className="section-title">Team Structure</h2>
+            <p className="section-subtitle">
+              Our organizational hierarchy showing leadership and team roles
+            </p>
+          </div>
+
+          <div className="hierarchy-tree reveal">
+            {/* Mentors Level */}
+            <div className="hierarchy-level">
+              <div className="hierarchy-node hierarchy-node-mentor">
+                <div className="hierarchy-node-content">
+                  <Award className="hierarchy-icon" />
+                  <span className="hierarchy-label">Mentors</span>
+                  <span className="hierarchy-count">4</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Leadership Level */}
+            <div className="hierarchy-connector">
+              <div className="connector-line"></div>
+            </div>
+            <div className="hierarchy-level">
+              <div className="hierarchy-node hierarchy-node-leadership">
+                <div className="hierarchy-node-content">
+                  <Star className="hierarchy-icon" />
+                  <span className="hierarchy-label">Student Leadership</span>
+                  <span className="hierarchy-count">4</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Subteam Leads Level */}
+            <div className="hierarchy-connector">
+              <div className="connector-line"></div>
+              <div className="connector-branches">
+                <div className="branch-line"></div>
+                <div className="branch-line"></div>
+                <div className="branch-line"></div>
+                <div className="branch-line"></div>
+                <div className="branch-line"></div>
+                <div className="branch-line"></div>
+              </div>
+            </div>
+            <div className="hierarchy-level hierarchy-level-multi">
+              <div className="hierarchy-node hierarchy-node-lead">
+                <div className="hierarchy-node-content">
+                  <Wrench className="hierarchy-icon" />
+                  <span className="hierarchy-label">Mechanical Lead</span>
+                </div>
+              </div>
+              <div className="hierarchy-node hierarchy-node-lead">
+                <div className="hierarchy-node-content">
+                  <Code className="hierarchy-icon" />
+                  <span className="hierarchy-label">Programming Lead</span>
+                </div>
+              </div>
+              <div className="hierarchy-node hierarchy-node-lead">
+                <div className="hierarchy-node-content">
+                  <Cpu className="hierarchy-icon" />
+                  <span className="hierarchy-label">Electrical Lead</span>
+                </div>
+              </div>
+              <div className="hierarchy-node hierarchy-node-lead">
+                <div className="hierarchy-node-content">
+                  <PenTool className="hierarchy-icon" />
+                  <span className="hierarchy-label">Design Lead</span>
+                </div>
+              </div>
+              <div className="hierarchy-node hierarchy-node-lead">
+                <div className="hierarchy-node-content">
+                  <Megaphone className="hierarchy-icon" />
+                  <span className="hierarchy-label">Business Lead</span>
+                </div>
+              </div>
+              <div className="hierarchy-node hierarchy-node-lead">
+                <div className="hierarchy-node-content">
+                  <Heart className="hierarchy-icon" />
+                  <span className="hierarchy-label">Outreach Lead</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Team Members Level */}
+            <div className="hierarchy-connector">
+              <div className="connector-branches-bottom">
+                <div className="branch-line-bottom"></div>
+                <div className="branch-line-bottom"></div>
+                <div className="branch-line-bottom"></div>
+                <div className="branch-line-bottom"></div>
+                <div className="branch-line-bottom"></div>
+                <div className="branch-line-bottom"></div>
+              </div>
+            </div>
+            <div className="hierarchy-level">
+              <div className="hierarchy-node hierarchy-node-members">
+                <div className="hierarchy-node-content">
+                  <Users className="hierarchy-icon" />
+                  <span className="hierarchy-label">Team Members</span>
+                  <span className="hierarchy-count">50+</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Join CTA Section */}
       <section className="py-20 bg-gradient-to-r from-light-blue to-gold">
         <div className="container-custom text-center">
