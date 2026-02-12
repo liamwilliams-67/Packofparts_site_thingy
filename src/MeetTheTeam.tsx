@@ -62,28 +62,28 @@ function MeetTheTeam() {
 
   // Leadership team
   const leadership: TeamMember[] = [
-    { name: 'Team Captain', role: 'Captain', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face', year: 'Senior', bio: 'Leading the team to success' },
-    { name: 'Co-Captain', role: 'Co-Captain', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face', year: 'Senior', bio: 'Coordinating team activities' },
-    { name: 'President', role: 'President', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face', year: 'Senior', bio: 'Managing team operations' },
-    { name: 'Vice President', role: 'Vice President', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face', year: 'Junior', bio: 'Supporting team leadership' },
+    { name: 'Team Captain', role: 'Captain', image: '/team-photo-1.jpg', year: 'Senior', bio: 'Leading the team to success' },
+    { name: 'Co-Captain', role: 'Co-Captain', image: '/team-photo-2.jpg', year: 'Senior', bio: 'Coordinating team activities' },
+    { name: 'President', role: 'President', image: '/team-photo-3.jpg', year: 'Senior', bio: 'Managing team operations' },
+    { name: 'Vice President', role: 'Vice President', image: '/team-photo-4.jpg', year: 'Junior', bio: 'Supporting team leadership' },
   ];
 
   // Mentors
   const mentors: TeamMember[] = [
-    { name: 'Lead Mentor', role: 'Lead Mentor', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&crop=face', bio: 'Guiding the team since 2015' },
-    { name: 'Mechanical Mentor', role: 'Mechanical Mentor', image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop&crop=face', bio: 'Professional engineer' },
-    { name: 'Programming Mentor', role: 'Programming Mentor', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&crop=face', bio: 'Software developer' },
-    { name: 'Business Mentor', role: 'Business Mentor', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face', bio: 'Marketing professional' },
+    { name: 'Lead Mentor', role: 'Lead Mentor', image: '/team-photo-5.jpg', bio: 'Guiding the team since 2015' },
+    { name: 'Mechanical Mentor', role: 'Mechanical Mentor', image: '/team-photo-6.jpg', bio: 'Professional engineer' },
+    { name: 'Programming Mentor', role: 'Programming Mentor', image: '/team-photo-7.jpg', bio: 'Software developer' },
+    { name: 'Business Mentor', role: 'Business Mentor', image: '/team-photo-1.jpg', bio: 'Marketing professional' },
   ];
 
   // Subteam leads
   const subteamLeads: TeamMember[] = [
-    { name: 'Mechanical Lead', role: 'Mechanical', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
-    { name: 'Programming Lead', role: 'Programming', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
-    { name: 'Electrical Lead', role: 'Electrical', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
-    { name: 'Design Lead', role: 'Design/CAD', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
-    { name: 'Business Lead', role: 'Business', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
-    { name: 'Outreach Lead', role: 'Outreach', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
+    { name: 'Mechanical Lead', role: 'Mechanical', image: '/team-photo-2.jpg', year: 'Senior' },
+    { name: 'Programming Lead', role: 'Programming', image: '/team-photo-3.jpg', year: 'Junior' },
+    { name: 'Electrical Lead', role: 'Electrical', image: '/team-photo-4.jpg', year: 'Senior' },
+    { name: 'Design Lead', role: 'Design/CAD', image: '/team-photo-5.jpg', year: 'Junior' },
+    { name: 'Business Lead', role: 'Business', image: '/team-photo-6.jpg', year: 'Senior' },
+    { name: 'Outreach Lead', role: 'Outreach', image: '/team-photo-7.jpg', year: 'Junior' },
   ];
 
   // Scroll handler for nav visibility
@@ -278,7 +278,7 @@ function MeetTheTeam() {
         <div className="container-custom">
           <div className="team-photo-container reveal">
             <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=600&fit=crop" 
+              src="/team-photo-1.jpg" 
               alt="Pack of Parts Team" 
               className="team-photo"
             />
