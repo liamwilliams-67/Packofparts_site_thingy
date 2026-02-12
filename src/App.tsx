@@ -10,7 +10,6 @@ import {
   X, 
   ChevronRight,
   ChevronDown,
-  Play,
   MapPin,
   School,
   ArrowRight
@@ -437,17 +436,11 @@ function App() {
             <div className="reveal order-2 lg:order-1">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
                 <img 
-                  src="/team-photo-4.jpg" 
-                  alt="Chairman's Video Thumbnail" 
+                  src="/team-photo-7.jpg" 
+                  alt="Image" 
                   className="w-full aspect-video object-cover"
                 />
-                <div className="absolute inset-0 bg-navy/40 flex items-center justify-center group-hover:bg-navy/30 transition-colors duration-300">
-                  <button className="w-20 h-20 bg-light-blue rounded-full flex items-center justify-center shadow-glow transform group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-8 h-8 text-navy ml-1" fill="currentColor" />
-                  </button>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <p className="text-sm font-semibold">Watch our Chairman's Video</p>
+                <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 transition-colors duration-300">
                 </div>
               </div>
             </div>

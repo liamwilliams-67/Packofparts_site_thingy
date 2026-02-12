@@ -501,7 +501,8 @@ function Join() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: 'Mechanical Engineering',
+                title: 'Design',
+                // Change this icon later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 icon: Wrench,
                 description: 'Design and build the robot\'s physical structure using CAD software and machine tools.',
                 skills: ['CAD Design', 'Machining', 'Assembly', 'Prototyping']
@@ -511,6 +512,12 @@ function Join() {
                 icon: Code,
                 description: 'Write code for autonomous and teleoperated robot control systems.',
                 skills: ['Java/Python', 'Robot Control', 'Vision Processing', 'Debugging']
+              },
+              {
+                title: 'Mechanical ',
+                icon: Wrench,
+                description: 'Builds the robot....',
+                skills: ['Mech', 'Add more', 'Add more', '...']
               },
               {
                 title: 'Electrical',
@@ -529,12 +536,6 @@ function Join() {
                 icon: GraduationCap,
                 description: 'Analyze game strategy, scout opponents, and plan competition tactics.',
                 skills: ['Data Analysis', 'Strategy', 'Scouting', 'Alliance Selection']
-              },
-              {
-                title: 'Media & Documentation',
-                icon: Camera,
-                description: 'Create videos, photos, and documentation for team promotion and awards.',
-                skills: ['Photography', 'Video Editing', 'Graphic Design', 'Writing']
               }
             ].map((team, index) => (
               <div 
@@ -746,6 +747,6 @@ function Join() {
 }
 
 // Add missing import
-import { Camera, Trophy } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 
 export default Join;
