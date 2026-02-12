@@ -86,6 +86,14 @@ function MeetTheTeam() {
     { name: 'Outreach Lead', role: 'Outreach', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
   ];
 
+  // Team counts for hierarchy tree
+  const teamCounts = {
+    mentors: mentors.length,
+    leadership: leadership.length,
+    subteamLeads: subteamLeads.length,
+    teamMembers: '50+' // Total team members including all roles
+  };
+
   // Scroll handler for nav visibility
   useEffect(() => {
     const handleScroll = () => {
@@ -416,34 +424,34 @@ function MeetTheTeam() {
             </p>
           </div>
 
-          <div className="hierarchy-tree reveal">
+          <nav className="hierarchy-tree reveal" aria-label="Team organizational structure">
             {/* Mentors Level */}
-            <div className="hierarchy-level">
+            <div className="hierarchy-level" role="group" aria-label="Mentors level">
               <div className="hierarchy-node hierarchy-node-mentor">
                 <div className="hierarchy-node-content">
-                  <Award className="hierarchy-icon" />
+                  <Award className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Mentors</span>
-                  <span className="hierarchy-count">4</span>
+                  <span className="hierarchy-count" aria-label={`${teamCounts.mentors} mentors`}>{teamCounts.mentors}</span>
                 </div>
               </div>
             </div>
 
             {/* Leadership Level */}
-            <div className="hierarchy-connector">
+            <div className="hierarchy-connector" aria-hidden="true">
               <div className="connector-line"></div>
             </div>
-            <div className="hierarchy-level">
+            <div className="hierarchy-level" role="group" aria-label="Leadership level">
               <div className="hierarchy-node hierarchy-node-leadership">
                 <div className="hierarchy-node-content">
-                  <Star className="hierarchy-icon" />
+                  <Star className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Student Leadership</span>
-                  <span className="hierarchy-count">4</span>
+                  <span className="hierarchy-count" aria-label={`${teamCounts.leadership} leaders`}>{teamCounts.leadership}</span>
                 </div>
               </div>
             </div>
 
             {/* Subteam Leads Level */}
-            <div className="hierarchy-connector">
+            <div className="hierarchy-connector" aria-hidden="true">
               <div className="connector-line"></div>
               <div className="connector-branches">
                 <div className="branch-line"></div>
@@ -454,47 +462,47 @@ function MeetTheTeam() {
                 <div className="branch-line"></div>
               </div>
             </div>
-            <div className="hierarchy-level hierarchy-level-multi">
+            <div className="hierarchy-level hierarchy-level-multi" role="group" aria-label="Subteam leads level">
               <div className="hierarchy-node hierarchy-node-lead">
                 <div className="hierarchy-node-content">
-                  <Wrench className="hierarchy-icon" />
+                  <Wrench className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Mechanical Lead</span>
                 </div>
               </div>
               <div className="hierarchy-node hierarchy-node-lead">
                 <div className="hierarchy-node-content">
-                  <Code className="hierarchy-icon" />
+                  <Code className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Programming Lead</span>
                 </div>
               </div>
               <div className="hierarchy-node hierarchy-node-lead">
                 <div className="hierarchy-node-content">
-                  <Cpu className="hierarchy-icon" />
+                  <Cpu className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Electrical Lead</span>
                 </div>
               </div>
               <div className="hierarchy-node hierarchy-node-lead">
                 <div className="hierarchy-node-content">
-                  <PenTool className="hierarchy-icon" />
+                  <PenTool className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Design Lead</span>
                 </div>
               </div>
               <div className="hierarchy-node hierarchy-node-lead">
                 <div className="hierarchy-node-content">
-                  <Megaphone className="hierarchy-icon" />
+                  <Megaphone className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Business Lead</span>
                 </div>
               </div>
               <div className="hierarchy-node hierarchy-node-lead">
                 <div className="hierarchy-node-content">
-                  <Heart className="hierarchy-icon" />
+                  <Heart className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Outreach Lead</span>
                 </div>
               </div>
             </div>
 
             {/* Team Members Level */}
-            <div className="hierarchy-connector">
+            <div className="hierarchy-connector" aria-hidden="true">
               <div className="connector-branches-bottom">
                 <div className="branch-line-bottom"></div>
                 <div className="branch-line-bottom"></div>
@@ -504,16 +512,16 @@ function MeetTheTeam() {
                 <div className="branch-line-bottom"></div>
               </div>
             </div>
-            <div className="hierarchy-level">
+            <div className="hierarchy-level" role="group" aria-label="Team members level">
               <div className="hierarchy-node hierarchy-node-members">
                 <div className="hierarchy-node-content">
-                  <Users className="hierarchy-icon" />
+                  <Users className="hierarchy-icon" aria-hidden="true" />
                   <span className="hierarchy-label">Team Members</span>
-                  <span className="hierarchy-count">50+</span>
+                  <span className="hierarchy-count" aria-label={`${teamCounts.teamMembers} team members`}>{teamCounts.teamMembers}</span>
                 </div>
               </div>
             </div>
-          </div>
+          </nav>
         </div>
       </section>
 
