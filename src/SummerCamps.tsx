@@ -28,7 +28,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import './SummerCamps.css';
-import { STRIPE_PUBLISHABLE_KEY, STRIPE_PRICE_IDS, CHECKOUT_API_URL } from './stripeConfig';
+import { STRIPE_PAYMENT_LINK } from './stripeConfig';
 
 function SummerCamps() {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -39,8 +39,20 @@ function SummerCamps() {
   const [registrantEmail, setRegistrantEmail] = useState('');
   const [parentName, setParentName] = useState('');
   const [parentEmail, setParentEmail] = useState('');
+  const [parentPhone, setParentPhone] = useState('');
+  const [childGrade, setChildGrade] = useState('');
+  const [photoConsent, setPhotoConsent] = useState(false);
   const [addonWL, setAddonWL] = useState(false);
   const [hearAboutUs, setHearAboutUs] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const clearError = (field: string) => {
+    setFieldErrors((prev) => {
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
 
   const campsList = [
     {
@@ -103,67 +115,26 @@ function SummerCamps() {
     }));
   };
 
-  const handleCheckout = async (e: any) => {
+  const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
     const selectedCampKeys = Object.values(selectedByWeek).filter(Boolean) as string[];
-    if (!registrantName || !registrantEmail || selectedCampKeys.length === 0) {
-      alert('Please enter name, email, and select at least one camp (one per week).');
+    const errors: Record<string, string> = {};
+    if (!registrantName?.trim()) errors.registrantName = 'Student name is required';
+    if (!childGrade) errors.childGrade = 'Student grade is required';
+    if (!parentName?.trim()) errors.parentName = 'Parent name is required';
+    if (!parentEmail?.trim()) errors.parentEmail = 'Parent email is required';
+    if (!parentPhone?.trim()) errors.parentPhone = 'Parent phone number is required';
+    if (selectedCampKeys.length === 0) errors.camps = 'Please select at least one camp';
+    if (!photoConsent) errors.photoConsent = 'Please accept the media release';
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+    if (!STRIPE_PAYMENT_LINK) {
+      alert('Payment link not configured. Set VITE_STRIPE_PAYMENT_LINK in .env.');
       return;
     }
-
-    // If Stripe keys and price IDs are set, redirect to Checkout
-    const publishableKey = STRIPE_PUBLISHABLE_KEY;
-    const priceIds = STRIPE_PRICE_IDS;
-
-    const lineItems: Array<any> = [];
-    for (const key of selectedCampKeys) {
-      const priceId = priceIds[key];
-      if (priceId) {
-        lineItems.push({ price: priceId, quantity: 1 });
-      }
-    }
-    if (addonWL) {
-      const priceId = priceIds['Womens Leadership'];
-      if (priceId) lineItems.push({ price: priceId, quantity: 1 });
-    }
-
-    if (publishableKey && lineItems.length > 0 && CHECKOUT_API_URL) {
-      try {
-        const baseUrl = window.location.origin + window.location.pathname + (window.location.search || '');
-        const successUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'checkout=success';
-        const cancelUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'checkout=canceled';
-        const res = await fetch(`${CHECKOUT_API_URL}/create-checkout-session`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            lineItems,
-            successUrl,
-            cancelUrl,
-            customerEmail: registrantEmail,
-            metadata: { registrantName, parentName: parentName || undefined, parentEmail: parentEmail || undefined }
-          })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Checkout failed');
-        if (data.url) {
-          window.location.href = data.url;
-          return;
-        }
-        throw new Error('No checkout URL returned');
-      } catch (err) {
-        alert(err instanceof Error ? err.message : 'Checkout failed. Is the server running?');
-        return;
-      }
-    }
-
-    // Fallback: show summary and total if Stripe not configured
-    const campTotal = campsList
-      .filter((c) => selectedCampKeys.includes(c.key))
-      .reduce((s, c) => s + c.price, 0);
-    const addonTotal = addonWL ? 100 : 0;
-    const total = campTotal + addonTotal;
-
-    alert(`Registration summary:\nName: ${registrantName}\nEmail: ${registrantEmail}\nCamps: ${selectedCampKeys.join(', ')}\nWomen's Leadership add-on: ${addonWL ? 'Yes' : 'No'}\nTotal: $${total}\n\nStripe not configured. See STRIPE_SETUP.md: add .env with Stripe keys and price IDs, set VITE_CHECKOUT_API_URL, and run "npm run server".`);
+    const url = new URL(STRIPE_PAYMENT_LINK);
+    url.searchParams.set('prefilled_email', registrantEmail);
+    window.location.href = url.toString();
   };
 
   // Navigation links
@@ -479,13 +450,14 @@ function SummerCamps() {
 
             <form onSubmit={handleCheckout} className="reveal bg-white p-8 rounded-2xl space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Child's full name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Student name <span className="text-red-500">*</span></label>
                 <input
                   value={registrantName}
-                  onChange={(e) => setRegistrantName(e.target.value)}
+                  onChange={(e) => { setRegistrantName(e.target.value); clearError('registrantName'); }}
                   placeholder="First Last"
-                  className="w-full border px-4 py-2 rounded-md"
+                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.registrantName ? 'border-red-500' : ''}`}
                 />
+                {fieldErrors.registrantName && <p className="text-red-500 text-sm mt-1">{fieldErrors.registrantName}</p>}
               </div>
 
               <div>
@@ -500,24 +472,54 @@ function SummerCamps() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian's full name</label>
-                <input
-                  value={parentName}
-                  onChange={(e) => setParentName(e.target.value)}
-                  placeholder="First Last"
-                  className="w-full border px-4 py-2 rounded-md"
-                />
+                <label className="block text-sm font-medium text-gray-700 mb-2">Student grade (2026–2027 school year) <span className="text-red-500">*</span></label>
+                <select
+                  value={childGrade}
+                  onChange={(e) => { setChildGrade(e.target.value); clearError('childGrade'); }}
+                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.childGrade ? 'border-red-500' : ''}`}
+                >
+                  <option value="">Select grade</option>
+                  <option value="6">6th grade</option>
+                  <option value="7">7th grade</option>
+                  <option value="8">8th grade</option>
+                  <option value="9">9th grade</option>
+                </select>
+                {fieldErrors.childGrade && <p className="text-red-500 text-sm mt-1">{fieldErrors.childGrade}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian's email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian name <span className="text-red-500">*</span></label>
+                <input
+                  value={parentName}
+                  onChange={(e) => { setParentName(e.target.value); clearError('parentName'); }}
+                  placeholder="First Last"
+                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.parentName ? 'border-red-500' : ''}`}
+                />
+                {fieldErrors.parentName && <p className="text-red-500 text-sm mt-1">{fieldErrors.parentName}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian email <span className="text-red-500">*</span></label>
                 <input
                   value={parentEmail}
-                  onChange={(e) => setParentEmail(e.target.value)}
+                  onChange={(e) => { setParentEmail(e.target.value); clearError('parentEmail'); }}
                   placeholder="you@example.com"
                   type="email"
-                  className="w-full border px-4 py-2 rounded-md"
+                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.parentEmail ? 'border-red-500' : ''}`}
                 />
+                {fieldErrors.parentEmail && <p className="text-red-500 text-sm mt-1">{fieldErrors.parentEmail}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian phone number <span className="text-red-500">*</span></label>
+                <input
+                  value={parentPhone}
+                  onChange={(e) => { setParentPhone(e.target.value); clearError('parentPhone'); }}
+                  placeholder="(555) 123-4567"
+                  type="tel"
+                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.parentPhone ? 'border-red-500' : ''}`}
+                />
+                {fieldErrors.parentPhone && <p className="text-red-500 text-sm mt-1">{fieldErrors.parentPhone}</p>}
               </div>
 
               <div>
@@ -538,8 +540,9 @@ function SummerCamps() {
                 </select>
               </div>
 
-              <div>
-                <h3 className="text-lg font-orbitron font-semibold text-navy mb-3">Camps</h3>
+              <div className={fieldErrors.camps ? 'border border-red-500 rounded-md p-4' : ''}>
+                <h3 className="text-lg font-orbitron font-semibold text-navy mb-3">Camps <span className="text-red-500">*</span></h3>
+                {fieldErrors.camps && <p className="text-red-500 text-sm mb-2">{fieldErrors.camps}</p>}
                 <div className="space-y-4">
                   {weekIds.map((weekId) => (
                     <div key={weekId} className="p-4">
@@ -551,7 +554,7 @@ function SummerCamps() {
                               type="checkbox"
                               name={weekId}
                               checked={selectedByWeek[weekId] === camp.key}
-                              onChange={() => handleSelectCamp(camp.key, weekId)}
+                              onChange={() => { handleSelectCamp(camp.key, weekId); clearError('camps'); }}
                               className="mt-1"
                             />
                             <div className="flex-1">
@@ -582,6 +585,22 @@ function SummerCamps() {
                 </label>
               </div>
 
+              <div className={fieldErrors.photoConsent ? 'border border-red-500 rounded-md p-3' : ''}>
+                <h4 className="text-sm font-semibold mb-2">Media release <span className="text-red-500">*</span></h4>
+                {fieldErrors.photoConsent && <p className="text-red-500 text-sm mb-2">{fieldErrors.photoConsent}</p>}
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={photoConsent}
+                    onChange={(e) => { setPhotoConsent(e.target.checked); clearError('photoConsent'); }}
+                    className="mt-1"
+                  />
+                  <span className="text-sm text-gray-700">
+                    I acknowledge that photos/videos of my child may be taken and used for FRC award documentation or promotional purposes.
+                  </span>
+                </label>
+              </div>
+
               <div className="pt-4 border-t">
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-gray-700 font-medium">Total</div>
@@ -592,7 +611,7 @@ function SummerCamps() {
 
                 <div className="flex items-center gap-4">
                   <button type="submit" className="btn-primary text-navy inline-flex items-center gap-2">Pay & Register</button>
-                  <button type="button" onClick={() => { setRegistrantName(''); setRegistrantEmail(''); setSelectedByWeek(initialSelectedByWeek); setAddonWL(false); }} className="px-4 py-2 border rounded-md">Clear</button>
+                  <button type="button" onClick={() => { setRegistrantName(''); setRegistrantEmail(''); setParentName(''); setParentEmail(''); setParentPhone(''); setChildGrade(''); setPhotoConsent(false); setSelectedByWeek(initialSelectedByWeek); setAddonWL(false); setFieldErrors({}); }} className="px-4 py-2 border rounded-md">Clear</button>
                 </div>
 
                 <p className="text-sm text-gray-500 mt-3">
