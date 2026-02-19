@@ -405,34 +405,19 @@ function Community() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Open Houses',
-                description: 'Visit our lab, meet the team, and see our robots in action',
-                frequency: 'Quarterly'
-              },
-              {
                 title: 'Robot Demonstrations',
                 description: 'Public demos at schools, fairs, and community events',
-                frequency: 'Monthly'
+                frequency: 'When Contacted'
               },
-              {
+              { // Does this need to be edited ?????????????????????????????????????????????????????????????????????
                 title: 'Fundraising Events',
                 description: 'Community fundraisers supporting our team and local causes',
                 frequency: 'Seasonal'
               },
               {
-                title: 'STEM Nights',
-                description: 'Family-friendly STEM activities and hands-on learning',
-                frequency: 'Bi-annual'
-              },
-              {
                 title: 'Competition Viewing',
                 description: 'Watch our team compete live at regional championships',
-                frequency: 'Annual'
-              },
-              {
-                title: 'Volunteer Days',
-                description: 'Give back to our community through service projects',
-                frequency: 'Monthly'
+                frequency: 'During Competitions'
               }
             ].map((event, index) => (
               <div 
@@ -486,11 +471,6 @@ function Community() {
                 number: '1000+',
                 label: 'Volunteer Hours',
                 icon: Heart
-              },
-              {
-                number: '5',
-                label: 'Schools Represented',
-                icon: School
               }
             ].map((stat, index) => (
               <div 
@@ -538,7 +518,7 @@ function Community() {
                   title: 'Sponsor',
                   description: 'Support our team and help make STEM education accessible',
                   cta: 'Become a Sponsor',
-                  href: '/#donate'
+                  href: '/donate'
                 },
                 {
                   title: 'Partner',

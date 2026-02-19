@@ -394,8 +394,9 @@ function Members() {
                 </h3>
                 <div className="space-y-2 text-gray-600">
                   <p><strong>January - February</strong></p>
-                  <p>Monday - Saturday</p>
-                  <p>3:00 PM - 8:00 PM</p>
+                  <p>Monday, Wednesday, Friday, Saturday</p>
+                  <p>Mon - Fri: 6:00 - 8:45 PM</p>
+                  <p>Saturday: 10:00 AM - 5:00 PM</p>
                 </div>
               </div>
 
@@ -406,8 +407,8 @@ function Members() {
                 </h3>
                 <div className="space-y-2 text-gray-600">
                   <p><strong>September - December</strong></p>
-                  <p>Tuesday & Thursday</p>
-                  <p>3:30 PM - 6:00 PM</p>
+                  <p>Monday, Wednesday</p>
+                  <p>6:00 PM - 8:45 PM</p>
                 </div>
               </div>
             </div>
