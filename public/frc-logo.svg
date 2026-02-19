@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+  <rect width="200" height="80" rx="8" fill="#1A1A2E"/>
+  <text x="10" y="55" font-family="Arial Black, sans-serif" font-size="42" font-weight="900" fill="#ED1C24">FRC</text>
+  <text x="105" y="30" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">FIRST</text>
+  <text x="105" y="45" font-family="Arial, sans-serif" font-size="10" fill="#CCCCCC">Robotics</text>
+  <text x="105" y="59" font-family="Arial, sans-serif" font-size="10" fill="#CCCCCC">Competition</text>
+</svg>

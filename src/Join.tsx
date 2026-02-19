@@ -324,7 +324,7 @@ function Join() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Build <span className="text-gradient">The Future</span>
+            Become a Member of Pack of Parts
           </h1>
           
           <p 
@@ -344,10 +344,6 @@ function Join() {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Why Join Pack of Parts?
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We're more than just a robotics team—we're a family dedicated to innovation, 
-              learning, and competition.
-            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -425,7 +421,7 @@ function Join() {
               </div>
             </div>
 
-            <div className="reveal" style={{ transitionDelay: '0.2s' }}>
+            <div>
               <div className="info-card">
                 <h3 className="text-white font-orbitron font-semibold text-2xl mb-6">
                   Team Details
@@ -597,10 +593,6 @@ function Join() {
               {
                 question: "How much does it cost to join?",
                 answer: "We work hard to keep costs low through fundraising and sponsorships. Contact us to discuss current team dues and financial assistance options."
-              },
-              {
-                question: "Can I join mid-season?",
-                answer: "Yes! While it's best to join at the start of build season (January), we accept new members throughout the year."
               },
               {
                 question: "Will this help with college applications?",
