@@ -503,7 +503,7 @@ function App() {
                 funds, design a team "brand," hone teamwork skills, and build & program industrialize robots 
                 to play a difficult field game against like-minded competitors. It's as close to real-world 
                 engineering as a student can get. Volunteer professional mentors lend their time and talents 
-                to guide each team. Each season ends with an exciting FIRST Championship in Houston, TX.
+                to guide each team. Each season ends with an exciting FIRST Championship in Houston, TX, and Detroit, MI.
               </p>
             </div>
           </div>

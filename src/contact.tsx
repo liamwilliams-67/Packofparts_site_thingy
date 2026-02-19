@@ -294,11 +294,12 @@ function Contact() {
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Email Us</h3>
                       <a 
-                        href="mailto:contact@packofparts.org" 
+                        href="mailto:info@packofparts.org" 
                         className="text-gray-600 hover:text-light-blue transition-colors duration-200"
                       >
-                        contact@packofparts.org
+                        info@packofparts.org
                       </a>
+                      <p className="text-gray-500 text-sm mt-1">Mentors: <a href="mailto:mentors@packofparts.org" className="hover:text-light-blue transition-colors duration-200">mentors@packofparts.org</a></p>
                     </div>
                   </div>
                 </div>
@@ -311,8 +312,10 @@ function Contact() {
                     </div>
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Location</h3>
-                      <p className="text-gray-600">Sammamish, Washington</p>
-                      <p className="text-gray-600">United States</p>
+                      <p className="text-gray-600">Eastlake High School</p>
+                      <p className="text-gray-600">400 228th AVE NE</p>
+                      <p className="text-gray-600">Sammamish, WA 98074</p>
+                      <p className="text-gray-500 text-sm mt-1">Shop: Room D-125 (back of school)</p>
                     </div>
                   </div>
                 </div>
@@ -353,10 +356,10 @@ function Contact() {
                 </h3>
                 <div className="flex gap-4">
                   {[
-                    { icon: Instagram, href: '#', label: 'Instagram' },
-                    { icon: Facebook, href: '#', label: 'Facebook' },
-                    { icon: Youtube, href: '#', label: 'YouTube' },
-                    { icon: Github, href: '#', label: 'GitHub' },
+                    { icon: Instagram, href: 'https://www.instagram.com/packofparts', label: 'Instagram' },
+                    { icon: Facebook, href: 'https://www.facebook.com/packofparts', label: 'Facebook' },
+                    { icon: Youtube, href: 'https://youtube.com/@packofparts', label: 'YouTube' },
+                    { icon: Github, href: 'https://github.com/packofparts', label: 'GitHub' },
                   ].map((social) => (
                     <a
                       key={social.label}
