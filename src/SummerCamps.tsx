@@ -28,12 +28,143 @@ import {
   ChevronRight
 } from 'lucide-react';
 import './SummerCamps.css';
+import { STRIPE_PUBLISHABLE_KEY, STRIPE_PRICE_IDS, CHECKOUT_API_URL } from './stripeConfig';
 
 function SummerCamps() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
+  const [registrantName, setRegistrantName] = useState('');
+  const [registrantEmail, setRegistrantEmail] = useState('');
+  const [parentName, setParentName] = useState('');
+  const [parentEmail, setParentEmail] = useState('');
+  const [addonWL, setAddonWL] = useState(false);
+  const [hearAboutUs, setHearAboutUs] = useState('');
+
+  const campsList = [
+    {
+      key: 'CAD & Design',
+      title: 'CAD & Design',
+      weekId: 'week1',
+      dates: 'August 17-21, 2025',
+      time: '9:00 AM - 12:00 PM',
+      price: 250,
+      description: `For rising 6th-8th graders. This hands-on, week-long camp is all about introducing students to the exciting world of CAD & Design. Using Onshape, an online CAD tool, students will learn how to create their own CAD models, from simple shapes to personalized projects like name tags and desk organizers. Along the way, they'll explore how CAD is used in the real world in industries such as Semiconductors, Automotive, Aerospace, and many more. They will also get a behind-the-scenes look at how 3D printing works, and get to print some of their own designs. The week wraps up with a fun showcase where students present their final projects to other students, where their project would get voted on to win a trophy at the end of the camp.`,
+    },
+    {
+      key: 'Programming',
+      title: 'Programming',
+      weekId: 'week2',
+      dates: 'August 24-28, 2025',
+      time: '9:00 AM - 12:00 PM',
+      price: 250,
+      description: `For rising 6th-8th graders. In this camp, students will learn how to program robots using the WPILib framework. Each student will work with a Pololu ROMI robot throughout the week, applying new concepts as they learn them. The course introduces Java, one of the world’s most popular programming languages, and exposes students to programming techniques used by Team 1294 on competition robots, including PID control, commands, and subsystems. Over five days, students will progressively build their skills with the goal of programming their robot to autonomously complete an obstacle course as quickly as possible. No prior experience is required, but students must bring a personal (non-school) laptop.`,
+    },
+    {
+      key: 'Engineering 1',
+      title: 'Engineering 1',
+      weekId: 'week1',
+      dates: 'August 17-21, 2025',
+      time: '9:00 AM - 12:00 PM',
+      price: 250,
+      description: `For rising 6th-7th graders. This camp is for students who enjoy figuring out how things work and like to build with their hands. Each day features a new project—like experimenting with simple circuits, building a foam boat that actually moves, and working in teams to design a drawbridge. The projects are designed to be beginner-friendly but open-ended, so students can experiment, problem-solve, and make their ideas come to life. No prior experience is needed—just an interest in building and trying new things!`,
+    },
+    {
+      key: 'Engineering 2',
+      title: 'Engineering 2',
+      weekId: 'week2',
+      dates: 'August 24-28, 2025',
+      time: '9:00 AM - 12:00 PM',
+      price: 250,
+      description: `For rising 8th-9th graders. The engineering 2 summer camp serves to be a more advanced version of engineering 1, designed for older students. It will consist of larger, more in depth projects fit for an older age group with longer attention spans. There will not be any content overlap between the Engineering 1 and Engineering 2 camps. Engineering 2 aims to provide students with projects that allow them to explore more complicated topics with electrical and mechanical. It could also possibly include basic programming depending on the projects we select.`,
+    }
+  ];
+
+  const addonsList = [
+    {
+      key: 'Womens Leadership',
+      title: "Women's Leadership Add-on",
+      price: 100,
+      description: `The women’s leadership camp will be held 1 hour before both Engineering 1 and 2 from 8 AM - 9 AM. This class teaches young women leadership skills that will help them navigate the world of engineering as a minority. During this camp, we will be teaching different leadership styles, communication styles, and learn how to navigate conflicts in order to teach young women to be confident in their areas of work.`,
+      time: '8:00 AM - 9:00 AM',
+    }
+  ];
+
+  const weekIds = Array.from(new Set(campsList.map(c => c.weekId).filter(Boolean)));
+  const initialSelectedByWeek = Object.fromEntries(weekIds.map((id) => [id, null]));
+  const [selectedByWeek, setSelectedByWeek] = useState<Record<string, string | null>>(initialSelectedByWeek);
+
+  const handleSelectCamp = (campKey: string, weekId?: string) => {
+    if (!weekId) return;
+    setSelectedByWeek((prev) => ({
+      ...prev,
+      [weekId]: prev[weekId] === campKey ? null : campKey,
+    }));
+  };
+
+  const handleCheckout = async (e: any) => {
+    e.preventDefault();
+    const selectedCampKeys = Object.values(selectedByWeek).filter(Boolean) as string[];
+    if (!registrantName || !registrantEmail || selectedCampKeys.length === 0) {
+      alert('Please enter name, email, and select at least one camp (one per week).');
+      return;
+    }
+
+    // If Stripe keys and price IDs are set, redirect to Checkout
+    const publishableKey = STRIPE_PUBLISHABLE_KEY;
+    const priceIds = STRIPE_PRICE_IDS;
+
+    const lineItems: Array<any> = [];
+    for (const key of selectedCampKeys) {
+      const priceId = priceIds[key];
+      if (priceId) {
+        lineItems.push({ price: priceId, quantity: 1 });
+      }
+    }
+    if (addonWL) {
+      const priceId = priceIds['Womens Leadership'];
+      if (priceId) lineItems.push({ price: priceId, quantity: 1 });
+    }
+
+    if (publishableKey && lineItems.length > 0 && CHECKOUT_API_URL) {
+      try {
+        const baseUrl = window.location.origin + window.location.pathname + (window.location.search || '');
+        const successUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'checkout=success';
+        const cancelUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'checkout=canceled';
+        const res = await fetch(`${CHECKOUT_API_URL}/create-checkout-session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lineItems,
+            successUrl,
+            cancelUrl,
+            customerEmail: registrantEmail,
+            metadata: { registrantName, parentName: parentName || undefined, parentEmail: parentEmail || undefined }
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Checkout failed');
+        if (data.url) {
+          window.location.href = data.url;
+          return;
+        }
+        throw new Error('No checkout URL returned');
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Checkout failed. Is the server running?');
+        return;
+      }
+    }
+
+    // Fallback: show summary and total if Stripe not configured
+    const campTotal = campsList
+      .filter((c) => selectedCampKeys.includes(c.key))
+      .reduce((s, c) => s + c.price, 0);
+    const addonTotal = addonWL ? 100 : 0;
+    const total = campTotal + addonTotal;
+
+    alert(`Registration summary:\nName: ${registrantName}\nEmail: ${registrantEmail}\nCamps: ${selectedCampKeys.join(', ')}\nWomen's Leadership add-on: ${addonWL ? 'Yes' : 'No'}\nTotal: $${total}\n\nStripe not configured. See STRIPE_SETUP.md: add .env with Stripe keys and price IDs, set VITE_CHECKOUT_API_URL, and run "npm run server".`);
+  };
 
   // Navigation links
   const navLinks = [
@@ -236,7 +367,7 @@ function SummerCamps() {
             style={{ animationDelay: '0.2s' }}
           >
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
-              SUMMER 2025
+              SUMMER 2026
             </span>
           </div>
           
@@ -244,7 +375,7 @@ function SummerCamps() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Robotics <span className="text-gradient">Summer Camps</span>
+            Robotics Summer Camps
           </h1>
           
           <p 
@@ -272,15 +403,14 @@ function SummerCamps() {
           </div>
         </div>
       </section>
-
-      {/* Quick Info Bar */}
+{/*       
       <section className="bg-light-blue py-6">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { icon: Calendar, label: 'June - August', subtext: '2025' },
               { icon: Users, label: 'Ages 11-14', subtext: 'Grades 6-8' },
-              { icon: Clock, label: '5 Days', subtext: '9AM - 4PM' },
+              { icon: Clock, label: '5 Days', subtext: '9AM - 12PM' },
               { icon: MapPin, label: 'Eastlake HS', subtext: 'Sammamish, WA' }
             ].map((item, index) => (
               <div key={index} className="flex flex-col items-center">
@@ -291,346 +421,185 @@ function SummerCamps() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Camp Overview */}
+      {/* Camps Section */}
       <section id="details" className="section-padding">
         <div className="container-custom">
-          <div className="text-center mb-16 reveal">
+          <div className="text-center mb-12 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              What to Expect
+              Camps
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Our camps combine hands-on robotics with programming, engineering design, 
-              and teamwork—all taught by experienced FRC Team 1294 members!
+              Choose from our hands-on summer camps designed for middle schoolers and rising freshmen. All camps will be held at Eastlake High School from 9 AM to 12 PM, with the exception of Women's Leadership which is 8 AM - 9 AM.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Wrench,
-                title: 'Build Robots',
-                description: 'Design and construct your own robot using LEGO Mindstorms or VEX systems. Learn mechanical engineering basics.'
-              },
-              {
-                icon: Code,
-                title: 'Learn to Program',
-                description: 'Code your robot to complete challenges autonomously. Introduction to block-based and text programming.'
-              },
-              {
-                icon: Lightbulb,
-                title: 'Problem Solving',
-                description: 'Work through engineering challenges and design problems. Develop critical thinking and creativity.'
-              },
-              {
-                icon: Users,
-                title: 'Team Challenges',
-                description: 'Collaborate with other campers on team-based missions. Practice communication and teamwork.'
-              },
-              {
-                icon: Zap,
-                title: 'Competition Day',
-                description: 'Show off your robot at our end-of-week mini-competition. Compete for prizes and bragging rights!'
-              },
-              {
-                icon: GraduationCap,
-                title: 'FRC Mentorship',
-                description: 'Learn from current Pack of Parts team members who compete at the highest level of robotics.'
-              }
-            ].map((item, index) => (
-              <div 
-                key={index}
-                className="reveal camp-feature-card"
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center mb-4">
-                  <item.icon className="w-7 h-7 text-light-blue" />
-                </div>
-                <h3 className="text-navy font-orbitron font-semibold text-xl mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600">
-                  {item.description}
-                </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {campsList.map((camp, index) => (
+              <div key={camp.key} className="reveal camp-card bg-white p-6 rounded-2xl" style={{ transitionDelay: `${index * 0.08}s` }}>
+                <h3 className="text-navy font-orbitron font-bold text-xl mb-2">{camp.title}</h3>
+                <div className="mb-1 text-sm text-navy font-medium">Dates: {camp.dates}</div>
+                <div className="mb-1 text-sm text-navy font-medium">Time: {camp.time}</div>
+                <div className="mb-3 text-sm text-navy font-medium">Price: ${camp.price}</div>
+                <p className="text-gray-600">{camp.description}</p>
+              </div>
+            ))}
+
+            {addonsList.map((addon, i) => (
+              <div key={addon.key} className="reveal camp-card bg-white p-6 rounded-2xl" style={{ transitionDelay: `${(campsList.length + i) * 0.08}s` }}>
+                <h3 className="text-navy font-orbitron font-bold text-xl mb-2">{addon.title}</h3>
+                <div className="mb-1 text-sm text-navy font-medium">Time: {addon.time}</div>
+                <div className="mb-3 text-sm text-navy font-medium">Price: ${addon.price}</div>
+                <p className="text-gray-600">{addon.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Daily Schedule */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Daily Schedule
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              A typical day at robotics camp is packed with hands-on activities and learning
-            </p>
-          </div>
+      {/* Removed Daily Schedule (moved to camps overview) */}
 
-          <div className="max-w-3xl mx-auto">
-            {[
-              { time: '9:00 AM', activity: 'Check-in & Morning Activities', description: 'Arrive, settle in, and warm up with robotics challenges' },
-              { time: '9:30 AM', activity: 'Daily Lesson', description: 'Learn new concepts in mechanics, programming, or strategy' },
-              { time: '10:30 AM', activity: 'Build Time', description: 'Work on your robot with guidance from mentors' },
-              { time: '12:00 PM', activity: 'Lunch Break', description: 'Bring your own lunch or purchase from nearby options' },
-              { time: '1:00 PM', activity: 'Programming & Testing', description: 'Code your robot and test it on practice courses' },
-              { time: '2:30 PM', activity: 'Team Challenges', description: 'Collaborate on group missions and competitions' },
-              { time: '3:30 PM', activity: 'Daily Showcase', description: 'Demonstrate what you learned and worked on' },
-              { time: '4:00 PM', activity: 'Pick-up', description: 'Wrap up and head home with new skills!' }
-            ].map((item, index) => (
-              <div 
-                key={index}
-                className="reveal schedule-item"
-                style={{ transitionDelay: `${index * 0.05}s` }}
-              >
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-24 text-light-blue font-orbitron font-bold">
-                    {item.time}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">
-                      {item.activity}
-                    </h3>
-                    <p className="text-gray-600">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Camp Sessions removed — camps listed above */}
 
-      {/* Camp Sessions */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Camp Sessions
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Choose from multiple week-long sessions throughout the summer
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                session: 'Session 1',
-                dates: 'June 23-27, 2025',
-                status: 'Open',
-                spots: '12 spots available'
-              },
-              {
-                session: 'Session 2',
-                dates: 'July 7-11, 2025',
-                status: 'Open',
-                spots: '12 spots available'
-              },
-              {
-                session: 'Session 3',
-                dates: 'July 21-25, 2025',
-                status: 'Open',
-                spots: '12 spots available'
-              }
-            ].map((camp, index) => (
-              <div 
-                key={index}
-                className="reveal session-card"
-                style={{ transitionDelay: `${index * 0.15}s` }}
-              >
-                <div className="mb-4">
-                  <h3 className="text-navy font-orbitron font-bold text-2xl mb-2">
-                    {camp.session}
-                  </h3>
-                  <div className="flex items-center gap-2 text-gray-600 mb-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>{camp.dates}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Users className="w-4 h-4" />
-                    <span>{camp.spots}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="text-green-700 font-semibold">{camp.status}</span>
-                </div>
-                <a 
-                  href="#register"
-                  className="block w-full text-center py-3 bg-light-blue text-white font-orbitron font-semibold rounded-pill hover:bg-navy transition-colors duration-200"
-                >
-                  Register
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing & Details */}
-      <section className="section-padding bg-navy">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="reveal">
-              <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-6">
-                Pricing & <span className="text-gradient">Details</span>
-              </h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <DollarSign className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="text-white font-semibold text-lg mb-1">Camp Cost</h3>
-                    <p className="text-white/70">
-                      $350 per week | Early bird discount: $300 (register by May 1st)
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <Gift className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="text-white font-semibold text-lg mb-1">What's Included</h3>
-                    <p className="text-white/70">
-                      All materials, robot kits, instruction, mentorship, and a camp t-shirt
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <Heart className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="text-white font-semibold text-lg mb-1">Need-Based Aid</h3>
-                    <p className="text-white/70">
-                      Financial assistance available. Contact us for more information.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <Users className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="text-white font-semibold text-lg mb-1">Class Size</h3>
-                    <p className="text-white/70">
-                      Limited to 12 students per session for personalized attention
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <Star className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
-                  <div>
-                    <h3 className="text-white font-semibold text-lg mb-1">Sibling Discount</h3>
-                    <p className="text-white/70">
-                      10% off for each additional sibling registered
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="reveal" style={{ transitionDelay: '0.2s' }}>
-              <div className="bg-white p-8 rounded-2xl">
-                <h3 className="text-navy font-orbitron font-bold text-2xl mb-6">
-                  What to Bring
-                </h3>
-                <ul className="space-y-3">
-                  {[
-                    'Laptop (if you have one - we can provide if needed)',
-                    'Lunch and snacks',
-                    'Water bottle',
-                    'Comfortable clothes that can get dirty',
-                    'Closed-toe shoes (required for safety)',
-                    'Notebook and pen/pencil',
-                    'Enthusiasm and creativity!'
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Pricing & Details removed — simplified page structure */}
 
       {/* Registration Section */}
       <section id="register" className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12 reveal">
+            <div className="text-center mb-8 reveal">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-                Ready to Register?
+                Register for Summer Camps
               </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Spaces fill up quickly! Secure your spot for an unforgettable summer of robotics.
+              <p className="text-gray-600 max-w-2xl mx-auto mb-6">
+                Select one or more camps below, then complete payment to secure your spot. If registering more than one child, please fill out the form twice.
               </p>
             </div>
 
-            <div className="reveal registration-card">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4">
-                  How to Register
-                </h3>
+            <form onSubmit={handleCheckout} className="reveal bg-white p-8 rounded-2xl space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Child's full name</label>
+                <input
+                  value={registrantName}
+                  onChange={(e) => setRegistrantName(e.target.value)}
+                  placeholder="First Last"
+                  className="w-full border px-4 py-2 rounded-md"
+                />
               </div>
 
-              <div className="space-y-6 mb-8">
-                {[
-                  {
-                    step: '1',
-                    title: 'Contact Us',
-                    description: 'Email us at contact@packofparts.org with your preferred session dates'
-                  },
-                  {
-                    step: '2',
-                    title: 'Complete Registration',
-                    description: 'Fill out the registration form and waiver we\'ll send you'
-                  },
-                  {
-                    step: '3',
-                    title: 'Submit Payment',
-                    description: 'Pay online or by check to secure your spot'
-                  },
-                  {
-                    step: '4',
-                    title: 'Get Ready!',
-                    description: 'Receive camp details and preparation information'
-                  }
-                ].map((item) => (
-                  <div key={item.step} className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-light-blue flex items-center justify-center">
-                      <span className="text-white font-orbitron font-bold">{item.step}</span>
-                    </div>
-                    <div>
-                      <h4 className="text-navy font-orbitron font-semibold text-lg mb-1">
-                        {item.title}
-                      </h4>
-                      <p className="text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Child's email</label>
+                <input
+                  value={registrantEmail}
+                  onChange={(e) => setRegistrantEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  type="email"
+                  className="w-full border px-4 py-2 rounded-md"
+                />
               </div>
 
-              <div className="text-center">
-                <a 
-                  href="/contact"
-                  className="btn-primary-light inline-flex items-center gap-2"
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian's full name</label>
+                <input
+                  value={parentName}
+                  onChange={(e) => setParentName(e.target.value)}
+                  placeholder="First Last"
+                  className="w-full border px-4 py-2 rounded-md"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian's email</label>
+                <input
+                  value={parentEmail}
+                  onChange={(e) => setParentEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  type="email"
+                  className="w-full border px-4 py-2 rounded-md"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Where did you hear about us?</label>
+                <select
+                  value={hearAboutUs}
+                  onChange={(e) => setHearAboutUs(e.target.value)}
+                  className="w-full border px-4 py-2 rounded-md"
                 >
-                  <Mail className="w-5 h-5" />
-                  Contact Us to Register
-                </a>
+                  <option value="">Select an option</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Peachjar">Peachjar</option>
+                  <option value="Friends/family">Friends/family</option>
+                  <option value="Teacher/school admin">Teacher/school admin</option>
+                  <option value="Email">Email</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
-            </div>
+
+              <div>
+                <h3 className="text-lg font-orbitron font-semibold text-navy mb-3">Camps</h3>
+                <div className="space-y-4">
+                  {weekIds.map((weekId) => (
+                    <div key={weekId} className="p-4">
+                      <div className="font-semibold mb-2">{campsList.find(c => c.weekId === weekId)?.dates}</div>
+                      <div className="grid md:grid-cols-2 gap-3">
+                        {campsList.filter(c => c.weekId === weekId).map((camp) => (
+                          <label key={camp.key} className="flex items-center gap-3 border rounded-md p-3 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name={weekId}
+                              checked={selectedByWeek[weekId] === camp.key}
+                              onChange={() => handleSelectCamp(camp.key, weekId)}
+                              className="mt-1"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="font-orbitron font-semibold text-navy">{camp.title}</div>
+                                  <div className="text-sm text-gray-600">{camp.time}</div>
+                                </div>
+                                <div className="text-navy font-medium">${camp.price}</div>
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <h4 className="text-sm font-semibold mb-2">Add-ons</h4>
+                <label className="flex items-center gap-3 border rounded-md p-3 cursor-pointer">
+                  <input id="wl" type="checkbox" checked={addonWL} onChange={() => setAddonWL(!addonWL)} />
+                  <div>
+                    <div className="font-orbitron font-semibold text-navy">{addonsList[0].title}</div>
+                    <div className="text-sm text-gray-600">{addonsList[0].time} (before Engineering 1 & 2) — ${addonsList[0].price}</div>
+                  </div>
+                </label>
+              </div>
+
+              <div className="pt-4 border-t">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-gray-700 font-medium">Total</div>
+                  <div className="font-orbitron font-bold text-navy">
+                    ${campsList.filter(c => Object.values(selectedByWeek).includes(c.key)).reduce((s, c) => s + c.price, 0) + (addonWL ? 100 : 0)}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <button type="submit" className="btn-primary text-navy inline-flex items-center gap-2">Pay & Register</button>
+                  <button type="button" onClick={() => { setRegistrantName(''); setRegistrantEmail(''); setSelectedByWeek(initialSelectedByWeek); setAddonWL(false); }} className="px-4 py-2 border rounded-md">Clear</button>
+                </div>
+
+                <p className="text-sm text-gray-500 mt-3">
+                  Note: Stripe Checkout will be used for payment if Stripe keys and price IDs are configured. Otherwise a summary will be shown.
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -648,27 +617,27 @@ function SummerCamps() {
             {[
               {
                 question: "Does my child need prior robotics experience?",
-                answer: "No! Our camps are designed for beginners. We'll teach everything from the ground up."
+                answer: "No! All of our camps are designed for beginners. We'll teach everything from the ground up."
               },
               {
                 question: "What if my child doesn't have a laptop?",
-                answer: "We can provide laptops for campers who need them. Just let us know during registration."
+                answer: "Certain camps require personal laptops. If your child doesn't have one, please contact us and we'll try to arrange one for them."
               },
               {
-                question: "Is lunch provided?",
-                answer: "Campers should bring their own lunch and snacks. We'll have refrigerators available."
+                question: "Are snacks provided?",
+                answer: "We will be providing snacks; however, it is still recommended to bring some snacks with you, as we will have a limited amount. There will be a water fountain available as well"
               },
               {
                 question: "What is your cancellation policy?",
-                answer: "Full refund if cancelled 2+ weeks before camp start. 50% refund within 2 weeks. Contact us about special circumstances."
+                answer: "Contact us minimum 2 weeks before the start of the camp to receive a full refund."
               },
               {
-                question: "Can my child attend multiple sessions?",
-                answer: "Absolutely! We welcome repeat campers. Each session covers similar material but with different challenges."
+                question: "Can my child attend multiple camps?",
+                answer: "Yes. Each week, two camps will be running simultaneously, so you can register for one camp per week."
               },
               {
                 question: "What safety measures are in place?",
-                answer: "All campers are supervised by experienced mentors. We follow safety protocols for all equipment and activities."
+                answer: "Campers will be supervised by a mentor/parent at all times. We follow shop safety protocols for all equipment and activities."
               }
             ].map((faq, index) => (
               <div 
