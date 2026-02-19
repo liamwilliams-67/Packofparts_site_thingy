@@ -9,7 +9,6 @@ import {
   Github,
   Menu,
   X,
-  Calendar,
   FileText,
   Shield,
   BookOpen,
@@ -356,21 +355,34 @@ function Members() {
 
           <div className="max-w-4xl mx-auto">
             <div className="reveal calendar-embed-card">
-              <div className="text-center py-16">
-                <Calendar className="w-20 h-20 text-light-blue mx-auto mb-6" />
-                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4">
+              <div className="p-6">
+                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4 text-center">
                   Team Calendar
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 mb-6 text-center">
                   View our full team calendar with all meetings, competitions, and events
                 </p>
-                <a 
-                  href="#"
-                  className="btn-primary-light inline-flex items-center gap-2"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  View Calendar
-                </a>
+                {/* Google Calendar Embed */}
+                <div className="w-full rounded-lg overflow-hidden mb-6">
+                  <iframe
+                    src="https://calendar.google.com/calendar/embed?src=PLACEHOLDER_CALENDAR_ID"
+                    style={{ border: 0 }}
+                    width="100%"
+                    height="400"
+                    scrolling="no"
+                    title="Team Calendar"
+                    className="w-full"
+                  />
+                </div>
+                <div className="text-center">
+                  <a 
+                    href="#"
+                    className="btn-primary-light inline-flex items-center gap-2"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    View Calendar
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -423,10 +435,7 @@ function Members() {
                 'Review all Safety Notes and complete safety training',
                 'Sign the Safety Plan acknowledgment',
                 'Read the Constitution and Bylaws',
-                'Join team Slack workspace',
-                'Set up access to team Google Drive',
                 'Attend new member orientation',
-                'Get your team t-shirt and safety glasses',
                 'Meet with sub-team leads to find your role'
               ].map((item, index) => (
                 <div 
