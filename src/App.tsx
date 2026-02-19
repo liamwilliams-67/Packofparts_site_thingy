@@ -101,6 +101,10 @@ function App() {
   ];
 
   useEffect(() => {
+    document.title = 'Home | Pack of Parts';
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsNavVisible(window.scrollY > 100);
     };
