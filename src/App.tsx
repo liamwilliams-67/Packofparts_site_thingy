@@ -524,14 +524,6 @@ function App() {
           {/* FIRST Block */}
           <div className="reveal" style={{ transitionDelay: '0.2s' }}>
             <div className="max-w-4xl ml-auto grid lg:grid-cols-[auto_1fr] gap-8 items-start">
-              {/* FRC Logo */}
-              <div className="flex-shrink-0 flex items-start justify-center lg:justify-start">
-                <img
-                  src="/frc-logo.svg"
-                  alt="FRC - FIRST Robotics Competition"
-                  className="w-32 h-auto lg:w-40"
-                />
-              </div>
               <div className="text-right">
               <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
                 The Organization
