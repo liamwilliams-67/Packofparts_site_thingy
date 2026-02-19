@@ -3,7 +3,6 @@ import {
   Mail, 
   MapPin, 
   School, 
-  Send,
   Instagram,
   Facebook,
   Youtube,
@@ -18,15 +17,6 @@ import {
 import './contact.css';
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   // Initialize nav visible as true so it doesn't pop in weirdly
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -52,6 +42,10 @@ function Contact() {
     { name: 'Contact Us', href: '/contact' },
     { name: 'Summer Camps', href: '/summer-camps' },
   ];
+
+  useEffect(() => {
+    document.title = 'Contact | Pack of Parts';
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,29 +89,6 @@ function Contact() {
       window.location.href = href;
     }
     setIsMobileMenuOpen(false);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
-    }, 1500);
   };
 
   return (
@@ -279,10 +250,10 @@ function Contact() {
       {/* Contact Content Section */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-5 gap-12">
+          <div className="max-w-2xl mx-auto">
             
-            {/* Left Column: Contact Details */}
-            <div className="lg:col-span-2">
+            {/* Contact Details */}
+            <div>
               <div className="space-y-6">
                 
                 {/* Email Card */}
@@ -354,11 +325,12 @@ function Contact() {
                 <h3 className="text-navy font-orbitron font-semibold text-xl mb-6">
                   Connect With Us
                 </h3>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-4">
                   {[
                     { icon: Instagram, href: 'https://www.instagram.com/packofparts', label: 'Instagram' },
                     { icon: Facebook, href: 'https://www.facebook.com/packofparts', label: 'Facebook' },
                     { icon: Youtube, href: 'https://youtube.com/@packofparts', label: 'YouTube' },
+                    { icon: Linkedin, href: 'https://linkedin.com/company/packofparts', label: 'LinkedIn' },
                     { icon: Github, href: 'https://github.com/packofparts', label: 'GitHub' },
                   ].map((social) => (
                     <a
@@ -370,111 +342,16 @@ function Contact() {
                       <social.icon className="w-6 h-6" />
                     </a>
                   ))}
+                  <a
+                    href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-icon w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all duration-300"
+                    aria-label="ChiefDelphi"
+                  >
+                    <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-6 h-6" />
+                  </a>
                 </div>
-              </div>
-            </div>
-
-            {/* Right Column: Contact Form */}
-            <div className="lg:col-span-3">
-              <div className="reveal contact-form-wrapper">
-                <div className="mb-8">
-                  <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-4">
-                    Send Us a Message
-                  </h2>
-                  <p className="text-gray-600">
-                    Fill out the form below and we'll get back to you as soon as possible.
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="form-group">
-                    <label htmlFor="name" className="form-label">Full Name *</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="form-input"
-                      placeholder="John Doe"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="email" className="form-label">Email Address *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="form-input"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="subject" className="form-label">Subject *</label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="form-input form-select"
-                    >
-                      <option value="">Select a subject</option>
-                      <option value="joining">Joining the Team</option>
-                      <option value="sponsorship">Sponsorship Opportunities</option>
-                      <option value="partnership">Partnership Inquiry</option>
-                      <option value="summer-camp">Summer Camps</option>
-                      <option value="general">General Question</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="message" className="form-label">Message *</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={6}
-                      className="form-input resize-none"
-                      placeholder="Tell us more about your inquiry..."
-                    />
-                  </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="btn-primary-light w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          Send Message
-                          <Send className="w-4 h-4" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  {submitStatus === 'success' && (
-                    <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg animate-fade-in-up">
-                      <p className="text-green-800 font-medium">✓ Message sent successfully!</p>
-                    </div>
-                  )}
-                </form>
               </div>
             </div>
           </div>
@@ -560,6 +437,15 @@ function Contact() {
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
+                <a
+                  href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  aria-label="ChiefDelphi"
+                >
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-5 h-5" />
+                </a>
               </div>
             </div>
             
