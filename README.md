@@ -13,7 +13,11 @@ First get into your file where you want to run the server,
 ```
 cd path-to-your-folder
 ```
-
+Then copy from the github using,
+```
+# Link may be diffrent depeding on the right repo
+git clone https://github.com/liamwilliams-67/Packofparts_site_thingy.git
+```
 Then delete the .github folder
 
 #### Starting
