@@ -250,7 +250,7 @@ function Contact() {
       {/* Contact Content Section */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-[52.5rem] mx-auto">
             
             {/* Contact Details */}
             <div>
@@ -287,6 +287,18 @@ function Contact() {
                       <p className="text-gray-600">400 228th AVE NE</p>
                       <p className="text-gray-600">Sammamish, WA 98074</p>
                       <p className="text-gray-500 text-sm mt-1">Shop: Room D-125 (back of school)</p>
+                      <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=PLACEHOLDER_EMBED_URL"
+                          width="100%"
+                          height="200"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title="Eastlake High School Location"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -300,7 +312,6 @@ function Contact() {
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Home School</h3>
                       <p className="text-gray-600">Eastlake High School</p>
-                      <p className="text-gray-600 text-sm mt-1">Representing 5 schools</p>
                     </div>
                   </div>
                 </div>
@@ -313,8 +324,13 @@ function Contact() {
                     </div>
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Meeting Times</h3>
-                      <p className="text-gray-600">Build Season: Mon-Sat</p>
-                      <p className="text-gray-600">Off-Season: Schedule varies</p>
+                      <p className="text-gray-600 font-semibold mt-1">Build Season (January – February)</p>
+                      <p className="text-gray-600 text-sm">Monday, Wednesday, Friday, Saturday</p>
+                      <p className="text-gray-600 text-sm">Mon – Fri: 6:00 – 8:45 PM</p>
+                      <p className="text-gray-600 text-sm">Saturday: 10:00 AM – 5:00 PM</p>
+                      <p className="text-gray-600 font-semibold mt-2">Off-Season (September – December)</p>
+                      <p className="text-gray-600 text-sm">Monday, Wednesday</p>
+                      <p className="text-gray-600 text-sm">6:00 – 8:45 PM</p>
                     </div>
                   </div>
                 </div>
