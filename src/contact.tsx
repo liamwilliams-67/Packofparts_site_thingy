@@ -362,10 +362,11 @@ function Contact() {
                     href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="social-icon w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all duration-300"
+                    className="social-icon group relative w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center hover:bg-navy transition-all duration-300"
                     aria-label="ChiefDelphi"
                   >
-                    <img src="/chiefdelphi-logo-navy.svg" alt="ChiefDelphi" className="w-8 h-8" />
+                    <img src="/chiefdelphi-logo-navy.svg" alt="" aria-hidden="true" className="w-8 h-8 transition-opacity duration-300 opacity-100 group-hover:opacity-0" />
+                    <img src="/chiefdelphi-logo.svg" alt="" aria-hidden="true" className="w-8 h-8 absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100" />
                   </a>
                 </div>
               </div>
