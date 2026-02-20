@@ -21,6 +21,48 @@ The Meeting Times card now shows the full schedule copied from the Members page:
 
 #### 4. Home School Card – Removed "Representing 5 schools"
 Removed the line "Representing 5 schools" from the Home School card.
+# Fix npm install peer dependency conflict (2-20-2026)
+
+### Problem
+
+Running `npm install` failed with `ERESOLVE could not resolve` because `eslint-plugin-react-hooks@7.0.1` declares `eslint ^9.0.0` as a peer dependency, but the project uses `eslint@^10.0.1` (upgraded in the previous PR to fix security vulnerabilities).
+
+### Fix
+
+Added `.npmrc` with `legacy-peer-deps=true` so that `npm install` works without requiring `--legacy-peer-deps` flag. This is the standard workaround when upstream packages have not yet updated their peer dependency declarations. `eslint-plugin-react-hooks` works correctly with eslint 10 — only the declared peer range is outdated.
+
+---
+
+# Security Dependency Updates (2-20-2026)
+
+### npm audit vulnerability fixes
+
+Resolved **all 10 high-severity vulnerabilities** and reduced overall count from 11 to 0 actionable.
+
+#### Changes
+
+1. **Upgraded `eslint`** from `^9.39.1` to `^10.0.1` (major version bump)
+   - eslint 10 uses `minimatch ^10.2.1` (patched) instead of the vulnerable `minimatch <10.2.1`
+   - eslint 10 drops `@eslint/eslintrc` dependency which also pulled in vulnerable `ajv` and `minimatch`
+
+2. **Upgraded `@eslint/js`** from `^9.39.1` to `^10.0.1` (to match eslint 10)
+
+3. **Added `overrides` for `minimatch`** (`^10.2.1`) in `package.json`
+   - Forces all transitive `minimatch` dependencies (including `@typescript-eslint/typescript-estree`) to use the patched version
+   - Fixes [GHSA-3ppc-4f35-3m26](https://github.com/advisories/GHSA-3ppc-4f35-3m26) — ReDoS via repeated wildcards (high severity)
+
+#### Remaining: `ajv` vulnerability (moderate, not fixable)
+
+The `ajv <8.18.0` vulnerability ([GHSA-2g4f-4pwh-qvx6](https://github.com/advisories/GHSA-2g4f-4pwh-qvx6)) **cannot be resolved** at this time:
+- eslint (all versions including v10) depends on `ajv ^6.12.4` for JSON Schema validation
+- ajv v6 and v8 have incompatible APIs — forcing v8 would break eslint
+- The vulnerability is **moderate severity** and only exploitable when using the `$data` option
+- This is a **dev-only dependency** (eslint does not ship to production)
+- Resolution requires the eslint team to migrate to ajv v8 upstream
+
+#### Peer dependency note
+
+`eslint-plugin-react-hooks@7.0.1` declares `eslint ^9.0.0` as a peer dependency and does not yet officially support eslint 10. However, the plugin works correctly with eslint 10 (verified via lint and build). The React team has not yet released a stable version with eslint 10 support.
 
 ---
 
