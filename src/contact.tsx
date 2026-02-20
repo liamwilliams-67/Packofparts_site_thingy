@@ -277,7 +277,7 @@ function Contact() {
 
                 {/* Location Card */}
                 <div className="reveal contact-card" style={{ transitionDelay: '0.1s' }}>
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 mb-4">
                     <div className="flex-shrink-0 w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center">
                       <MapPin className="w-6 h-6 text-light-blue" />
                     </div>
@@ -287,19 +287,19 @@ function Contact() {
                       <p className="text-gray-600">400 228th AVE NE</p>
                       <p className="text-gray-600">Sammamish, WA 98074</p>
                       <p className="text-gray-500 text-sm mt-1">Shop: Room D-125 (back of school)</p>
-                      <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=PLACEHOLDER_EMBED_URL"
-                          width="100%"
-                          height="200"
-                          style={{ border: 0 }}
-                          allowFullScreen
-                          loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          title="Eastlake High School Location"
-                        />
-                      </div>
                     </div>
+                  </div>
+                  <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=PLACEHOLDER_EMBED_URL"
+                      width="100%"
+                      height="450"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Eastlake High School Location"
+                    />
                   </div>
                 </div>
 
