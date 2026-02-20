@@ -1,3 +1,15 @@
+# Fix npm install peer dependency conflict (2-20-2026)
+
+### Problem
+
+Running `npm install` failed with `ERESOLVE could not resolve` because `eslint-plugin-react-hooks@7.0.1` declares `eslint ^9.0.0` as a peer dependency, but the project uses `eslint@^10.0.1` (upgraded in the previous PR to fix security vulnerabilities).
+
+### Fix
+
+Added `.npmrc` with `legacy-peer-deps=true` so that `npm install` works without requiring `--legacy-peer-deps` flag. This is the standard workaround when upstream packages have not yet updated their peer dependency declarations. `eslint-plugin-react-hooks` works correctly with eslint 10 — only the declared peer range is outdated.
+
+---
+
 # Security Dependency Updates (2-20-2026)
 
 ### npm audit vulnerability fixes
