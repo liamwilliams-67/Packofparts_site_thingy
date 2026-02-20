@@ -1,3 +1,26 @@
+# Pull Request (Current) – Contact Page Improvements
+
+### Changes Made
+
+#### 1. Contact Cards – 25% Wider
+All four contact cards ("Email Us", "Location", "Home School", "Meeting Times") are now 25% wider horizontally. The container was changed from `max-w-2xl` (42 rem) to `max-w-[52.5rem]` (52.5 rem = 42 × 1.25).
+
+#### 2. Location Card – Google Maps Embed
+Added a Google Maps iframe embed to the Location card below the address details.
+
+**To set the correct map URL:**
+1. Go to [Google Maps](https://maps.google.com) and search for **Eastlake High School, 400 228th Ave NE, Sammamish, WA 98074**.
+2. Click **Share → Embed a map → Copy HTML**.
+3. In `src/contact.tsx`, find the `<iframe>` inside the Location card and replace the `src` value (`https://www.google.com/maps/embed?pb=PLACEHOLDER_EMBED_URL`) with the embed URL from Google Maps. It will look like:
+   `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!...`
+
+#### 3. Meeting Times – Updated with Correct Schedule
+The Meeting Times card now shows the full schedule copied from the Members page:
+- **Build Season (January – February):** Mon, Wed, Fri, Sat — Mon–Fri 6:00–8:45 PM, Saturday 10:00 AM–5:00 PM
+- **Off-Season (September – December):** Mon, Wed — 6:00–8:45 PM
+
+#### 4. Home School Card – Removed "Representing 5 schools"
+Removed the line "Representing 5 schools" from the Home School card.
 # Fix npm install peer dependency conflict (2-20-2026)
 
 ### Problem

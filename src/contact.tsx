@@ -250,7 +250,7 @@ function Contact() {
       {/* Contact Content Section */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-[52.5rem] mx-auto">
             
             {/* Contact Details */}
             <div>
@@ -277,7 +277,7 @@ function Contact() {
 
                 {/* Location Card */}
                 <div className="reveal contact-card" style={{ transitionDelay: '0.1s' }}>
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 mb-4">
                     <div className="flex-shrink-0 w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center">
                       <MapPin className="w-6 h-6 text-light-blue" />
                     </div>
@@ -288,6 +288,18 @@ function Contact() {
                       <p className="text-gray-600">Sammamish, WA 98074</p>
                       <p className="text-gray-500 text-sm mt-1">Shop: Room D-125 (back of school)</p>
                     </div>
+                  </div>
+                  <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=PLACEHOLDER_EMBED_URL"
+                      width="100%"
+                      height="450"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Eastlake High School Location"
+                    />
                   </div>
                 </div>
 
@@ -300,7 +312,6 @@ function Contact() {
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Home School</h3>
                       <p className="text-gray-600">Eastlake High School</p>
-                      <p className="text-gray-600 text-sm mt-1">Representing 5 schools</p>
                     </div>
                   </div>
                 </div>
@@ -313,8 +324,13 @@ function Contact() {
                     </div>
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Meeting Times</h3>
-                      <p className="text-gray-600">Build Season: Mon-Sat</p>
-                      <p className="text-gray-600">Off-Season: Schedule varies</p>
+                      <p className="text-gray-600 font-semibold mt-1">Build Season (January – February)</p>
+                      <p className="text-gray-600 text-sm">Monday, Wednesday, Friday, Saturday</p>
+                      <p className="text-gray-600 text-sm">Mon – Fri: 6:00 – 8:45 PM</p>
+                      <p className="text-gray-600 text-sm">Saturday: 10:00 AM – 5:00 PM</p>
+                      <p className="text-gray-600 font-semibold mt-2">Off-Season (September – December)</p>
+                      <p className="text-gray-600 text-sm">Monday, Wednesday</p>
+                      <p className="text-gray-600 text-sm">6:00 – 8:45 PM</p>
                     </div>
                   </div>
                 </div>
@@ -346,10 +362,11 @@ function Contact() {
                     href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="social-icon w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all duration-300"
+                    className="social-icon group relative w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center hover:bg-navy transition-all duration-300"
                     aria-label="ChiefDelphi"
                   >
-                    <img src="/chiefdelphi-logo-navy.svg" alt="ChiefDelphi" className="w-8 h-8" />
+                    <img src="/chiefdelphi-logo-navy.svg" alt="" aria-hidden="true" className="w-8 h-8 transition-opacity duration-300 opacity-100 group-hover:opacity-0" />
+                    <img src="/chiefdelphi-logo.svg" alt="" aria-hidden="true" className="w-8 h-8 absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100" />
                   </a>
                 </div>
               </div>
