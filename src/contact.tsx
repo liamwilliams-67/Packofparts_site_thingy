@@ -349,7 +349,7 @@ function Contact() {
                     className="social-icon w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all duration-300"
                     aria-label="ChiefDelphi"
                   >
-                    <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-6 h-6" />
+                    <img src="/chiefdelphi-logo-navy.svg" alt="ChiefDelphi" className="w-8 h-8" />
                   </a>
                 </div>
               </div>
@@ -444,7 +444,7 @@ function Contact() {
                   className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
-                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-5 h-5" />
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
                 </a>
               </div>
             </div>

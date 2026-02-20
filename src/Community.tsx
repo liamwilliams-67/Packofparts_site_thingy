@@ -611,7 +611,7 @@ function Community() {
                   className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
-                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-5 h-5" />
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
                 </a>
               </div>
             </div>
