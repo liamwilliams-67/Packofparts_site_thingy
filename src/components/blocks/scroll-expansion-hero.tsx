@@ -244,6 +244,7 @@ const ScrollExpandMedia = ({
           <img
             src={bgImageSrc}
             alt=""
+            role="presentation"
             className="w-full h-full object-cover"
             fetchPriority="high"
           />
