@@ -613,7 +613,15 @@ function App() {
 
           {/* FIRST Block */}
           <div className="reveal" style={{ transitionDelay: '0.2s' }}>
-            <div className="max-w-4xl ml-auto grid lg:grid-cols-[auto_1fr] gap-8 items-start">
+            <div className="max-w-4xl ml-auto grid lg:grid-cols-[auto_1fr] gap-8 items-center">
+              {/* FRC logo – to resize, change the w-* class below.
+                  Examples: w-24 (smaller), w-36 (default), w-48 or w-56 (larger).
+                  On mobile the logo stacks above the text. */}
+              <img
+                src="/frc-logo.png"
+                alt="FIRST Robotics Competition logo"
+                className="w-36 object-contain mx-auto"
+              />
               <div className="text-right">
               <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
                 The Organization

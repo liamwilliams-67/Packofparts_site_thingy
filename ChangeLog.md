@@ -1,4 +1,26 @@
-# Pull Request (Current) – Sponsor Carousel Speed & Animated Jumps
+# Pull Request (Current) – FRC Logo Added to Home Page
+
+### Changes Made
+
+#### 1. FRC Logo in "What is FIRST?" Section
+
+Added `public/frc-logo.png` to the left of the FIRST text body in the "What is FIRST?" section on the home page (`src/App.tsx`).
+
+- The logo sits to the left of the two FIRST description paragraphs and is vertically center-aligned with the text block.
+- On mobile the logo stacks above the text.
+
+**To resize the logo**, find the `<img>` tag inside the `{/* FIRST Block */}` comment in `src/App.tsx` and change its `w-*` Tailwind class:
+
+| Class | Approximate width | Use |
+|---|---|---|
+| `w-24` | 96 px | Smaller |
+| `w-36` | 144 px | Default (current) |
+| `w-48` | 192 px | Larger |
+| `w-56` | 224 px | Even larger |
+
+---
+
+# Pull Request (Previous) – Sponsor Carousel Speed & Animated Jumps
 
 ### Changes Made
 
