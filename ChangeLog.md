@@ -6,17 +6,18 @@
 
 Added `public/frc-logo.png` to the left of the FIRST text body in the "What is FIRST?" section on the home page (`src/App.tsx`).
 
-- The logo sits to the left of the two FIRST description paragraphs and is vertically center-aligned with the text block.
+- The logo fills all available space to the left of the text body, leaving only a small gap.
+- The grid is full-width (`1fr` for the logo, `auto` for the text); the text column is constrained to `lg:max-w-2xl` for comfortable reading.
 - On mobile the logo stacks above the text.
+- The logo height is capped at `max-h-72` (288 px) so it stays proportionate.
 
-**To resize the logo**, find the `<img>` tag inside the `{/* FIRST Block */}` comment in `src/App.tsx` and change its `w-*` Tailwind class:
+**To adjust the logo**, find the `<img>` tag inside the `{/* FIRST Block */}` comment in `src/App.tsx`:
 
-| Class | Approximate width | Use |
-|---|---|---|
-| `w-24` | 96 px | Smaller |
-| `w-36` | 144 px | Default (current) |
-| `w-48` | 192 px | Larger |
-| `w-56` | 224 px | Even larger |
+| What to change | How |
+|---|---|
+| Make logo shorter/taller | Change `max-h-72` to e.g. `max-h-48` (shorter) or `max-h-96` (taller) |
+| Limit logo width | Add a `max-w-*` class, e.g. `max-w-xs` |
+| Widen the text column | Change `lg:max-w-2xl` on the text `<div>` to a larger value such as `lg:max-w-3xl` |
 
 ---
 
