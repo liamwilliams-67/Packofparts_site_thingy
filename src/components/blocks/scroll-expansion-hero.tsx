@@ -79,9 +79,15 @@ const ScrollExpandMedia = ({
   const touchStartYRef = useRef(0);
 
   // Keep refs in sync with state
-  scrollProgressRef.current = scrollProgress;
-  mediaFullyExpandedRef.current = mediaFullyExpanded;
-  hasAnimationCompletedRef.current = hasAnimationCompleted;
+  useEffect(() => {
+    scrollProgressRef.current = scrollProgress;
+  }, [scrollProgress]);
+  useEffect(() => {
+    mediaFullyExpandedRef.current = mediaFullyExpanded;
+  }, [mediaFullyExpanded]);
+  useEffect(() => {
+    hasAnimationCompletedRef.current = hasAnimationCompleted;
+  }, [hasAnimationCompleted]);
 
   // Reset state when mediaType changes - this is an intentional pattern for resetting animation state
   useEffect(() => {
