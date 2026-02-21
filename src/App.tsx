@@ -619,7 +619,7 @@ function App() {
                   or remove max-h-* to let it grow taller.
                   On mobile the logo stacks above the text. */}
               <img
-                src="/frc-logo.png"
+                src="/frc-logo.avif"
                 alt="FIRST Robotics Competition logo"
                 className="w-full max-h-72 object-contain mx-auto"
               />
