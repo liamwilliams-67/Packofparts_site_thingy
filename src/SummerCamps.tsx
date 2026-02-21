@@ -610,12 +610,12 @@ function SummerCamps() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <button type="submit" className="btn-primary text-navy inline-flex items-center gap-2">Pay & Register</button>
+                  <button type="submit" className="btn-primary text-navy inline-flex items-center gap-2">Go to Checkout</button>
                   <button type="button" onClick={() => { setRegistrantName(''); setRegistrantEmail(''); setParentName(''); setParentEmail(''); setParentPhone(''); setChildGrade(''); setPhotoConsent(false); setSelectedByWeek(initialSelectedByWeek); setAddonWL(false); setFieldErrors({}); }} className="px-4 py-2 border rounded-md">Clear</button>
                 </div>
 
                 <p className="text-sm text-gray-500 mt-3">
-                  Note: Stripe Checkout will be used for payment if Stripe keys and price IDs are configured. Otherwise a summary will be shown.
+                  Note: You will be redirected to a Stripe payment page. Please enter the same information you used for registration to complete the payment, so that we can match your registration and payment.
                 </p>
               </div>
             </form>
