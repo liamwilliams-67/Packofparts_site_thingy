@@ -1,4 +1,34 @@
-# Pull Request (Current) – Contact Page Improvements
+# Pull Request (Current) – Sponsor Carousel Improvements
+
+### Changes Made
+
+#### 1. Smooth Infinite Sponsor Loop (No Jump)
+
+Replaced the CSS `animate-marquee` approach with a JavaScript `requestAnimationFrame`-based animation in `App.tsx`. The CSS approach used `translateX(-50%)`, which computes percentage relative to the element's own rendered width. Because the flex strip is a block element (width = 100% of viewport), `-50%` translated by only half the viewport rather than half the strip content — causing sponsors to stop partway and then jump back. The new JS approach tracks scroll position in pixels and wraps seamlessly using modulo arithmetic.
+
+#### 2. All Sponsor Logos Now Visible
+
+With the JS carousel, the strip correctly cycles through all 10 sponsor logos before looping back.
+
+#### 3. Left / Right Arrow Buttons
+
+Two arrow buttons (`<` and `>`) have been added on each side of the sponsor strip. They do not overlap any sponsor logos — the strip is rendered inside a flex row between the two buttons.
+
+**Arrow jump configuration:**
+- The constant `SPONSOR_JUMP_FACTOR` (defined just above the `App` function in `src/App.tsx`) controls how many sponsor slots are skipped per click.
+- Default value: `3` — both arrows use the same factor.
+- To change the jump size, edit `const SPONSOR_JUMP_FACTOR = 3;` in `src/App.tsx`.
+
+#### 4. Auto-Scroll Speed Configuration
+
+- `SPONSOR_SCROLL_SPEED` (also above the `App` function) controls auto-scroll speed in pixels per animation frame (at ~60 fps).
+- Default value: `0.5` px/frame ≈ 30 px/s.
+
+#### 5. Pause on Hover
+
+Hovering over the sponsor strip pauses the auto-scroll (same behaviour as before, now handled via `sponsorPausedRef`).
+
+# Pull Request (Previous) – Contact Page Improvements
 
 ### Changes Made
 

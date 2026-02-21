@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { 
   Instagram, 
   Facebook, 
@@ -8,6 +8,7 @@ import {
   Mail, 
   Menu, 
   X, 
+  ChevronLeft,
   ChevronRight,
   ChevronDown,
   MapPin,
@@ -50,10 +51,44 @@ const DirectionalText = ({ text, translateX, direction, className = '', speedMul
   );
 };
 
+// Sponsor logos with homepage links
+// To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
+// Format: { image: '/sponsor-X.png', url: 'https://example.com', name: 'Sponsor Name' }
+// Set url to '' (empty string) if no link is available yet
+const sponsors = [
+  { image: '/sponsor-1.png', url: 'https://www.argosyfnd.org/', name: 'Argosy Foundation' },
+  { image: '/sponsor-2.png', url: 'https://firstwa.org/', name: 'FIRST Washington' },
+  { image: '/sponsor-3.png', url: 'https://www.ghaasfoundation.org/', name: 'Gene Haas Foundation' },
+  { image: '/sponsor-4.png', url: 'https://ehsptsa.org/Home', name: 'EHS PTSA' },
+  { image: '/sponsor-5.png', url: 'https://grizzlyjunk.com/', name: 'Grizzly Junk Removal' },
+  { image: '/sponsor-6.png', url: 'https://www.ebay.com/str/happyglobalschoice', name: 'Happy Globals Choice' },
+  { image: '/sponsor-7.png', url: 'https://www.speea.org/', name: 'SPEEA' },
+  { image: '/sponsor-8.png', url: '', name: 'Sponsor 8' },
+  { image: '/sponsor-9.png', url: '', name: 'Sponsor 9' },
+  { image: '/sponsor-10.png', url: 'https://happyglobalinc.com/', name: 'Sponsor 10' },
+];
+
+// Sponsor carousel configuration
+// SPONSOR_ITEM_WIDTH: total width (px) of each sponsor slot (w-80 = 320px + mx-8 = 32px per side = 64px total)
+const SPONSOR_ITEM_WIDTH = 384;
+// SPONSOR_JUMP_FACTOR: number of sponsor slots to jump when an arrow button is clicked
+// Increase this value to jump further, decrease to jump less. Both arrows use the same factor.
+const SPONSOR_JUMP_FACTOR = 3;
+// SPONSOR_SCROLL_SPEED: pixels scrolled per animation frame (~60fps), controls auto-scroll speed
+const SPONSOR_SCROLL_SPEED = 0.5;
+// Total width of one full set of sponsors (used for seamless wrap-around)
+const SPONSOR_SINGLE_WIDTH = sponsors.length * SPONSOR_ITEM_WIDTH;
+
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
+
+  // Sponsor carousel refs
+  const sponsorStripRef = useRef<HTMLDivElement>(null);
+  const sponsorPosRef = useRef(0);
+  const sponsorAnimRef = useRef<number>(0);
+  const sponsorPausedRef = useRef(false);
 
  const navLinks = [
   { name: 'Join The Club', href: '/join' },
@@ -72,23 +107,6 @@ function App() {
   { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
   { name: 'Summer Camps', href: '/summer-camps' },
 ];
-
-  // Sponsor logos with homepage links
-  // To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
-  // Format: { image: '/sponsor-X.png', url: 'https://example.com', name: 'Sponsor Name' }
-  // Set url to '' (empty string) if no link is available yet
-  const sponsors = [
-    { image: '/sponsor-1.png', url: 'https://www.argosyfnd.org/', name: 'Argosy Foundation' },
-    { image: '/sponsor-2.png', url: 'https://firstwa.org/', name: 'FIRST Washington' },
-    { image: '/sponsor-3.png', url: 'https://www.ghaasfoundation.org/', name: 'Gene Haas Foundation' },
-    { image: '/sponsor-4.png', url: 'https://ehsptsa.org/Home', name: 'EHS PTSA' },
-    { image: '/sponsor-5.png', url: 'https://grizzlyjunk.com/', name: 'Grizzly Junk Removal' },
-    { image: '/sponsor-6.png', url: 'https://www.ebay.com/str/happyglobalschoice', name: 'Happy Globals Choice' },
-    { image: '/sponsor-7.png', url: 'https://www.speea.org/', name: 'SPEEA' },
-    { image: '/sponsor-8.png', url: '', name: 'Sponsor 8' },
-    { image: '/sponsor-9.png', url: '', name: 'Sponsor 9' },
-    { image: '/sponsor-10.png', url: 'https://happyglobalinc.com/', name: 'Sponsor 10' },
-  ];
 
   // Team photos
   const teamPhotos = [
@@ -112,6 +130,36 @@ function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Sponsor carousel animation (requestAnimationFrame-based for smooth infinite scroll)
+  useEffect(() => {
+    function animateSponsor() {
+      if (!sponsorPausedRef.current) {
+        sponsorPosRef.current += SPONSOR_SCROLL_SPEED;
+        if (sponsorPosRef.current >= SPONSOR_SINGLE_WIDTH) {
+          sponsorPosRef.current -= SPONSOR_SINGLE_WIDTH;
+        }
+        if (sponsorStripRef.current) {
+          sponsorStripRef.current.style.transform = `translateX(-${sponsorPosRef.current}px)`;
+        }
+      }
+      sponsorAnimRef.current = requestAnimationFrame(animateSponsor);
+    }
+    sponsorAnimRef.current = requestAnimationFrame(animateSponsor);
+    return () => cancelAnimationFrame(sponsorAnimRef.current);
+  }, []);
+
+  function jumpSponsors(direction: 'left' | 'right') {
+    const jumpAmount = SPONSOR_JUMP_FACTOR * SPONSOR_ITEM_WIDTH;
+    if (direction === 'right') {
+      sponsorPosRef.current = (sponsorPosRef.current + jumpAmount) % SPONSOR_SINGLE_WIDTH;
+    } else {
+      sponsorPosRef.current = (sponsorPosRef.current - jumpAmount + SPONSOR_SINGLE_WIDTH) % SPONSOR_SINGLE_WIDTH;
+    }
+    if (sponsorStripRef.current) {
+      sponsorStripRef.current.style.transform = `translateX(-${sponsorPosRef.current}px)`;
+    }
+  }
 
   // Intersection Observer for reveal animations
   useEffect(() => {
@@ -582,51 +630,79 @@ function App() {
           </div>
         </div>
 
-        {/* Sponsor Logo Marquee
-            - Images are 2x the original size (w-80 h-48)
-            - Animation speed is controlled by 'animate-marquee' class in tailwind.config.js
-            - To change speed manually, edit the 'marquee' animation duration in tailwind.config.js
-              under theme.extend.animation (currently set to 15s for 2.67x speed)
-            - To update sponsor links, modify the 'sponsors' array at the top of this component
+        {/* Sponsor Logo Carousel
+            - SPONSOR_JUMP_FACTOR (defined near top of file) controls how many sponsor slots
+              the arrow buttons jump per click. Both arrows use the same factor.
+            - SPONSOR_SCROLL_SPEED controls the auto-scroll speed (pixels per frame at ~60fps).
+            - SPONSOR_ITEM_WIDTH must match the Tailwind classes used on each sponsor slot
+              (w-80 = 320px + mx-8 = 32px per side = 384px total).
+            - To update sponsor links, modify the 'sponsors' array above the App function.
               Each sponsor has: { image: '/sponsor-X.png', url: 'https://...', name: 'Sponsor Name' }
-              Set url to '' (empty string) if no link is available yet
+              Set url to '' (empty string) if no link is available yet.
         */}
-        <div className="relative">
-          <div className="flex animate-marquee pause-on-hover">
-            {[...sponsors, ...sponsors].map((sponsor, index) => {
-              const hasValidUrl = sponsor.url && sponsor.url !== '#' && sponsor.url !== '';
-              const isExternalUrl = hasValidUrl && (sponsor.url.startsWith('http://') || sponsor.url.startsWith('https://'));
-              
-              return hasValidUrl ? (
-                <a
-                  key={index}
-                  href={sponsor.url}
-                  target={isExternalUrl ? "_blank" : undefined}
-                  rel={isExternalUrl ? "noopener noreferrer" : undefined}
-                  className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
-                  title={sponsor.name}
-                >
-                  <img 
-                    src={sponsor.image} 
-                    alt={sponsor.name}
-                    className="sponsor-logo max-w-full max-h-full object-contain"
-                  />
-                </a>
-              ) : (
-                <div 
-                  key={index}
-                  className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center"
-                  title={sponsor.name}
-                >
-                  <img 
-                    src={sponsor.image} 
-                    alt={sponsor.name}
-                    className="sponsor-logo max-w-full max-h-full object-contain"
-                  />
-                </div>
-              );
-            })}
+        <div className="flex items-center gap-4 px-4">
+          {/* Left arrow — jumps backward in the rotation */}
+          <button
+            onClick={() => jumpSponsors('left')}
+            aria-label="Scroll sponsors left"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          {/* Scrolling strip */}
+          <div className="flex-1 overflow-hidden">
+            <div
+              ref={sponsorStripRef}
+              className="flex"
+              style={{ willChange: 'transform' }}
+              onMouseEnter={() => { sponsorPausedRef.current = true; }}
+              onMouseLeave={() => { sponsorPausedRef.current = false; }}
+            >
+              {[...sponsors, ...sponsors].map((sponsor, index) => {
+                const hasValidUrl = sponsor.url && sponsor.url !== '#' && sponsor.url !== '';
+                const isExternalUrl = hasValidUrl && (sponsor.url.startsWith('http://') || sponsor.url.startsWith('https://'));
+
+                return hasValidUrl ? (
+                  <a
+                    key={index}
+                    href={sponsor.url}
+                    target={isExternalUrl ? "_blank" : undefined}
+                    rel={isExternalUrl ? "noopener noreferrer" : undefined}
+                    className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                    title={sponsor.name}
+                  >
+                    <img
+                      src={sponsor.image}
+                      alt={sponsor.name}
+                      className="sponsor-logo max-w-full max-h-full object-contain"
+                    />
+                  </a>
+                ) : (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center"
+                    title={sponsor.name}
+                  >
+                    <img
+                      src={sponsor.image}
+                      alt={sponsor.name}
+                      className="sponsor-logo max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
+
+          {/* Right arrow — jumps forward in the rotation */}
+          <button
+            onClick={() => jumpSponsors('right')}
+            aria-label="Scroll sponsors right"
+            className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
       </section>
 
