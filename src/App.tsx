@@ -75,7 +75,11 @@ const SPONSOR_ITEM_WIDTH = 384;
 // Increase this value to jump further, decrease to jump less. Both arrows use the same factor.
 const SPONSOR_JUMP_FACTOR = 3;
 // SPONSOR_SCROLL_SPEED: pixels scrolled per animation frame (~60fps), controls auto-scroll speed
-const SPONSOR_SCROLL_SPEED = 0.5;
+const SPONSOR_SCROLL_SPEED = 1.0;
+// SPONSOR_JUMP_DURATION_MS: duration in milliseconds of the arrow-button acceleration animation
+const SPONSOR_JUMP_DURATION_MS = 1500;
+// MAX_FRAME_DELTA_MS: caps dt so a tab-switch or long pause doesn't cause a huge position jump
+const MAX_FRAME_DELTA_MS = 100;
 // Total width of one full set of sponsors (used for seamless wrap-around)
 const SPONSOR_SINGLE_WIDTH = sponsors.length * SPONSOR_ITEM_WIDTH;
 
@@ -89,6 +93,14 @@ function App() {
   const sponsorPosRef = useRef(0);
   const sponsorAnimRef = useRef<number>(0);
   const sponsorPausedRef = useRef(false);
+  // Previous RAF timestamp for computing delta-time (used by the jump animation)
+  const prevTimestampRef = useRef<number | null>(null);
+  // Active jump animation state: null when no jump is running
+  const sponsorJumpRef = useRef<{
+    direction: 1 | -1;  // +1 = right (advance), -1 = left (reverse)
+    elapsed: number;    // ms elapsed (only advances while not paused)
+    coveredExtra: number; // extra pixels already applied to sponsorPosRef for this jump
+  } | null>(null);
 
  const navLinks = [
   { name: 'Join The Club', href: '/join' },
@@ -133,12 +145,41 @@ function App() {
 
   // Sponsor carousel animation (requestAnimationFrame-based for smooth infinite scroll)
   useEffect(() => {
-    function animateSponsor() {
+    function animateSponsor(timestamp: number) {
+      // Compute delta-time in ms since the last frame (capped to avoid big jumps after a tab-switch)
+      const dt = prevTimestampRef.current !== null
+        ? Math.min(timestamp - prevTimestampRef.current, MAX_FRAME_DELTA_MS)
+        : 0;
+      prevTimestampRef.current = timestamp;
+
       if (!sponsorPausedRef.current) {
+        // Base auto-scroll
         sponsorPosRef.current += SPONSOR_SCROLL_SPEED;
+
+        // Jump animation (bell-curve ease: accelerate → fast → decelerate)
+        const jump = sponsorJumpRef.current;
+        if (jump) {
+          jump.elapsed = Math.min(jump.elapsed + dt, SPONSOR_JUMP_DURATION_MS);
+          const progress = jump.elapsed / SPONSOR_JUMP_DURATION_MS;
+          // Position curve: (1 - cos(π·p)) / 2  →  moves from 0 to 1 with smooth ease-in-out
+          // Velocity curve (derivative): (π/2)·sin(π·p)  →  0 at start, peaks at mid, 0 at end
+          const positionFraction = (1 - Math.cos(Math.PI * progress)) / 2;
+          const targetCovered = positionFraction * SPONSOR_JUMP_FACTOR * SPONSOR_ITEM_WIDTH;
+          const delta = targetCovered - jump.coveredExtra;
+          jump.coveredExtra = targetCovered;
+          sponsorPosRef.current += delta * jump.direction;
+          if (jump.elapsed >= SPONSOR_JUMP_DURATION_MS) {
+            sponsorJumpRef.current = null;
+          }
+        }
+
+        // Wrap position for seamless infinite loop
         if (sponsorPosRef.current >= SPONSOR_SINGLE_WIDTH) {
           sponsorPosRef.current -= SPONSOR_SINGLE_WIDTH;
+        } else if (sponsorPosRef.current < 0) {
+          sponsorPosRef.current += SPONSOR_SINGLE_WIDTH;
         }
+
         if (sponsorStripRef.current) {
           sponsorStripRef.current.style.transform = `translateX(-${sponsorPosRef.current}px)`;
         }
@@ -150,15 +191,12 @@ function App() {
   }, []);
 
   function jumpSponsors(direction: 'left' | 'right') {
-    const jumpAmount = SPONSOR_JUMP_FACTOR * SPONSOR_ITEM_WIDTH;
-    if (direction === 'right') {
-      sponsorPosRef.current = (sponsorPosRef.current + jumpAmount) % SPONSOR_SINGLE_WIDTH;
-    } else {
-      sponsorPosRef.current = (sponsorPosRef.current - jumpAmount + SPONSOR_SINGLE_WIDTH) % SPONSOR_SINGLE_WIDTH;
-    }
-    if (sponsorStripRef.current) {
-      sponsorStripRef.current.style.transform = `translateX(-${sponsorPosRef.current}px)`;
-    }
+    // Start (or restart) the smooth acceleration animation for the given direction
+    sponsorJumpRef.current = {
+      direction: direction === 'right' ? 1 : -1,
+      elapsed: 0,
+      coveredExtra: 0,
+    };
   }
 
   // Intersection Observer for reveal animations

@@ -1,4 +1,33 @@
-# Pull Request (Current) – Sponsor Carousel Improvements
+# Pull Request (Current) – Sponsor Carousel Speed & Animated Jumps
+
+### Changes Made
+
+#### 1. 2× Base Scroll Speed
+
+`SPONSOR_SCROLL_SPEED` increased from `0.5` to `1.0` px/frame (~60 px/s at 60 fps).
+
+#### 2. Smooth Arrow-Button Animation (~1.5 s)
+
+Clicking a chevron arrow no longer teleports the carousel. Instead it drives a **bell-curve acceleration animation** over `SPONSOR_JUMP_DURATION_MS = 1500` ms:
+
+- **Phase 1 – Accelerate**: extra speed starts at 0 and ramps up  
+- **Phase 2 – Peak speed**: extra speed peaks at the midpoint  
+- **Phase 3 – Decelerate**: extra speed returns to 0, carousel settles back at normal speed  
+
+The velocity profile is the derivative of `(1 − cos(π·p)) / 2`, giving `(π/2)·sin(π·p)` — zero at the start and end, maximum in the middle. This ensures the total extra distance traveled equals exactly `SPONSOR_JUMP_FACTOR × SPONSOR_ITEM_WIDTH` pixels.
+
+Hover-to-pause works correctly because the animation's `elapsed` counter only advances when the strip is not hovered.  
+Clicking an arrow while an animation is already running restarts it cleanly.
+
+**Added/changed constants (all in `src/App.tsx` above the `App` function):**
+
+| Constant | Value | Description |
+|---|---|---|
+| `SPONSOR_SCROLL_SPEED` | `1.0` | px/frame base speed (was 0.5) |
+| `SPONSOR_JUMP_DURATION_MS` | `1500` | arrow-animation duration in ms |
+| `MAX_FRAME_DELTA_MS` | `100` | dt cap to prevent position jumps after tab switch |
+
+# Pull Request (Previous) – Sponsor Carousel Improvements
 
 ### Changes Made
 
