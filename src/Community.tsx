@@ -52,6 +52,10 @@ function Community() {
     { name: 'Summer Camps', href: '/summer-camps' },
   ];
 
+  useEffect(() => {
+    document.title = 'Community | Pack of Parts';
+  }, []);
+
   // Scroll handler for nav visibility
   useEffect(() => {
     const handleScroll = () => {
@@ -405,14 +409,9 @@ function Community() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Open Houses',
-                description: 'Visit our lab, meet the team, and see our robots in action',
-                frequency: 'Quarterly'
-              },
-              {
                 title: 'Robot Demonstrations',
                 description: 'Public demos at schools, fairs, and community events',
-                frequency: 'Monthly'
+                frequency: 'When Contacted'
               },
               {
                 title: 'Fundraising Events',
@@ -420,19 +419,9 @@ function Community() {
                 frequency: 'Seasonal'
               },
               {
-                title: 'STEM Nights',
-                description: 'Family-friendly STEM activities and hands-on learning',
-                frequency: 'Bi-annual'
-              },
-              {
                 title: 'Competition Viewing',
                 description: 'Watch our team compete live at regional championships',
-                frequency: 'Annual'
-              },
-              {
-                title: 'Volunteer Days',
-                description: 'Give back to our community through service projects',
-                frequency: 'Monthly'
+                frequency: 'During Competitions'
               }
             ].map((event, index) => (
               <div 
@@ -470,7 +459,7 @@ function Community() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 number: '20+',
@@ -486,11 +475,6 @@ function Community() {
                 number: '1000+',
                 label: 'Volunteer Hours',
                 icon: Heart
-              },
-              {
-                number: '5',
-                label: 'Schools Represented',
-                icon: School
               }
             ].map((stat, index) => (
               <div 
@@ -538,7 +522,7 @@ function Community() {
                   title: 'Sponsor',
                   description: 'Support our team and help make STEM education accessible',
                   cta: 'Become a Sponsor',
-                  href: '/#donate'
+                  href: '/donate'
                 },
                 {
                   title: 'Partner',
@@ -620,6 +604,15 @@ function Community() {
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
+                <a
+                  href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  aria-label="ChiefDelphi"
+                >
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                </a>
               </div>
             </div>
 

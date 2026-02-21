@@ -106,10 +106,8 @@
   
   /* Text gradient */
   .text-gradient {
-    background: linear-gradient(135deg, #80D3EE 0%, #7FC3F2 50%, #FFFFFF 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #FFFFFF;
+    -webkit-text-fill-color: #FFFFFF;
   }
   
   /* Link underline animation */

@@ -13,13 +13,10 @@ import {
   Award,
   Wrench,
   Code,
-  Cpu,
-  PenTool,
-  Megaphone,
+  Lightbulb,
   ChevronDown,
   ChevronRight,
   Star,
-  Heart,
   Linkedin
 } from 'lucide-react';
 import './MeetTheTeam.css';
@@ -85,6 +82,10 @@ function MeetTheTeam() {
     { name: 'Business Lead', role: 'Business', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
     { name: 'Outreach Lead', role: 'Outreach', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
   ];
+
+  useEffect(() => {
+    document.title = 'Meet the Team | Pack of Parts';
+  }, []);
 
   // Scroll handler for nav visibility
   useEffect(() => {
@@ -365,7 +366,7 @@ function MeetTheTeam() {
       <section className="py-20 bg-navy">
         <div className="container-custom">
           <div className="section-header reveal">
-            <h2 className="section-title text-white">Our Subteams</h2>
+            <h2 className="section-title" style={{ color: 'white' }}>Our Subteams</h2>
             <p className="section-subtitle text-white/70">
               Every member finds their place on one of our specialized subteams
             </p>
@@ -374,33 +375,33 @@ function MeetTheTeam() {
           <div className="subteams-grid">
             <div className="subteam-card reveal">
               <Wrench className="subteam-icon" />
-              <h3 className="subteam-name">Mechanical</h3>
-              <p className="subteam-desc">Design, build, and maintain the robot's physical structure</p>
+              <h3 className="subteam-name">Design</h3>
+              <p className="subteam-desc">Design and build the robot's physical structure using CAD software and machine tools</p>
             </div>
             <div className="subteam-card reveal" style={{ transitionDelay: '0.1s' }}>
               <Code className="subteam-icon" />
               <h3 className="subteam-name">Programming</h3>
-              <p className="subteam-desc">Write code to control the robot and implement autonomous routines</p>
+              <p className="subteam-desc">Write code for autonomous and teleoperated robot control systems</p>
             </div>
             <div className="subteam-card reveal" style={{ transitionDelay: '0.2s' }}>
-              <Cpu className="subteam-icon" />
-              <h3 className="subteam-name">Electrical</h3>
-              <p className="subteam-desc">Wire and maintain all electrical systems and sensors</p>
+              <Wrench className="subteam-icon" />
+              <h3 className="subteam-name">Mechanical</h3>
+              <p className="subteam-desc">Builds the physical frame of the robot which gets passed on to the other teams to do their part</p>
             </div>
             <div className="subteam-card reveal" style={{ transitionDelay: '0.3s' }}>
-              <PenTool className="subteam-icon" />
-              <h3 className="subteam-name">Design/CAD</h3>
-              <p className="subteam-desc">Create detailed 3D models and technical drawings</p>
+              <Lightbulb className="subteam-icon" />
+              <h3 className="subteam-name">Electrical</h3>
+              <p className="subteam-desc">Wire and integrate electrical systems, sensors, and motor controllers</p>
             </div>
             <div className="subteam-card reveal" style={{ transitionDelay: '0.4s' }}>
-              <Megaphone className="subteam-icon" />
-              <h3 className="subteam-name">Business</h3>
-              <p className="subteam-desc">Handle sponsorships, marketing, and team branding</p>
+              <Users className="subteam-icon" />
+              <h3 className="subteam-name">Business & PR</h3>
+              <p className="subteam-desc">Manage team finances, fundraising, community outreach, and social media</p>
             </div>
             <div className="subteam-card reveal" style={{ transitionDelay: '0.5s' }}>
-              <Heart className="subteam-icon" />
-              <h3 className="subteam-name">Outreach</h3>
-              <p className="subteam-desc">Coordinate community events and STEM education programs</p>
+              <Users className="subteam-icon" />
+              <h3 className="subteam-name">Scouting</h3>
+              <p className="subteam-desc">Analyze game strategy, scout opponents, and plan competition tactics</p>
             </div>
           </div>
         </div>
@@ -475,6 +476,15 @@ function MeetTheTeam() {
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
+                <a
+                  href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  aria-label="ChiefDelphi"
+                >
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                </a>
               </div>
             </div>
 

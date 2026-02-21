@@ -101,6 +101,10 @@ function App() {
   ];
 
   useEffect(() => {
+    document.title = 'Home | Pack of Parts';
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsNavVisible(window.scrollY > 100);
     };
@@ -503,7 +507,7 @@ function App() {
                 funds, design a team "brand," hone teamwork skills, and build & program industrialize robots 
                 to play a difficult field game against like-minded competitors. It's as close to real-world 
                 engineering as a student can get. Volunteer professional mentors lend their time and talents 
-                to guide each team. Each season ends with an exciting FIRST Championship in Houston, TX.
+                to guide each team. Each season ends with an exciting FIRST Championship in Houston, TX, and Detroit, MI.
               </p>
             </div>
           </div>
@@ -523,7 +527,8 @@ function App() {
 
           {/* FIRST Block */}
           <div className="reveal" style={{ transitionDelay: '0.2s' }}>
-            <div className="max-w-4xl ml-auto text-right">
+            <div className="max-w-4xl ml-auto grid lg:grid-cols-[auto_1fr] gap-8 items-start">
+              <div className="text-right">
               <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
                 The Organization
               </span>
@@ -551,6 +556,7 @@ function App() {
                 Visit FIRST Website
                 <ChevronRight className="w-4 h-4" />
               </a>
+              </div>
             </div>
           </div>
         </div>
@@ -666,6 +672,15 @@ function App() {
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
+                <a
+                  href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  aria-label="ChiefDelphi"
+                >
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                </a>
               </div>
             </div>
 

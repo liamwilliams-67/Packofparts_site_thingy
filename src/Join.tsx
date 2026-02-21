@@ -11,7 +11,6 @@ import {
   Linkedin,
   Menu,
   X,
-  GraduationCap,
   Wrench,
   Code,
   Lightbulb,
@@ -134,6 +133,10 @@ function Join() {
       ),
     },
   ];
+
+  useEffect(() => {
+    document.title = 'Join | Pack of Parts';
+  }, []);
 
   // Scroll handler for nav visibility
   useEffect(() => {
@@ -324,7 +327,7 @@ function Join() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            Build <span className="text-gradient">The Future</span>
+            Become a Member of Pack of Parts
           </h1>
           
           <p 
@@ -344,10 +347,6 @@ function Join() {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
               Why Join Pack of Parts?
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We're more than just a robotics team—we're a family dedicated to innovation, 
-              learning, and competition.
-            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -365,7 +364,7 @@ function Join() {
               {
                 icon: Users,
                 title: 'Build Community',
-                description: 'Connect with like-minded students from 5 schools. Make friends and mentors for life.'
+                description: 'Connect with like-minded students from EHS! Make friends and mentors for life.'
               },
               {
                 icon: Trophy,
@@ -404,18 +403,17 @@ function Join() {
                 Who Can Join?
               </h2>
               <p className="text-gray-600 mb-6 text-lg">
-                We welcome students from Eastlake High School and surrounding schools. 
+                We welcome students from Eastlake High School. 
                 No prior robotics or engineering experience is required—just enthusiasm and 
                 a willingness to learn!
               </p>
 
               <div className="space-y-4">
                 {[
-                  'High school students (grades 9-12)',
-                  'Students from Eastlake HS and partner schools',
+                  'High school students from EHS (grades 9-12)',
+                  'Students from Eastlake High School',
                   'Commitment to attend meetings and competitions',
-                  'Passion for STEM, teamwork, and innovation',
-                  'No experience necessary—we teach everything!'
+                  'No experience necessary — we teach everything!'
                 ].map((req, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-light-blue flex-shrink-0 mt-0.5" />
@@ -425,7 +423,7 @@ function Join() {
               </div>
             </div>
 
-            <div className="reveal" style={{ transitionDelay: '0.2s' }}>
+            <div>
               <div className="info-card">
                 <h3 className="text-white font-orbitron font-semibold text-2xl mb-6">
                   Team Details
@@ -437,9 +435,9 @@ function Join() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Season Schedule</h4>
                       <p className="text-white/70 text-sm">
-                        Build Season: January - February (Mon-Sat)<br />
-                        Competition Season: February - April<br />
-                        Off-Season: May - December (flexible schedule)
+                        Pre-Season: January - February (Mon, Wen)<br />
+                        Competition Season: February - April (Mon, Wen, Fri, Sat)<br />
+                        Off-Season: May - December (Mon, Wen)
                       </p>
                     </div>
                   </div>
@@ -449,9 +447,7 @@ function Join() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Time Commitment</h4>
                       <p className="text-white/70 text-sm">
-                        Build Season: 15-20 hours/week<br />
-                        Off-Season: 5-8 hours/week<br />
-                        Flexible based on your role
+                        Attend atleast 65% of meetings a month 
                       </p>
                     </div>
                   </div>
@@ -462,7 +458,7 @@ function Join() {
                       <h4 className="text-white font-semibold mb-1">Meeting Location</h4>
                       <p className="text-white/70 text-sm">
                         Eastlake High School<br />
-                        Robotics Lab & Workshop<br />
+                        D-125<br />
                         Sammamish, WA
                       </p>
                     </div>
@@ -473,8 +469,8 @@ function Join() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Team Size</h4>
                       <p className="text-white/70 text-sm">
-                        40-50 active members<br />
-                        Multiple sub-teams (Build, Programming, Design, etc.)
+                        50-60 active members<br />
+                        Multiple sub-teams (Build, Prog, Design, etc.)
                       </p>
                     </div>
                   </div>
@@ -511,13 +507,13 @@ function Join() {
                 title: 'Programming',
                 icon: Code,
                 description: 'Write code for autonomous and teleoperated robot control systems.',
-                skills: ['Java/Python', 'Robot Control', 'Vision Processing', 'Debugging']
+                skills: ['Java', 'Robot Control', 'Vision Processing', 'Debugging']
               },
               {
-                title: 'Mechanical ',
+                title: 'Mechanical',
                 icon: Wrench,
-                description: 'Builds the robot....',
-                skills: ['Mech', 'Add more', 'Add more', '...']
+                description: 'Builds the phyisical fram of the robot which gets passed on to the other teams to do their part.',
+                skills: ['Hands-on', 'Building', 'Framework']
               },
               {
                 title: 'Electrical',
@@ -526,17 +522,17 @@ function Join() {
                 skills: ['Wiring', 'Electronics', 'Pneumatics', 'Troubleshooting']
               },
               {
-                title: 'Business & Marketing',
+                title: 'Business & PR',
                 icon: Users,
                 description: 'Manage team finances, fundraising, community outreach, and social media.',
                 skills: ['Fundraising', 'Sponsorships', 'Social Media', 'Events']
               },
               {
-                title: 'Strategy & Scouting',
-                icon: GraduationCap,
-                description: 'Analyze game strategy, scout opponents, and plan competition tactics.',
-                skills: ['Data Analysis', 'Strategy', 'Scouting', 'Alliance Selection']
-              }
+                title: 'Scouting',
+                icon: Users,
+                description: 'Scouting analyzse game strategy, scout opponents, and plan competition tactics.',
+                skills: ['Scouting', 'Planning', 'Code & Apps', 'Predictions']
+              }              
             ].map((team, index) => (
               <div 
                 key={index}
@@ -591,16 +587,8 @@ function Join() {
                 answer: "No! We welcome students of all skill levels. Our experienced members and mentors will teach you everything you need to know."
               },
               {
-                question: "What if I'm not good at engineering or coding?",
-                answer: "We have roles for everyone! Business, marketing, strategy, media, and documentation are just as important as technical roles."
-              },
-              {
                 question: "How much does it cost to join?",
-                answer: "We work hard to keep costs low through fundraising and sponsorships. Contact us to discuss current team dues and financial assistance options."
-              },
-              {
-                question: "Can I join mid-season?",
-                answer: "Yes! While it's best to join at the start of build season (January), we accept new members throughout the year."
+                answer: "There is a 250 dollar club fee when joining. Transportation to events is not provivded and food is also not provided sometimes."
               },
               {
                 question: "Will this help with college applications?",
@@ -666,6 +654,15 @@ function Join() {
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
+                <a
+                  href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  aria-label="ChiefDelphi"
+                >
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                </a>
               </div>
             </div>
 

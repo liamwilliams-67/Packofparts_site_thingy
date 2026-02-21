@@ -9,7 +9,6 @@ import {
   Github,
   Menu,
   X,
-  Calendar,
   FileText,
   Shield,
   BookOpen,
@@ -50,6 +49,10 @@ function Members() {
     { name: 'Contact Us', href: '/contact' },
     { name: 'Summer Camps', href: '/summer-camps' },
   ];
+
+  useEffect(() => {
+    document.title = 'Members | Pack of Parts';
+  }, []);
 
   // Scroll handler for nav visibility
   useEffect(() => {
@@ -356,21 +359,34 @@ function Members() {
 
           <div className="max-w-4xl mx-auto">
             <div className="reveal calendar-embed-card">
-              <div className="text-center py-16">
-                <Calendar className="w-20 h-20 text-light-blue mx-auto mb-6" />
-                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4">
+              <div className="p-6">
+                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4 text-center">
                   Team Calendar
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600 mb-6 text-center">
                   View our full team calendar with all meetings, competitions, and events
                 </p>
-                <a 
-                  href="#"
-                  className="btn-primary-light inline-flex items-center gap-2"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  View Calendar
-                </a>
+                {/* Google Calendar Embed */}
+                <div className="w-full rounded-lg overflow-hidden mb-6">
+                  <iframe
+                    src="https://calendar.google.com/calendar/embed?src=PLACEHOLDER_CALENDAR_ID"
+                    style={{ border: 0 }}
+                    width="100%"
+                    height="400"
+                    scrolling="no"
+                    title="Team Calendar"
+                    className="w-full"
+                  />
+                </div>
+                <div className="text-center">
+                  <a 
+                    href="#"
+                    className="btn-primary-light inline-flex items-center gap-2"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    View Calendar
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -382,8 +398,9 @@ function Members() {
                 </h3>
                 <div className="space-y-2 text-gray-600">
                   <p><strong>January - February</strong></p>
-                  <p>Monday - Saturday</p>
-                  <p>3:00 PM - 8:00 PM</p>
+                  <p>Monday, Wednesday, Friday, Saturday</p>
+                  <p>Mon - Fri: 6:00 - 8:45 PM</p>
+                  <p>Saturday: 10:00 AM - 5:00 PM</p>
                 </div>
               </div>
 
@@ -394,8 +411,8 @@ function Members() {
                 </h3>
                 <div className="space-y-2 text-gray-600">
                   <p><strong>September - December</strong></p>
-                  <p>Tuesday & Thursday</p>
-                  <p>3:30 PM - 6:00 PM</p>
+                  <p>Monday, Wednesday</p>
+                  <p>6:00 PM - 8:45 PM</p>
                 </div>
               </div>
             </div>
@@ -423,10 +440,7 @@ function Members() {
                 'Review all Safety Notes and complete safety training',
                 'Sign the Safety Plan acknowledgment',
                 'Read the Constitution and Bylaws',
-                'Join team Slack workspace',
-                'Set up access to team Google Drive',
                 'Attend new member orientation',
-                'Get your team t-shirt and safety glasses',
                 'Meet with sub-team leads to find your role'
               ].map((item, index) => (
                 <div 
@@ -487,6 +501,15 @@ function Members() {
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
+                <a
+                  href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  aria-label="ChiefDelphi"
+                >
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                </a>
               </div>
             </div>
 
