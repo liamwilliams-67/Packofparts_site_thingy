@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -68,11 +69,19 @@ const ScrollExpandMedia = ({
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
   const [hasAnimationCompleted, setHasAnimationCompleted] = useState(false);
 
   const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollProgressRef = useRef(0);
+  const mediaFullyExpandedRef = useRef(false);
+  const hasAnimationCompletedRef = useRef(false);
+  const touchStartYRef = useRef(0);
+
+  // Keep refs in sync with state
+  scrollProgressRef.current = scrollProgress;
+  mediaFullyExpandedRef.current = mediaFullyExpanded;
+  hasAnimationCompletedRef.current = hasAnimationCompleted;
 
   // Reset state when mediaType changes - this is an intentional pattern for resetting animation state
   useEffect(() => {
@@ -85,105 +94,95 @@ const ScrollExpandMedia = ({
     });
   }, [mediaType]);
 
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (hasAnimationCompletedRef.current) {
+      if (e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
+        return;
+      }
+      return;
+    }
+    
+    if (mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
+      setMediaFullyExpanded(false);
+      setHasAnimationCompleted(false);
+      e.preventDefault();
+    } else if (!mediaFullyExpandedRef.current) {
+      e.preventDefault();
+      const scrollDelta = e.deltaY * WHEEL_SCROLL_SENSITIVITY;
+      const newProgress = Math.min(
+        Math.max(scrollProgressRef.current + scrollDelta, 0),
+        1
+      );
+      setScrollProgress(newProgress);
+
+      if (newProgress >= 1) {
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+        setTimeout(() => {
+          setHasAnimationCompleted(true);
+        }, ANIMATION_COMPLETION_DELAY_MS);
+      } else if (newProgress < 0.75) {
+        setShowContent(false);
+      }
+    }
+  }, []);
+
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    touchStartYRef.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!touchStartYRef.current) return;
+
+    const touchY = e.touches[0].clientY;
+    const deltaY = touchStartYRef.current - touchY;
+
+    if (hasAnimationCompletedRef.current) {
+      if (deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
+        return;
+      }
+      return;
+    }
+
+    if (mediaFullyExpandedRef.current && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
+      setMediaFullyExpanded(false);
+      setHasAnimationCompleted(false);
+      e.preventDefault();
+    } else if (!mediaFullyExpandedRef.current) {
+      e.preventDefault();
+      const scrollFactor = deltaY < 0 ? TOUCH_SCROLL_BACK_SENSITIVITY : TOUCH_SCROLL_FORWARD_SENSITIVITY;
+      const scrollDelta = deltaY * scrollFactor;
+      const newProgress = Math.min(
+        Math.max(scrollProgressRef.current + scrollDelta, 0),
+        1
+      );
+      setScrollProgress(newProgress);
+
+      if (newProgress >= 1) {
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+        setTimeout(() => {
+          setHasAnimationCompleted(true);
+        }, ANIMATION_COMPLETION_DELAY_MS);
+      } else if (newProgress < 0.75) {
+        setShowContent(false);
+      }
+
+      touchStartYRef.current = touchY;
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback((): void => {
+    touchStartYRef.current = 0;
+  }, []);
+
+  const handleScroll = useCallback((): void => {
+    if (!mediaFullyExpandedRef.current && !hasAnimationCompletedRef.current) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      // After animation is complete and user has scrolled past the freeze section
-      if (hasAnimationCompleted) {
-        // Allow normal scrolling - don't prevent default
-        // Check if we're at the top and trying to scroll up
-        if (e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
-          // Don't reset the animation when scrolling back up
-          // Just allow normal scroll behavior
-          return;
-        }
-        return;
-      }
-      
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
-        setMediaFullyExpanded(false);
-        setHasAnimationCompleted(false);
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        const scrollDelta = e.deltaY * WHEEL_SCROLL_SENSITIVITY;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
-
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-          // Mark animation as completed after a short delay to create the "freeze" effect
-          setTimeout(() => {
-            setHasAnimationCompleted(true);
-          }, ANIMATION_COMPLETION_DELAY_MS);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
-      }
-    };
-
-    const handleTouchStart = (e: TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartY) return;
-
-      const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
-
-      // After animation is complete
-      if (hasAnimationCompleted) {
-        // Allow normal scrolling
-        if (deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
-          // Don't reset animation on scroll up
-          return;
-        }
-        return;
-      }
-
-      if (mediaFullyExpanded && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
-        setMediaFullyExpanded(false);
-        setHasAnimationCompleted(false);
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        // Increase sensitivity for mobile, especially when scrolling back
-        const scrollFactor = deltaY < 0 ? TOUCH_SCROLL_BACK_SENSITIVITY : TOUCH_SCROLL_FORWARD_SENSITIVITY;
-        const scrollDelta = deltaY * scrollFactor;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
-
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-          setTimeout(() => {
-            setHasAnimationCompleted(true);
-          }, ANIMATION_COMPLETION_DELAY_MS);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
-
-        setTouchStartY(touchY);
-      }
-    };
-
-    const handleTouchEnd = (): void => {
-      setTouchStartY(0);
-    };
-
-    const handleScroll = (): void => {
-      if (!mediaFullyExpanded && !hasAnimationCompleted) {
-        window.scrollTo(0, 0);
-      }
-    };
-
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -197,7 +196,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY, hasAnimationCompleted]);
+  }, [handleWheel, handleScroll, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -238,8 +237,9 @@ const ScrollExpandMedia = ({
         <div className="absolute inset-0 z-0">
           <img
             src={bgImageSrc}
-            alt="Background"
+            alt=""
             className="w-full h-full object-cover"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-black/60" />
         </div>
@@ -333,6 +333,7 @@ const ScrollExpandMedia = ({
                 muted
                 loop
                 playsInline
+                preload="metadata"
                 poster={posterSrc}
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -364,6 +365,7 @@ const ScrollExpandMedia = ({
                 muted
                 loop
                 playsInline
+                preload="metadata"
                 poster={posterSrc}
                 className="absolute inset-0 w-full h-full object-cover"
               />

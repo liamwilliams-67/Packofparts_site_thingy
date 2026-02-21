@@ -106,7 +106,9 @@ function Contact() {
               <img 
                 src="/logo.png" 
                 alt="Pack of Parts Logo" 
-                className="h-10 w-auto" 
+                className="h-10 w-auto"
+                width={40}
+                height={40}
               />
               <span className="hidden sm:block text-white font-orbitron font-bold text-sm md:text-base">
                 Pack of Parts
@@ -365,8 +367,8 @@ function Contact() {
                     className="social-icon group relative w-12 h-12 rounded-full bg-navy/10 flex items-center justify-center hover:bg-navy transition-all duration-300"
                     aria-label="ChiefDelphi"
                   >
-                    <img src="/chiefdelphi-logo-navy.svg" alt="" aria-hidden="true" className="w-8 h-8 transition-opacity duration-300 opacity-100 group-hover:opacity-0" />
-                    <img src="/chiefdelphi-logo.svg" alt="" aria-hidden="true" className="w-8 h-8 absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100" />
+                    <img src="/chiefdelphi-logo-navy.svg" alt="" aria-hidden="true" className="w-8 h-8 transition-opacity duration-300 opacity-100 group-hover:opacity-0" loading="lazy" width={32} height={32} />
+                    <img src="/chiefdelphi-logo.svg" alt="" aria-hidden="true" className="w-8 h-8 absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100" loading="lazy" width={32} height={32} />
                   </a>
                 </div>
               </div>
@@ -425,7 +427,7 @@ function Contact() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <div className="lg:col-span-2 reveal">
               <div className="flex items-center gap-4 mb-4">
-                <img src="/logo.png" alt="Logo" className="h-16 w-auto" />
+                <img src="/logo.png" alt="Logo" className="h-16 w-auto" loading="lazy" width={64} height={64} />
                 <div>
                   <h3 className="text-white font-orbitron font-bold text-xl">Pack of Parts</h3>
                   <p className="text-light-blue text-sm">FRC Team 1294</p>
@@ -461,7 +463,7 @@ function Contact() {
                   className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
-                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" loading="lazy" width={28} height={28} />
                 </a>
               </div>
             </div>

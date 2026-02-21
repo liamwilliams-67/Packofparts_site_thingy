@@ -162,6 +162,8 @@ function App() {
                 src="/logo.png" 
                 alt="Pack of Parts Logo" 
                 className="h-10 w-auto"
+                width={40}
+                height={40}
               />
               <span className="hidden sm:block text-white font-orbitron font-bold text-sm md:text-base">
                 Pack of Parts
@@ -400,6 +402,9 @@ function App() {
                       src={teamPhotos[0]} 
                       alt="Team working" 
                       className="w-full h-48 object-cover"
+                      loading="lazy"
+                      width={600}
+                      height={192}
                     />
                   </div>
                   <div className="img-zoom rounded-2xl overflow-hidden shadow-lg">
@@ -407,6 +412,9 @@ function App() {
                       src={teamPhotos[2]} 
                       alt="Programming" 
                       className="w-full h-64 object-cover"
+                      loading="lazy"
+                      width={600}
+                      height={256}
                     />
                   </div>
                 </div>
@@ -416,6 +424,9 @@ function App() {
                       src={teamPhotos[1]} 
                       alt="Competition" 
                       className="w-full h-64 object-cover"
+                      loading="lazy"
+                      width={600}
+                      height={256}
                     />
                   </div>
                   <div className="img-zoom rounded-2xl overflow-hidden shadow-lg">
@@ -423,6 +434,9 @@ function App() {
                       src={teamPhotos[3]} 
                       alt="Team photo" 
                       className="w-full h-48 object-cover"
+                      loading="lazy"
+                      width={600}
+                      height={192}
                     />
                   </div>
                 </div>
@@ -441,8 +455,11 @@ function App() {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
                 <img 
                   src="/team-photo-7.jpg" 
-                  alt="Image" 
+                  alt="Pack of Parts team" 
                   className="w-full aspect-video object-cover"
+                  loading="lazy"
+                  width={3024}
+                  height={4032}
                 />
                 <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 transition-colors duration-300">
                 </div>
@@ -610,6 +627,9 @@ function App() {
                     src={sponsor.image} 
                     alt={sponsor.name}
                     className="sponsor-logo max-w-full max-h-full object-contain"
+                    loading="lazy"
+                    width={320}
+                    height={192}
                   />
                 </a>
               ) : (
@@ -622,6 +642,9 @@ function App() {
                     src={sponsor.image} 
                     alt={sponsor.name}
                     className="sponsor-logo max-w-full max-h-full object-contain"
+                    loading="lazy"
+                    width={320}
+                    height={192}
                   />
                 </div>
               );
@@ -641,6 +664,9 @@ function App() {
                   src="/logo.png" 
                   alt="Pack of Parts Logo" 
                   className="h-16 w-auto"
+                  loading="lazy"
+                  width={64}
+                  height={64}
                 />
                 <div>
                   <h3 className="text-white font-orbitron font-bold text-xl">
@@ -679,7 +705,7 @@ function App() {
                   className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
-                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" width={28} height={28} loading="lazy" />
                 </a>
               </div>
             </div>

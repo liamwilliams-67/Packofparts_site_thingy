@@ -114,6 +114,8 @@ function Recycling() {
                 src="/logo.png" 
                 alt="Pack of Parts Logo" 
                 className="h-10 w-auto"
+                width={40}
+                height={40}
               />
               <span className="hidden sm:block text-white font-orbitron font-bold text-sm md:text-base">
                 Pack of Parts
@@ -532,6 +534,9 @@ function Recycling() {
                   src="/logo.png" 
                   alt="Pack of Parts Logo" 
                   className="h-16 w-auto"
+                  loading="lazy"
+                  width={64}
+                  height={64}
                 />
                 <div>
                   <h3 className="text-white font-orbitron font-bold text-xl">
@@ -570,7 +575,7 @@ function Recycling() {
                   className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
-                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
+                  <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" loading="lazy" width={28} height={28} />
                 </a>
               </div>
             </div>
