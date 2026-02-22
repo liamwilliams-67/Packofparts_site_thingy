@@ -1,3 +1,21 @@
+# Fix PostCSS / Codespaces Load Error (2-22-2026)
+
+### Problem
+
+Opening the project in GitHub Codespaces (or any fresh clone without running `npm install` first) caused:
+
+```
+[plugin:vite:css] Failed to load PostCSS config: Cannot find module '.../node_modules/util-deprecate/node.js'
+```
+
+The `util-deprecate` package is a transitive dependency of PostCSS/Tailwind CSS. Without `node_modules` installed, Vite cannot load the PostCSS plugins defined in `postcss.config.js`.
+
+### Fix
+
+Added `.devcontainer/devcontainer.json` so that GitHub Codespaces automatically runs `npm install` after creating the container. This ensures all dependencies (including transitive ones like `util-deprecate`) are present before the dev server starts.
+
+---
+
 # Donate Page – Stripe Payment Integration (2-22-2026)
 
 ### Changes Made
