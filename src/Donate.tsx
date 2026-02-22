@@ -13,7 +13,7 @@ import {
   Building2,
   Gift,
   CheckCircle,
-  Smartphone,
+  CreditCard,
   Receipt,
   TrendingUp,
   Award,
@@ -323,19 +323,19 @@ function Donate() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Zelle Payment */}
+          <div className="grid grid-cols-1 gap-8 max-w-5xl mx-auto">
+            {/* Stripe Payment */}
             <div className="reveal donation-method-card">
               <div className="flex items-start gap-4 mb-6">
                 <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                  <Smartphone className="w-7 h-7 text-light-blue" />
+                  <CreditCard className="w-7 h-7 text-light-blue" />
                 </div>
                 <div>
                   <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
-                    Zelle
+                    Stripe
                   </h3>
                   <p className="text-gray-600">
-                    Quick and easy mobile payment
+                    Secure online payment via credit or debit card
                   </p>
                 </div>
               </div>
@@ -343,11 +343,11 @@ function Donate() {
               <div className="space-y-4 mb-6">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">No fees - 100% goes to the team</span>
+                  <span className="text-gray-700">Secure payment processing</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Instant transfer</span>
+                  <span className="text-gray-700">Accepts all major credit and debit cards</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
@@ -355,12 +355,18 @@ function Donate() {
                 </div>
               </div>
 
-              <a 
-                href="#"
-                className="btn-primary-light w-full justify-center"
-              >
-                Donate with Zelle
-              </a>
+              {/* Stripe Payment Embed */}
+              <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md">
+                <iframe
+                  src="https://donate.stripe.com/PLACEHOLDER_STRIPE_PAYMENT_LINK"
+                  width="100%"
+                  height="800"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  title="Stripe Donation Payment"
+                  className="w-full"
+                />
+              </div>
             </div>
 
             {/* Check/Mail */}
