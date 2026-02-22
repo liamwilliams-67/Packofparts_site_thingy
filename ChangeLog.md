@@ -2,17 +2,17 @@
 
 ### Problem
 
-Opening the project in GitHub Codespaces (or any fresh clone without running `npm install` first) caused:
+Opening the project in GitHub Codespaces caused:
 
 ```
 [plugin:vite:css] Failed to load PostCSS config: Cannot find module '.../node_modules/util-deprecate/node.js'
 ```
 
-The `util-deprecate` package is a transitive dependency of PostCSS/Tailwind CSS. Without `node_modules` installed, Vite cannot load the PostCSS plugins defined in `postcss.config.js`.
+The `util-deprecate` package is a transitive dependency of PostCSS/Tailwind CSS (via `postcss-selector-parser`). In Codespaces, a cached or incomplete `node_modules` directory can cause this module resolution to fail.
 
 ### Fix
 
-Added `.devcontainer/devcontainer.json` so that GitHub Codespaces automatically runs `npm install` after creating the container. This ensures all dependencies (including transitive ones like `util-deprecate`) are present before the dev server starts.
+Changed `.devcontainer/devcontainer.json` `postCreateCommand` from `npm install` to `npm ci`. Unlike `npm install`, `npm ci` removes any existing `node_modules` before installing, ensuring a clean, complete dependency tree that exactly matches the lockfile. This prevents stale or corrupted cached modules from causing resolution errors.
 
 ---
 
