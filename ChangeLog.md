@@ -1,3 +1,20 @@
+# Donate Page – Stripe Payment Integration (2-22-2026)
+
+### Changes Made
+
+#### 1. Replaced Zelle Card with Stripe Card
+Replaced the Zelle donation card with a Stripe payment card in the "Ways to Donate" section on the Donate page (`src/Donate.tsx`). Updated the title, description, and bullet points to reflect Stripe's features (secure payment processing, accepts all major credit/debit cards, tax-deductible receipt).
+
+#### 2. Full-Width Stacked Donation Cards
+Changed the "Ways to Donate" card layout from a side-by-side 2-column grid (`lg:grid-cols-2`) to a single-column stacked layout (`grid-cols-1`). Both the Stripe and Check/Mail cards are now full width and stacked vertically.
+
+#### 3. Stripe Payment Embed
+Added a Stripe payment iframe embed below the Stripe card text content, styled consistently with the Google Maps embed on the Contact page and the Google Calendar embed on the Members page (rounded corners, border, shadow).
+
+> **⚠️ Action Required:** The Stripe embed `src` URL is currently a placeholder (`https://donate.stripe.com/PLACEHOLDER_STRIPE_PAYMENT_LINK`). Replace it with your actual Stripe Payment Link or Stripe Checkout embed URL. You can create a Payment Link at [https://dashboard.stripe.com/payment-links](https://dashboard.stripe.com/payment-links).
+
+---
+
 # Pull Request (Current) – FRC Logo Added to Home Page
 
 ### Changes Made
