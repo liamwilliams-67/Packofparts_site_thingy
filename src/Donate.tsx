@@ -29,6 +29,8 @@ function Donate() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
+  const [stripeReady, setStripeReady] = useState(false);
+  const [stripeTimedOut, setStripeTimedOut] = useState(false);
 
   // Navigation links
   const navLinks = [
@@ -83,6 +85,21 @@ function Donate() {
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  // Track when Stripe Buy Button custom element is defined
+  useEffect(() => {
+    if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) return;
+
+    if (customElements.get('stripe-buy-button')) {
+      setStripeReady(true);
+      return;
+    }
+
+    customElements.whenDefined('stripe-buy-button').then(() => setStripeReady(true));
+
+    const timeout = setTimeout(() => setStripeTimedOut(true), 10000);
+    return () => clearTimeout(timeout);
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -357,12 +374,26 @@ function Donate() {
               </div>
 
               {/* Stripe Buy Button */}
-              <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex justify-center">
+              <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex flex-col items-center justify-center">
                 {STRIPE_BUY_BUTTON_ID && STRIPE_PUBLISHABLE_KEY ? (
-                  <stripe-buy-button
-                    buy-button-id={STRIPE_BUY_BUTTON_ID}
-                    publishable-key={STRIPE_PUBLISHABLE_KEY}
-                  />
+                  <>
+                    {!stripeReady && !stripeTimedOut && (
+                      <p className="text-gray-400 text-sm animate-pulse py-4">
+                        Loading payment button…
+                      </p>
+                    )}
+                    {stripeTimedOut && !stripeReady && (
+                      <p className="text-gray-500 text-center py-4">
+                        The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
+                        <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
+                        for alternative payment options.
+                      </p>
+                    )}
+                    <stripe-buy-button
+                      buy-button-id={STRIPE_BUY_BUTTON_ID}
+                      publishable-key={STRIPE_PUBLISHABLE_KEY}
+                    />
+                  </>
                 ) : (
                   <p className="text-gray-500 text-center py-8">
                     Online payments are temporarily unavailable. Please use an alternative donation method below.
