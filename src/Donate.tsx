@@ -21,6 +21,7 @@ import {
   ChevronDown,
   ChevronRight
 } from 'lucide-react';
+import { STRIPE_BUY_BUTTON_ID, STRIPE_PUBLISHABLE_KEY } from './stripeConfig';
 import './Donate.css';
 
 function Donate() {
@@ -355,16 +356,11 @@ function Donate() {
                 </div>
               </div>
 
-              {/* Stripe Payment Embed */}
-              <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md">
-                <iframe
-                  src="https://donate.stripe.com/PLACEHOLDER_STRIPE_PAYMENT_LINK"
-                  width="100%"
-                  height="800"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  title="Stripe Donation Payment"
-                  className="w-full"
+              {/* Stripe Buy Button */}
+              <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex justify-center">
+                <stripe-buy-button
+                  buy-button-id={STRIPE_BUY_BUTTON_ID}
+                  publishable-key={STRIPE_PUBLISHABLE_KEY}
                 />
               </div>
             </div>
