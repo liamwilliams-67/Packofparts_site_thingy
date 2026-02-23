@@ -358,10 +358,16 @@ function Donate() {
 
               {/* Stripe Buy Button */}
               <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex justify-center">
-                <stripe-buy-button
-                  buy-button-id={STRIPE_BUY_BUTTON_ID}
-                  publishable-key={STRIPE_PUBLISHABLE_KEY}
-                />
+                {STRIPE_BUY_BUTTON_ID && STRIPE_PUBLISHABLE_KEY ? (
+                  <stripe-buy-button
+                    buy-button-id={STRIPE_BUY_BUTTON_ID}
+                    publishable-key={STRIPE_PUBLISHABLE_KEY}
+                  />
+                ) : (
+                  <p className="text-gray-500 text-center py-8">
+                    Online payments are temporarily unavailable. Please use an alternative donation method below.
+                  </p>
+                )}
               </div>
             </div>
 
