@@ -29,8 +29,7 @@ function Donate() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
-  const [stripeReady, setStripeReady] = useState(false);
-  const [stripeTimedOut, setStripeTimedOut] = useState(false);
+  const [stripeStatus, setStripeStatus] = useState<'loading' | 'ready' | 'timeout'>('loading');
 
   // Navigation links
   const navLinks = [
@@ -92,13 +91,17 @@ function Donate() {
     if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) return;
 
     if (customElements.get('stripe-buy-button')) {
-      setStripeReady(true);
+      setStripeStatus('ready');
       return;
     }
 
-    customElements.whenDefined('stripe-buy-button').then(() => setStripeReady(true));
+    const timeout = setTimeout(() => setStripeStatus((s) => s === 'loading' ? 'timeout' : s), 10000);
 
-    const timeout = setTimeout(() => setStripeTimedOut(true), 10000);
+    customElements.whenDefined('stripe-buy-button').then(() => {
+      clearTimeout(timeout);
+      setStripeStatus('ready');
+    });
+
     return () => clearTimeout(timeout);
   }, []);
 
@@ -377,12 +380,12 @@ function Donate() {
               <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex flex-col items-center justify-center">
                 {STRIPE_BUY_BUTTON_ID && STRIPE_PUBLISHABLE_KEY ? (
                   <>
-                    {!stripeReady && !stripeTimedOut && (
+                    {stripeStatus === 'loading' && (
                       <p className="text-gray-400 text-sm animate-pulse py-4">
                         Loading payment button…
                       </p>
                     )}
-                    {stripeTimedOut && !stripeReady && (
+                    {stripeStatus === 'timeout' && (
                       <p className="text-gray-500 text-center py-4">
                         The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
                         <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
