@@ -291,7 +291,7 @@ function Contact() {
                   </div>
                   <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=PLACEHOLDER_EMBED_URL"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1224.3643511363096!2d-122.03239712657778!3d47.613745216047896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549071f2d8798d65%3A0x6dc45470c7ff37ff!2sEastlake%20High%20School!5e0!3m2!1sen!2sus!4v1771963694946!5m2!1sen!2sus"
                       width="100%"
                       height="450"
                       style={{ border: 0 }}

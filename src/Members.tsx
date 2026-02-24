@@ -274,7 +274,7 @@ function Members() {
                 title: 'STIMS',
                 icon: FileText,
                 description: 'The process of joining our team. This guides you through being officially registered with FIRST.',
-                link: '#',
+                link: './public/STIMS.pdf',
                 badge: 'Required'
               },
               {
@@ -288,28 +288,28 @@ function Members() {
                 title: 'Safety Notes',
                 icon: AlertTriangle,
                 description: 'Safety is an integral part of our team. This document details each machine in our shop and how to be safe around them.',
-                link: '#',
+                link: './public/Robotics Safety Notes.pdf',
                 badge: 'Required'
               },
               {
                 title: 'Safety Plan',
                 icon: Shield,
                 description: 'Here at Pack of Parts, we take safety very seriously. Here is our safety plan so we can always make sure that you are safe.',
-                link: '#',
+                link: './public/FRC Safety Plan 24.pdf',
                 badge: 'Important'
               },
               {
                 title: 'Our Constitution',
                 icon: Award,
                 description: 'Our Constitution outlines our values and principles. We will strive to follow these principles to further our Gracious Professionalism.',
-                link: '#',
+                link: './public/Eastlake Robotics Constitution.pdf',
                 badge: 'Core'
               },
               {
                 title: 'Our Bylaws',
                 icon: FileText,
                 description: 'Our Bylaws outline our detailed rules and regulations. This is our in-depth guide to running our club.',
-                link: '#',
+                link: './public/Eastlake Robotics Bylaws.pdf',
                 badge: 'Core'
               }
             ].map((doc, index) => (
@@ -337,7 +337,7 @@ function Members() {
                   className="inline-flex items-center gap-2 text-light-blue font-semibold hover:gap-3 transition-all duration-200"
                 >
                   <Download className="w-4 h-4" />
-                  Download PDF
+                  Open PDF
                 </a>
               </div>
             ))}
@@ -369,7 +369,7 @@ function Members() {
                 {/* Google Calendar Embed */}
                 <div className="w-full rounded-lg overflow-hidden mb-6">
                   <iframe
-                    src="https://calendar.google.com/calendar/embed?src=PLACEHOLDER_CALENDAR_ID"
+                    src="https://calendar.google.com/calendar/embed?src=c_e11324758594b0183182423ec69a588ed603016f28b0d1c90dd5c4fdded627fd%40group.calendar.google.com&ctz=America%2FLos_Angeles"
                     style={{ border: 0 }}
                     width="100%"
                     height="400"
