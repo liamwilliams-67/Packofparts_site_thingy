@@ -21,7 +21,7 @@ import {
   ChevronDown,
   ChevronRight
 } from 'lucide-react';
-import { STRIPE_BUY_BUTTON_ID, STRIPE_PUBLISHABLE_KEY } from './stripeConfig';
+import { STRIPE_BUY_BUTTON_ID, STRIPE_PUBLISHABLE_KEY, STRIPE_PAYMENT_LINK } from './stripeConfig';
 import './Donate.css';
 
 function Donate() {
@@ -387,11 +387,23 @@ function Donate() {
                   </p>
                 )}
                 {stripeStatus === 'timeout' && (
-                  <p className="text-gray-500 text-center py-4">
-                    The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
-                    <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
-                    for alternative payment options.
-                  </p>
+                  STRIPE_PAYMENT_LINK ? (
+                    <a
+                      href={STRIPE_PAYMENT_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary-light inline-flex items-center gap-2"
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      Donate via Stripe
+                    </a>
+                  ) : (
+                    <p className="text-gray-500 text-center py-4">
+                      The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
+                      <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
+                      for alternative payment options.
+                    </p>
+                  )
                 )}
                 <stripe-buy-button
                   buy-button-id={STRIPE_BUY_BUTTON_ID}
