@@ -47,6 +47,7 @@ function SummerCamps() {
   const campsList = [
     {
       key: 'CAD & Design',
+      stripeKey: 'camp_cad',
       title: 'CAD & Design',
       weekId: 'week1',
       dates: 'August 17-21, 2025',
@@ -57,6 +58,7 @@ function SummerCamps() {
     },
     {
       key: 'Programming',
+      stripeKey: 'camp_programming',
       title: 'Programming',
       weekId: 'week2',
       dates: 'August 24-28, 2025',
@@ -67,6 +69,7 @@ function SummerCamps() {
     },
     {
       key: 'Engineering 1',
+      stripeKey: 'camp_engineering1',
       title: 'Engineering 1',
       weekId: 'week1',
       dates: 'August 17-21, 2025',
@@ -77,6 +80,7 @@ function SummerCamps() {
     },
     {
       key: 'Engineering 2',
+      stripeKey: 'camp_engineering2',
       title: 'Engineering 2',
       weekId: 'week2',
       dates: 'August 24-28, 2025',
@@ -124,7 +128,7 @@ function SummerCamps() {
     setFieldErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
-    // Collect selected camp objects with their stripePriceIds
+    // Collect selected camp objects with their server-side keys
     const selectedCamps = campsList.filter(c => selectedCampKeys.includes(c.key));
 
     if (!API_URL) {
@@ -138,12 +142,8 @@ function SummerCamps() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          selectedCamps: selectedCamps.map(c => ({
-            key: c.key,
-            stripePriceId: c.stripePriceId,
-          })),
+          selectedCamps: selectedCamps.map(c => c.stripeKey),
           addonWL,
-          addonWLPriceId: addonWL ? addonsList[0].stripePriceId : undefined,
           parentEmail,
           registrantName,
           childGrade,

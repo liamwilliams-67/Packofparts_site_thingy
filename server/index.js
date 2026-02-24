@@ -14,16 +14,28 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Server-side mapping of camp keys to Stripe Price IDs from environment variables.
+// This avoids trusting client-sent price IDs.
+const CAMP_PRICE_MAP = {
+  camp_cad: process.env.STRIPE_CAMP_CAD_PRICE_ID,
+  camp_programming: process.env.STRIPE_CAMP_PROGRAMMING_PRICE_ID,
+  camp_engineering1: process.env.STRIPE_CAMP_ENGINEERING1_PRICE_ID,
+  camp_engineering2: process.env.STRIPE_CAMP_ENGINEERING2_PRICE_ID,
+};
+
+const ADDON_PRICE_MAP = {
+  addon_womens_leadership: process.env.STRIPE_ADDON_WL_PRICE_ID,
+};
+
 /**
  * POST /create-checkout-session
  *
  * Accepts:
- *   selectedCamps - array of { key, stripePriceId }
- *   addonWL       - boolean
- *   addonWLPriceId - string (Stripe Price ID for Women's Leadership add-on)
- *   parentEmail   - string
+ *   selectedCamps  - array of camp key strings (e.g. ['camp_cad', 'camp_programming'])
+ *   addonWL        - boolean
+ *   parentEmail    - string
  *   registrantName - string
- *   childGrade    - string
+ *   childGrade     - string
  *
  * Returns: { url } – the Stripe Checkout Session URL
  */
@@ -32,7 +44,6 @@ app.post('/create-checkout-session', async (req, res) => {
     const {
       selectedCamps,
       addonWL,
-      addonWLPriceId,
       parentEmail,
       registrantName,
       childGrade,
@@ -42,18 +53,23 @@ app.post('/create-checkout-session', async (req, res) => {
       return res.status(400).json({ error: 'No camps selected' });
     }
 
-    // Build line_items from selected camps
-    const lineItems = selectedCamps.map((camp) => ({
-      price: camp.stripePriceId,
-      quantity: 1,
-    }));
+    // Build line_items by mapping camp keys to server-side Price IDs
+    const lineItems = [];
+    for (const campKey of selectedCamps) {
+      const priceId = CAMP_PRICE_MAP[campKey];
+      if (!priceId) {
+        return res.status(400).json({ error: `Unknown camp key or missing price ID: ${campKey}` });
+      }
+      lineItems.push({ price: priceId, quantity: 1 });
+    }
 
     // Add Women's Leadership add-on if selected
-    if (addonWL && addonWLPriceId) {
-      lineItems.push({
-        price: addonWLPriceId,
-        quantity: 1,
-      });
+    if (addonWL) {
+      const addonPriceId = ADDON_PRICE_MAP.addon_womens_leadership;
+      if (!addonPriceId) {
+        return res.status(400).json({ error: "Women's Leadership add-on price ID is not configured" });
+      }
+      lineItems.push({ price: addonPriceId, quantity: 1 });
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -63,7 +79,7 @@ app.post('/create-checkout-session', async (req, res) => {
       metadata: {
         registrantName: registrantName || '',
         childGrade: childGrade || '',
-        selectedCamps: selectedCamps.map((c) => c.key).join(', '),
+        selectedCamps: selectedCamps.join(', '),
         addonWL: addonWL ? 'Yes' : 'No',
       },
       success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?success=true`,
