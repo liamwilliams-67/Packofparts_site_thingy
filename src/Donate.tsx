@@ -88,7 +88,10 @@ function Donate() {
 
   // Track when Stripe Buy Button custom element is defined
   useEffect(() => {
-    if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) return;
+    if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) {
+      setStripeStatus('timeout');
+      return;
+    }
 
     if (customElements.get('stripe-buy-button')) {
       setStripeStatus('ready');
@@ -378,30 +381,22 @@ function Donate() {
 
               {/* Stripe Buy Button */}
               <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex flex-col items-center justify-center">
-                {STRIPE_BUY_BUTTON_ID && STRIPE_PUBLISHABLE_KEY ? (
-                  <>
-                    {stripeStatus === 'loading' && (
-                      <p className="text-gray-400 text-sm animate-pulse py-4">
-                        Loading payment button…
-                      </p>
-                    )}
-                    {stripeStatus === 'timeout' && (
-                      <p className="text-gray-500 text-center py-4">
-                        The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
-                        <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
-                        for alternative payment options.
-                      </p>
-                    )}
-                    <stripe-buy-button
-                      buy-button-id={STRIPE_BUY_BUTTON_ID}
-                      publishable-key={STRIPE_PUBLISHABLE_KEY}
-                    />
-                  </>
-                ) : (
-                  <p className="text-gray-500 text-center py-8">
-                    Online payments are temporarily unavailable. Please use an alternative donation method below.
+                {stripeStatus === 'loading' && (
+                  <p className="text-gray-400 text-sm animate-pulse py-4">
+                    Loading payment button…
                   </p>
                 )}
+                {stripeStatus === 'timeout' && (
+                  <p className="text-gray-500 text-center py-4">
+                    The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
+                    <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
+                    for alternative payment options.
+                  </p>
+                )}
+                <stripe-buy-button
+                  buy-button-id={STRIPE_BUY_BUTTON_ID}
+                  publishable-key={STRIPE_PUBLISHABLE_KEY}
+                />
               </div>
             </div>
 
