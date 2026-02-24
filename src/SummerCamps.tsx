@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { 
   Mail, 
   MapPin, 
@@ -12,7 +12,9 @@ import {
   ArrowRight,
   ChevronDown,
   Linkedin,
-  ChevronRight
+  ChevronRight,
+  CheckCircle,
+  XCircle
 } from 'lucide-react';
 import './SummerCamps.css';
 import { STRIPE_CAMP_PRODUCTS, STRIPE_ADDON_PRODUCTS } from './stripeConfig';
@@ -35,6 +37,15 @@ function SummerCamps() {
   const [addonWL, setAddonWL] = useState(false);
   const [hearAboutUs, setHearAboutUs] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  // Read checkout status from Stripe redirect query params
+  const { checkoutSuccess, checkoutCanceled } = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      checkoutSuccess: params.get('success') === 'true',
+      checkoutCanceled: params.get('canceled') === 'true',
+    };
+  }, []);
 
   const clearError = (field: string) => {
     setFieldErrors((prev) => {
@@ -275,7 +286,7 @@ function SummerCamps() {
                 link.hasDropdown ? (
                   <div 
                     key={link.name}
-                    className="relative"
+                    className="relative flex items-center"
                     onMouseEnter={() => setIsCommunityDropdownOpen(true)}
                     onMouseLeave={() => setIsCommunityDropdownOpen(false)}
                   >
@@ -439,6 +450,38 @@ function SummerCamps() {
           </div>
         </div>
       </section> */}
+
+      {/* Checkout Status Cards */}
+      {checkoutSuccess && (
+        <section className="section-padding pb-0">
+          <div className="container-custom">
+            <div className="max-w-2xl mx-auto bg-green-50 border border-green-200 rounded-2xl p-6 flex items-start gap-4">
+              <CheckCircle className="w-8 h-8 text-green-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-lg font-orbitron font-bold text-green-800 mb-1">Registration Successful!</h3>
+                <p className="text-green-700">
+                  Thank you for registering! Your payment has been received. You will receive a confirmation email shortly with details about the camp.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+      {checkoutCanceled && (
+        <section className="section-padding pb-0">
+          <div className="container-custom">
+            <div className="max-w-2xl mx-auto bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4">
+              <XCircle className="w-8 h-8 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-lg font-orbitron font-bold text-amber-800 mb-1">Checkout Canceled</h3>
+                <p className="text-amber-700">
+                  Your checkout was canceled and you have not been charged. You can register again anytime using the form below.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Camps Section */}
       <section id="details" className="section-padding">

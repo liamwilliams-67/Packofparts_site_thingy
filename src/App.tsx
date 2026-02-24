@@ -260,7 +260,7 @@ function App() {
                 link.hasDropdown ? (
                   <div 
                     key={link.name}
-                    className="relative"
+                    className="relative flex items-center"
                     onMouseEnter={() => setIsCommunityDropdownOpen(true)}
                     onMouseLeave={() => setIsCommunityDropdownOpen(false)}
                   >
