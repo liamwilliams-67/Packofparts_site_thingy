@@ -22,6 +22,13 @@ import { STRIPE_CAMP_PRODUCTS, STRIPE_ADDON_PRODUCTS } from './stripeConfig';
 // Backend API URL – set in .env: VITE_API_URL=http://localhost:3001 (dev) or production URL
 const API_URL = import.meta.env.VITE_API_URL || '';
 
+function formatPhoneNumber(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)} ${digits.slice(6)}`;
+}
+
 function SummerCamps() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -612,8 +619,8 @@ function SummerCamps() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian phone number <span className="text-red-500">*</span></label>
                 <input
                   value={parentPhone}
-                  onChange={(e) => { setParentPhone(e.target.value); clearError('parentPhone'); }}
-                  placeholder="(555) 123-4567"
+                  onChange={(e) => { setParentPhone(formatPhoneNumber(e.target.value)); clearError('parentPhone'); }}
+                  placeholder="(555) 123 4567"
                   type="tel"
                   className={`w-full border px-4 py-2 rounded-md ${fieldErrors.parentPhone ? 'border-red-500' : ''}`}
                 />
