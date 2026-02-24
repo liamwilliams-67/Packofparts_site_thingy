@@ -408,10 +408,12 @@ function Donate() {
                     </p>
                   )
                 )}
-                <stripe-buy-button
-                  buy-button-id={STRIPE_BUY_BUTTON_ID}
-                  publishable-key={STRIPE_PUBLISHABLE_KEY}
-                />
+                {stripeStatus === 'ready' && (
+                  <stripe-buy-button
+                    buy-button-id={STRIPE_BUY_BUTTON_ID}
+                    publishable-key={STRIPE_PUBLISHABLE_KEY}
+                  />
+                )}
               </div>
             </div>
 
