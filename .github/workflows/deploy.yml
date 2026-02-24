@@ -25,6 +25,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          VITE_STRIPE_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_BUY_BUTTON_ID }}
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
 
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
