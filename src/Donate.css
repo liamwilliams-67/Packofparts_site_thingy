@@ -70,3 +70,19 @@
 .social-icon:hover {
   transform: scale(1.1);
 }
+
+/* Product Cards (Summer Camp Products) */
+.product-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  border: 2px solid rgba(128, 211, 238, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(24, 38, 81, 0.15);
+  border-color: rgba(128, 211, 238, 0.5);
+}
