@@ -15,7 +15,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import './SummerCamps.css';
-import { STRIPE_PAYMENT_LINK } from './stripeConfig';
+import { STRIPE_CAMP_PRODUCTS } from './stripeConfig';
 
 function SummerCamps() {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -115,11 +115,18 @@ function SummerCamps() {
     if (!photoConsent) errors.photoConsent = 'Please accept the media release';
     setFieldErrors(errors);
     if (Object.keys(errors).length > 0) return;
-    if (!STRIPE_PAYMENT_LINK) {
-      alert('Payment link not configured. Set VITE_STRIPE_PAYMENT_LINK in .env.');
+
+    // Look up the first selected camp's payment link from stripeConfig
+    const firstCampKey = selectedCampKeys[0];
+    const campProduct = STRIPE_CAMP_PRODUCTS.find(p => p.label === firstCampKey);
+    const paymentLink = campProduct?.buyButtonId || '';
+
+    if (!paymentLink) {
+      alert('Payment link not configured for this camp. Please contact us.');
       return;
     }
-    const url = new URL(STRIPE_PAYMENT_LINK);
+
+    const url = new URL(paymentLink);
     url.searchParams.set('prefilled_email', registrantEmail);
     window.location.href = url.toString();
   };
