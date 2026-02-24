@@ -1,6 +1,5 @@
 node_modules
 dist
-.env
 .env.local
 .env.*.local
 # Large video file - keep for reference but don't use in production

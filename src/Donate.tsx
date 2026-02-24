@@ -14,6 +14,7 @@ import {
   Gift,
   CheckCircle,
   CreditCard,
+  DollarSign,
   Receipt,
   TrendingUp,
   Award,
@@ -36,6 +37,10 @@ function Donate() {
 
     return customElements.get('stripe-buy-button') ? 'ready' : 'loading';
   });
+  const [donationAmount, setDonationAmount] = useState<number | ''>('');
+  const [customAmount, setCustomAmount] = useState('');
+
+  const presetAmounts = [25, 50, 100, 250, 500];
 
   // Navigation links
   const navLinks = [
@@ -376,6 +381,54 @@ function Donate() {
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
                   <span className="text-gray-700">Tax-deductible receipt provided</span>
+                </div>
+              </div>
+
+              {/* Donation Amount Selector */}
+              <div className="mb-6">
+                <label className="block text-navy font-semibold mb-3">
+                  Select Donation Amount
+                </label>
+                <div className="flex flex-wrap gap-3 mb-3">
+                  {presetAmounts.map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => {
+                        setDonationAmount(amount);
+                        setCustomAmount('');
+                      }}
+                      className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 border-2 ${
+                        donationAmount === amount
+                          ? 'bg-light-blue text-navy border-light-blue shadow-md'
+                          : 'bg-white text-gray-600 border-gray-200 hover:border-light-blue/50 hover:bg-light-blue/5'
+                      }`}
+                    >
+                      ${amount}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="relative flex-1 max-w-xs">
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      placeholder="Other amount"
+                      value={customAmount}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9.]/g, '');
+                        setCustomAmount(raw);
+                        const val = parseFloat(raw);
+                        setDonationAmount(val > 0 ? val : '');
+                      }}
+                      className="w-full pl-8 pr-4 py-2.5 rounded-full border-2 border-gray-200 focus:border-light-blue focus:outline-none text-sm transition-colors"
+                    />
+                  </div>
+                  {donationAmount !== '' && (
+                    <span className="text-navy font-orbitron font-bold text-lg">
+                      ${typeof donationAmount === 'number' ? donationAmount.toLocaleString() : ''}
+                    </span>
+                  )}
                 </div>
               </div>
 
