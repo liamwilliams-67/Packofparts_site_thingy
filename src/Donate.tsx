@@ -19,16 +19,9 @@ import {
   Award,
   Linkedin,
   ChevronDown,
-  ChevronRight,
-  Calendar
+  ChevronRight
 } from 'lucide-react';
-import {
-  STRIPE_BUY_BUTTON_ID,
-  STRIPE_PUBLISHABLE_KEY,
-  STRIPE_PAYMENT_LINK,
-  STRIPE_CAMP_PRODUCTS,
-  STRIPE_ADDON_PRODUCTS,
-} from './stripeConfig';
+import { STRIPE_BUY_BUTTON_ID, STRIPE_PUBLISHABLE_KEY, STRIPE_PAYMENT_LINK } from './stripeConfig';
 import './Donate.css';
 
 function Donate() {
@@ -43,7 +36,6 @@ function Donate() {
 
     return customElements.get('stripe-buy-button') ? 'ready' : 'loading';
   });
-  const [paymentMode, setPaymentMode] = useState<'donation' | 'camps'>('donation');
 
   // Navigation links
   const navLinks = [
@@ -348,257 +340,117 @@ function Donate() {
         <div className="container-custom">
           <div className="text-center mb-16 reveal">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Ways to Give
+              Ways to Donate
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-              Choose the option that works best for you
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Choose the method that works best for you
             </p>
-
-            {/* Payment Mode Toggle */}
-            <div className="inline-flex rounded-full border-2 border-light-blue/30 overflow-hidden">
-              <button
-                onClick={() => setPaymentMode('donation')}
-                className={`px-6 py-3 text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-2 ${
-                  paymentMode === 'donation'
-                    ? 'bg-light-blue text-navy'
-                    : 'bg-white text-gray-600 hover:bg-light-blue/10'
-                }`}
-              >
-                <Heart className="w-4 h-4" />
-                General Donation
-              </button>
-              <button
-                onClick={() => setPaymentMode('camps')}
-                className={`px-6 py-3 text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-2 ${
-                  paymentMode === 'camps'
-                    ? 'bg-light-blue text-navy'
-                    : 'bg-white text-gray-600 hover:bg-light-blue/10'
-                }`}
-              >
-                <Calendar className="w-4 h-4" />
-                Summer Camp Products
-              </button>
-            </div>
           </div>
 
-          {/* General Donation Mode */}
-          {paymentMode === 'donation' && (
-            <div className="grid grid-cols-1 gap-8 max-w-5xl mx-auto">
-              {/* Stripe Payment */}
-              <div className="reveal donation-method-card">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                    <CreditCard className="w-7 h-7 text-light-blue" />
-                  </div>
-                  <div>
-                    <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
-                      Stripe
-                    </h3>
-                    <p className="text-gray-600">
-                      Secure online payment via credit or debit card
-                    </p>
-                  </div>
+          <div className="grid grid-cols-1 gap-8 max-w-5xl mx-auto">
+            {/* Stripe Payment */}
+            <div className="reveal donation-method-card">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
+                  <CreditCard className="w-7 h-7 text-light-blue" />
                 </div>
-                
-                <div className="space-y-4 mb-6">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Secure payment processing</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Accepts all major credit and debit cards</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Tax-deductible receipt provided</span>
-                  </div>
-                </div>
-
-                {/* Stripe Buy Button */}
-                <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex flex-col items-center justify-center">
-                  {stripeStatus === 'loading' && (
-                    <p className="text-gray-400 text-sm animate-pulse py-4">
-                      Loading payment button…
-                    </p>
-                  )}
-                  {stripeStatus === 'timeout' && (
-                    STRIPE_PAYMENT_LINK ? (
-                      <a
-                        href={STRIPE_PAYMENT_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary-light inline-flex items-center gap-2"
-                      >
-                        <CreditCard className="w-5 h-5" />
-                        Donate via Stripe
-                      </a>
-                    ) : (
-                      <p className="text-gray-500 text-center py-4 text-sm">
-                        Online card payments are not available in this environment.
-                        Please use the check/mail option below, or visit the{' '}
-                        <a href="https://packofparts.org/donate" target="_blank" rel="noopener noreferrer" className="text-light-blue underline">
-                          production site
-                        </a>{' '}
-                        to donate online.
-                      </p>
-                    )
-                  )}
-                  <stripe-buy-button
-                    buy-button-id={STRIPE_BUY_BUTTON_ID}
-                    publishable-key={STRIPE_PUBLISHABLE_KEY}
-                  />
-                </div>
-              </div>
-
-              {/* Check/Mail */}
-              <div className="reveal donation-method-card" style={{ transitionDelay: '0.1s' }}>
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-7 h-7 text-light-blue" />
-                  </div>
-                  <div>
-                    <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
-                      Check or Mail
-                    </h3>
-                    <p className="text-gray-600">
-                      Send a check to our mailing address
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="bg-light-blue/5 p-4 rounded-lg mb-6">
-                  <p className="text-sm text-gray-600 mb-2">Make checks payable to:</p>
-                  <p className="font-semibold text-navy mb-3">Pack of Parts FRC Team 1294</p>
-                  <p className="text-sm text-gray-600 mb-1">Mail to:</p>
-                  <p className="text-gray-700">
-                    Eastlake High School<br />
-                    Attn: Pack of Parts<br />
-                    400 228th Ave NE<br />
-                    Sammamish, WA 98074
+                <div>
+                  <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
+                    Stripe
+                  </h3>
+                  <p className="text-gray-600">
+                    Secure online payment via credit or debit card
                   </p>
                 </div>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Secure payment processing</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Accepts all major credit and debit cards</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-light-blue flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700">Tax-deductible receipt provided</span>
+                </div>
+              </div>
 
-                <a 
-                  href="/contact"
-                  className="btn-primary-light w-full justify-center"
-                >
-                  Contact for Details
-                </a>
+              {/* Stripe Buy Button */}
+              <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex flex-col items-center justify-center">
+                {stripeStatus === 'loading' && (
+                  <p className="text-gray-400 text-sm animate-pulse py-4">
+                    Loading payment button…
+                  </p>
+                )}
+                {stripeStatus === 'timeout' && (
+                  STRIPE_PAYMENT_LINK ? (
+                    <a
+                      href={STRIPE_PAYMENT_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary-light inline-flex items-center gap-2"
+                    >
+                      <CreditCard className="w-5 h-5" />
+                      Donate via Stripe
+                    </a>
+                  ) : (
+                    <p className="text-gray-500 text-center py-4 text-sm">
+                      Online card payments are not available in this environment.
+                      Please use the check/mail option below, or visit the{' '}
+                      <a href="https://packofparts.org/donate" target="_blank" rel="noopener noreferrer" className="text-light-blue underline">
+                        production site
+                      </a>{' '}
+                      to donate online.
+                    </p>
+                  )
+                )}
+                <stripe-buy-button
+                  buy-button-id={STRIPE_BUY_BUTTON_ID}
+                  publishable-key={STRIPE_PUBLISHABLE_KEY}
+                />
               </div>
             </div>
-          )}
 
-          {/* Summer Camp Products Mode */}
-          {paymentMode === 'camps' && (
-            <div className="max-w-5xl mx-auto">
-              <div className="text-center mb-8">
-                <p className="text-gray-600 max-w-2xl mx-auto">
-                  Purchase summer camp registrations and add-ons. Each product can be purchased separately.
-                  Visit the{' '}
-                  <a href="/summer-camps" className="text-light-blue underline font-medium">
-                    Summer Camps page
-                  </a>{' '}
-                  for full camp details and registration form.
+            {/* Check/Mail */}
+            <div className="reveal donation-method-card" style={{ transitionDelay: '0.1s' }}>
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-14 h-14 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-7 h-7 text-light-blue" />
+                </div>
+                <div>
+                  <h3 className="text-navy font-orbitron font-semibold text-2xl mb-2">
+                    Check or Mail
+                  </h3>
+                  <p className="text-gray-600">
+                    Send a check to our mailing address
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-light-blue/5 p-4 rounded-lg mb-6">
+                <p className="text-sm text-gray-600 mb-2">Make checks payable to:</p>
+                <p className="font-semibold text-navy mb-3">Pack of Parts FRC Team 1294</p>
+                <p className="text-sm text-gray-600 mb-1">Mail to:</p>
+                <p className="text-gray-700">
+                  Eastlake High School<br />
+                  Attn: Pack of Parts<br />
+                  400 228th Ave NE<br />
+                  Sammamish, WA 98074
                 </p>
               </div>
 
-              {/* Camp Products */}
-              <h3 className="text-xl font-orbitron font-semibold text-navy mb-6">Camp Registrations</h3>
-              <div className="grid md:grid-cols-2 gap-6 mb-10">
-                {STRIPE_CAMP_PRODUCTS.map((product) => (
-                  <div key={product.key} className="product-card reveal">
-                    <div className="flex items-start gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                        <Calendar className="w-5 h-5 text-light-blue" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-navy font-orbitron font-semibold text-lg">{product.label}</h4>
-                        {product.dates && (
-                          <p className="text-sm text-gray-500">{product.dates}</p>
-                        )}
-                        <p className="text-sm text-gray-500">{product.time}</p>
-                      </div>
-                      <div className="text-navy font-orbitron font-bold text-lg">${product.price}</div>
-                    </div>
-
-                    <div className="w-full rounded-xl overflow-hidden border border-light-blue/20 p-4 flex flex-col items-center justify-center">
-                      {stripeStatus === 'loading' && (
-                        <p className="text-gray-400 text-sm animate-pulse py-2">Loading…</p>
-                      )}
-                      {stripeStatus === 'timeout' && (
-                        <p className="text-gray-500 text-center py-2 text-sm">
-                          Payment button unavailable.{' '}
-                          <a href="/summer-camps" className="text-light-blue underline">
-                            Register via Summer Camps
-                          </a>
-                        </p>
-                      )}
-                      {product.buyButtonId && STRIPE_PUBLISHABLE_KEY ? (
-                        <stripe-buy-button
-                          buy-button-id={product.buyButtonId}
-                          publishable-key={STRIPE_PUBLISHABLE_KEY}
-                        />
-                      ) : stripeStatus === 'ready' ? (
-                        <p className="text-gray-500 text-center py-2 text-sm">
-                          Buy button not configured for this product.{' '}
-                          <a href="/summer-camps" className="text-light-blue underline">
-                            Register via Summer Camps
-                          </a>
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Add-on Products */}
-              <h3 className="text-xl font-orbitron font-semibold text-navy mb-6">Add-ons</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                {STRIPE_ADDON_PRODUCTS.map((product) => (
-                  <div key={product.key} className="product-card reveal">
-                    <div className="flex items-start gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
-                        <Gift className="w-5 h-5 text-light-blue" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-navy font-orbitron font-semibold text-lg">{product.label}</h4>
-                        <p className="text-sm text-gray-500">{product.time}</p>
-                      </div>
-                      <div className="text-navy font-orbitron font-bold text-lg">${product.price}</div>
-                    </div>
-
-                    <div className="w-full rounded-xl overflow-hidden border border-light-blue/20 p-4 flex flex-col items-center justify-center">
-                      {stripeStatus === 'loading' && (
-                        <p className="text-gray-400 text-sm animate-pulse py-2">Loading…</p>
-                      )}
-                      {stripeStatus === 'timeout' && (
-                        <p className="text-gray-500 text-center py-2 text-sm">
-                          Payment button unavailable.{' '}
-                          <a href="/summer-camps" className="text-light-blue underline">
-                            Register via Summer Camps
-                          </a>
-                        </p>
-                      )}
-                      {product.buyButtonId && STRIPE_PUBLISHABLE_KEY ? (
-                        <stripe-buy-button
-                          buy-button-id={product.buyButtonId}
-                          publishable-key={STRIPE_PUBLISHABLE_KEY}
-                        />
-                      ) : stripeStatus === 'ready' ? (
-                        <p className="text-gray-500 text-center py-2 text-sm">
-                          Buy button not configured for this product.{' '}
-                          <a href="/summer-camps" className="text-light-blue underline">
-                            Register via Summer Camps
-                          </a>
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <a 
+                href="/contact"
+                className="btn-primary-light w-full justify-center"
+              >
+                Contact for Details
+              </a>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
