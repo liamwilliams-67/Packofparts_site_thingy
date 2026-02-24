@@ -375,50 +375,6 @@ function Contact() {
         </div>
       </section>
 
-      {/* Decorative Divider */}
-      <div className="container-custom my-12">
-        <div className="relative h-px bg-gray-200">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24">
-            <svg viewBox="0 0 100 100" className="w-full h-full">
-              <circle cx="50" cy="50" r="30" fill="white" stroke="#80D3EE" strokeWidth="2" />
-              <circle cx="50" cy="50" r="20" fill="#182651" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      {/* FAQ Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="text-center mb-12 reveal">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-4">
-              Frequently Asked Questions
-            </h2>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {[
-              {
-                q: "How can I join the team?",
-                a: "We welcome students from Eastlake High School and surrounding schools! Reach out via email or attend a meeting."
-              },
-              {
-                q: "When does the team meet?",
-                a: "During build season (Jan-Feb), we meet Mon-Sat. Off-season is more flexible."
-              },
-              {
-                q: "Do you offer summer camps?",
-                a: "Yes! We run summer robotics camps for middle school students."
-              }
-            ].map((item, i) => (
-              <div key={i} className="reveal faq-item" style={{ transitionDelay: `${i * 0.1}s` }}>
-                <h3 className="text-navy font-orbitron font-semibold text-lg mb-2">{item.q}</h3>
-                <p className="text-gray-600">{item.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Footer - Reusing App.tsx footer styles */}
       <footer id="contact" className="bg-navy pt-16 pb-8 border-t border-white/10">
         <div className="container-custom">
