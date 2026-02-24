@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { 
   Mail, 
   MapPin, 
@@ -61,11 +61,32 @@ function generateAvatar(name: string, role: string): string {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
+// Team member card component — defined at module level for stable reference
+function TeamMemberCard({ member, delay = 0 }: { member: TeamMember; delay?: number }) {
+  return (
+    <div 
+      className="team-member-card reveal"
+      style={{ transitionDelay: `${delay}s` }}
+    >
+      <div className="member-image-container">
+        <img src={member.image} alt={member.name} className="member-image" />
+        <div className="member-overlay">
+          {member.bio && <p className="member-bio">{member.bio}</p>}
+        </div>
+      </div>
+      <div className="member-info">
+        <h3 className="member-name">{member.name}</h3>
+        <p className="member-role">{member.role}</p>
+        {member.year && <span className="member-year">{member.year}</span>}
+      </div>
+    </div>
+  );
+}
+
 function MeetTheTeam() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // ScrollY state used by handleScroll to track scroll position for nav visibility
-  const [, setScrollY] = useState(0);
+  const scrollYRef = useRef(0);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
 
   // Navigation links
@@ -121,7 +142,7 @@ function MeetTheTeam() {
   // Scroll handler for nav visibility
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      scrollYRef.current = window.scrollY;
       setIsNavVisible(window.scrollY > 100 || window.scrollY === 0);
     };
 
@@ -172,26 +193,6 @@ function MeetTheTeam() {
     }
     setIsMobileMenuOpen(false);
   };
-
-  // Team member card component
-  const TeamMemberCard = ({ member, delay = 0 }: { member: TeamMember; delay?: number }) => (
-    <div 
-      className="team-member-card reveal"
-      style={{ transitionDelay: `${delay}s` }}
-    >
-      <div className="member-image-container">
-        <img src={member.image} alt={member.name} className="member-image" />
-        <div className="member-overlay">
-          {member.bio && <p className="member-bio">{member.bio}</p>}
-        </div>
-      </div>
-      <div className="member-info">
-        <h3 className="member-name">{member.name}</h3>
-        <p className="member-role">{member.role}</p>
-        {member.year && <span className="member-year">{member.year}</span>}
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-white">
