@@ -30,6 +30,35 @@ interface TeamMember {
   bio?: string;
 }
 
+// Generate an SVG data URI avatar with initials and a role-based color
+function generateAvatar(name: string, role: string): string {
+  const colors: Record<string, string> = {
+    Captain: '#00b4d8',
+    'Co-Captain': '#0096c7',
+    President: '#ffc107',
+    'Vice President': '#ff9800',
+    'Lead Mentor': '#2e7d32',
+    'Mechanical Mentor': '#1565c0',
+    'Programming Mentor': '#6a1b9a',
+    'Business Mentor': '#c62828',
+    Mechanical: '#1565c0',
+    Programming: '#6a1b9a',
+    Electrical: '#f57f17',
+    'Design/CAD': '#00838f',
+    Business: '#c62828',
+    Outreach: '#2e7d32',
+  };
+  const bg = colors[role] || '#001f3f';
+  const initials = name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="${bg}"/><text x="150" y="165" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="96" font-weight="bold">${initials}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
 function MeetTheTeam() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -57,30 +86,30 @@ function MeetTheTeam() {
     { name: 'Summer Camps', href: '/summer-camps' },
   ];
 
-  // Leadership team
+  // Leadership team — replace names/images with real data when ready
   const leadership: TeamMember[] = [
-    { name: 'Team Captain', role: 'Captain', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face', year: 'Senior', bio: 'Leading the team to success' },
-    { name: 'Co-Captain', role: 'Co-Captain', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face', year: 'Senior', bio: 'Coordinating team activities' },
-    { name: 'President', role: 'President', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face', year: 'Senior', bio: 'Managing team operations' },
-    { name: 'Vice President', role: 'Vice President', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face', year: 'Junior', bio: 'Supporting team leadership' },
+    { name: 'Team Captain', role: 'Captain', image: generateAvatar('Team Captain', 'Captain'), year: 'Senior', bio: 'Leading the team to success' },
+    { name: 'Co-Captain', role: 'Co-Captain', image: generateAvatar('Co-Captain', 'Co-Captain'), year: 'Senior', bio: 'Coordinating team activities' },
+    { name: 'President', role: 'President', image: generateAvatar('President', 'President'), year: 'Senior', bio: 'Managing team operations' },
+    { name: 'Vice President', role: 'Vice President', image: generateAvatar('Vice President', 'Vice President'), year: 'Junior', bio: 'Supporting team leadership' },
   ];
 
-  // Mentors
+  // Mentors — replace names/images with real data when ready
   const mentors: TeamMember[] = [
-    { name: 'Lead Mentor', role: 'Lead Mentor', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&crop=face', bio: 'Guiding the team since 2015' },
-    { name: 'Mechanical Mentor', role: 'Mechanical Mentor', image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop&crop=face', bio: 'Professional engineer' },
-    { name: 'Programming Mentor', role: 'Programming Mentor', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&crop=face', bio: 'Software developer' },
-    { name: 'Business Mentor', role: 'Business Mentor', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face', bio: 'Marketing professional' },
+    { name: 'Lead Mentor', role: 'Lead Mentor', image: generateAvatar('Lead Mentor', 'Lead Mentor'), bio: 'Guiding the team since 2015' },
+    { name: 'Mechanical Mentor', role: 'Mechanical Mentor', image: generateAvatar('Mechanical Mentor', 'Mechanical Mentor'), bio: 'Professional engineer' },
+    { name: 'Programming Mentor', role: 'Programming Mentor', image: generateAvatar('Programming Mentor', 'Programming Mentor'), bio: 'Software developer' },
+    { name: 'Business Mentor', role: 'Business Mentor', image: generateAvatar('Business Mentor', 'Business Mentor'), bio: 'Marketing professional' },
   ];
 
-  // Subteam leads
+  // Subteam leads — replace names/images with real data when ready
   const subteamLeads: TeamMember[] = [
-    { name: 'Mechanical Lead', role: 'Mechanical', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
-    { name: 'Programming Lead', role: 'Programming', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
-    { name: 'Electrical Lead', role: 'Electrical', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
-    { name: 'Design Lead', role: 'Design/CAD', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
-    { name: 'Business Lead', role: 'Business', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=300&fit=crop&crop=face', year: 'Senior' },
-    { name: 'Outreach Lead', role: 'Outreach', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop&crop=face', year: 'Junior' },
+    { name: 'Mechanical Lead', role: 'Mechanical', image: generateAvatar('Mechanical Lead', 'Mechanical'), year: 'Senior' },
+    { name: 'Programming Lead', role: 'Programming', image: generateAvatar('Programming Lead', 'Programming'), year: 'Junior' },
+    { name: 'Electrical Lead', role: 'Electrical', image: generateAvatar('Electrical Lead', 'Electrical'), year: 'Senior' },
+    { name: 'Design Lead', role: 'Design/CAD', image: generateAvatar('Design Lead', 'Design/CAD'), year: 'Junior' },
+    { name: 'Business Lead', role: 'Business', image: generateAvatar('Business Lead', 'Business'), year: 'Senior' },
+    { name: 'Outreach Lead', role: 'Outreach', image: generateAvatar('Outreach Lead', 'Outreach'), year: 'Junior' },
   ];
 
   useEffect(() => {
@@ -279,7 +308,7 @@ function MeetTheTeam() {
         <div className="container-custom">
           <div className="team-photo-container reveal">
             <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=600&fit=crop" 
+              src="/team-photo-1.jpg" 
               alt="Pack of Parts Team" 
               className="team-photo"
             />
