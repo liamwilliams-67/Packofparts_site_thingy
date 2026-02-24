@@ -20,7 +20,6 @@ import {
   Linkedin,
   ChevronDown,
   ChevronRight,
-  ShoppingCart,
   Calendar
 } from 'lucide-react';
 import {
@@ -376,7 +375,7 @@ function Donate() {
                     : 'bg-white text-gray-600 hover:bg-light-blue/10'
                 }`}
               >
-                <ShoppingCart className="w-4 h-4" />
+                <Calendar className="w-4 h-4" />
                 Summer Camp Products
               </button>
             </div>
