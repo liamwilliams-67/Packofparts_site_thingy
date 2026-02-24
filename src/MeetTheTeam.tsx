@@ -146,7 +146,18 @@ function MeetTheTeam() {
       observer.observe(el);
     });
 
-    return () => observer.disconnect();
+    // Fallback: ensure content becomes visible even if IntersectionObserver
+    // doesn't fire (e.g. in Codespaces iframe preview)
+    const fallback = setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.active)').forEach((el) => {
+        el.classList.add('active');
+      });
+    }, 1200);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallback);
+    };
   }, []);
 
   const scrollToSection = (href: string) => {
