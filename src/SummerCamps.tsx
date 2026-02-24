@@ -127,6 +127,12 @@ function SummerCamps() {
     // Collect selected camp objects with their stripePriceIds
     const selectedCamps = campsList.filter(c => selectedCampKeys.includes(c.key));
 
+    if (!API_URL) {
+      console.error('VITE_API_URL is not configured. Set it in .env to point to the checkout server.');
+      alert('Checkout is not available: the backend server URL is not configured.\n\nPlease set VITE_API_URL in your .env file (e.g. http://localhost:3001) and restart the dev server.');
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/create-checkout-session`, {
         method: 'POST',
@@ -155,9 +161,21 @@ function SummerCamps() {
       } else {
         alert('Could not create checkout session. Please try again.');
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Checkout error:', err);
-      alert('Something went wrong. Please try again or contact us.');
+      // Network errors (backend not running, CORS, timeout, etc.) are TypeErrors from fetch()
+      const isNetworkError = err instanceof TypeError;
+      if (isNetworkError) {
+        alert(
+          'Could not connect to the checkout server.\n\n' +
+          'Make sure the backend is running:\n' +
+          '  cd server && npm install && npm start\n\n' +
+          'See server/.env.example for required environment variables.'
+        );
+      } else {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        alert(`Checkout failed: ${message}\n\nPlease try again or contact us.`);
+      }
     }
   };
 
