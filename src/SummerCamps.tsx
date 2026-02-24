@@ -47,6 +47,8 @@ function SummerCamps() {
     };
   }, []);
 
+  const [statusDismissed, setStatusDismissed] = useState(false);
+
   const clearError = (field: string) => {
     setFieldErrors((prev) => {
       const next = { ...prev };
@@ -451,36 +453,43 @@ function SummerCamps() {
         </div>
       </section> */}
 
-      {/* Checkout Status Cards */}
-      {checkoutSuccess && (
-        <section className="section-padding pb-0">
-          <div className="container-custom">
-            <div className="max-w-2xl mx-auto bg-green-50 border border-green-200 rounded-2xl p-6 flex items-start gap-4">
-              <CheckCircle className="w-8 h-8 text-green-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="text-lg font-orbitron font-bold text-green-800 mb-1">Registration Successful!</h3>
-                <p className="text-green-700">
+      {/* Checkout Status Modal */}
+      {(checkoutSuccess || checkoutCanceled) && !statusDismissed && (
+        <div
+          className="fixed inset-0 z-[100] backdrop-blur-md bg-navy/85 flex items-start justify-center pt-16 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="checkout-status-title"
+          onKeyDown={(e) => e.key === 'Escape' && setStatusDismissed(true)}
+          tabIndex={-1}
+        >
+          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+            <button
+              onClick={() => setStatusDismissed(true)}
+              className="absolute top-4 right-4 text-white/70 hover:text-light-blue transition-colors duration-200"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            {checkoutSuccess ? (
+              <>
+                <CheckCircle className="w-14 h-14 text-light-blue mb-5 flex-shrink-0" />
+                <h3 id="checkout-status-title" className="text-xl font-orbitron font-bold text-white mb-4">Registration Successful!</h3>
+                <p className="text-white/80 leading-relaxed">
                   Thank you for registering! Your payment has been received. You will receive a confirmation email shortly with details about the camp.
                 </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-      {checkoutCanceled && (
-        <section className="section-padding pb-0">
-          <div className="container-custom">
-            <div className="max-w-2xl mx-auto bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4">
-              <XCircle className="w-8 h-8 text-amber-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="text-lg font-orbitron font-bold text-amber-800 mb-1">Checkout Canceled</h3>
-                <p className="text-amber-700">
+              </>
+            ) : (
+              <>
+                <XCircle className="w-14 h-14 text-light-blue mb-5 flex-shrink-0" />
+                <h3 id="checkout-status-title" className="text-xl font-orbitron font-bold text-white mb-4">Checkout Canceled</h3>
+                <p className="text-white/80 leading-relaxed">
                   Your checkout was canceled and you have not been charged. You can register again anytime using the form below.
                 </p>
-              </div>
-            </div>
+              </>
+            )}
           </div>
-        </section>
+        </div>
       )}
 
       {/* Camps Section */}
@@ -507,7 +516,7 @@ function SummerCamps() {
             ))}
 
             {addonsList.map((addon, i) => (
-              <div key={addon.key} className="reveal camp-card bg-white p-6 rounded-2xl" style={{ transitionDelay: `${(campsList.length + i) * 0.08}s` }}>
+              <div key={addon.key} className="reveal camp-card bg-white p-6 rounded-2xl md:col-span-2" style={{ transitionDelay: `${(campsList.length + i) * 0.08}s` }}>
                 <h3 className="text-navy font-orbitron font-bold text-xl mb-2">{addon.title}</h3>
                 <div className="mb-1 text-sm text-navy font-medium">Time: {addon.time}</div>
                 <div className="mb-3 text-sm text-navy font-medium">Price: ${addon.price}</div>
