@@ -6,14 +6,14 @@ export const STRIPE_BUY_BUTTON_ID = import.meta.env.VITE_STRIPE_BUY_BUTTON_ID ||
 export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
 
 // --- Summer Camp Products ---
-// Each camp/add-on has its own Stripe Buy Button ID (set via VITE_STRIPE_CAMP_*_BUY_BUTTON_ID)
+// Each camp/add-on has its own Stripe Price ID (set via VITE_STRIPE_CAMP_*_PRICE_ID)
 export interface StripeProduct {
   key: string;
   label: string;
   dates?: string;
   time: string;
   price: number;
-  buyButtonId: string;
+  stripePriceId: string;
 }
 
 export const STRIPE_CAMP_PRODUCTS: StripeProduct[] = [
@@ -23,7 +23,7 @@ export const STRIPE_CAMP_PRODUCTS: StripeProduct[] = [
     dates: 'August 17-21, 2025',
     time: '9:00 AM - 12:00 PM',
     price: 250,
-    buyButtonId: import.meta.env.VITE_STRIPE_CAMP_CAD_BUY_BUTTON_ID || '',
+    stripePriceId: import.meta.env.VITE_STRIPE_CAMP_CAD_PRICE_ID || '',
   },
   {
     key: 'camp_programming',
@@ -31,7 +31,7 @@ export const STRIPE_CAMP_PRODUCTS: StripeProduct[] = [
     dates: 'August 24-28, 2025',
     time: '9:00 AM - 12:00 PM',
     price: 250,
-    buyButtonId: import.meta.env.VITE_STRIPE_CAMP_PROGRAMMING_BUY_BUTTON_ID || '',
+    stripePriceId: import.meta.env.VITE_STRIPE_CAMP_PROGRAMMING_PRICE_ID || '',
   },
   {
     key: 'camp_engineering1',
@@ -39,7 +39,7 @@ export const STRIPE_CAMP_PRODUCTS: StripeProduct[] = [
     dates: 'August 17-21, 2025',
     time: '9:00 AM - 12:00 PM',
     price: 250,
-    buyButtonId: import.meta.env.VITE_STRIPE_CAMP_ENGINEERING1_BUY_BUTTON_ID || '',
+    stripePriceId: import.meta.env.VITE_STRIPE_CAMP_ENGINEERING1_PRICE_ID || '',
   },
   {
     key: 'camp_engineering2',
@@ -47,7 +47,7 @@ export const STRIPE_CAMP_PRODUCTS: StripeProduct[] = [
     dates: 'August 24-28, 2025',
     time: '9:00 AM - 12:00 PM',
     price: 250,
-    buyButtonId: import.meta.env.VITE_STRIPE_CAMP_ENGINEERING2_BUY_BUTTON_ID || '',
+    stripePriceId: import.meta.env.VITE_STRIPE_CAMP_ENGINEERING2_PRICE_ID || '',
   },
 ];
 
@@ -57,6 +57,6 @@ export const STRIPE_ADDON_PRODUCTS: StripeProduct[] = [
     label: "Women's Leadership Add-on",
     time: '8:00 AM - 9:00 AM',
     price: 100,
-    buyButtonId: import.meta.env.VITE_STRIPE_ADDON_WL_BUY_BUTTON_ID || '',
+    stripePriceId: import.meta.env.VITE_STRIPE_ADDON_WL_PRICE_ID || '',
   },
 ];
