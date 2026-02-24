@@ -48,9 +48,11 @@ function generateAvatar(name: string, role: string): string {
     Business: '#c62828',
     Outreach: '#2e7d32',
   };
-  const bg = colors[role] || '#001f3f';
+  const raw = colors[role] || '#001f3f';
+  const bg = /^#[0-9a-fA-F]{6}$/.test(raw) ? raw : '#001f3f';
   const initials = name
     .split(' ')
+    .filter(Boolean)
     .map((w) => w[0])
     .join('')
     .toUpperCase()
