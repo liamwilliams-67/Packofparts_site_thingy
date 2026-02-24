@@ -29,7 +29,13 @@ function Donate() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
-  const [stripeStatus, setStripeStatus] = useState<'loading' | 'ready' | 'timeout'>('loading');
+  const [stripeStatus, setStripeStatus] = useState<'loading' | 'ready' | 'timeout'>(() => {
+    if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) {
+      return 'timeout';
+    }
+
+    return customElements.get('stripe-buy-button') ? 'ready' : 'loading';
+  });
 
   // Navigation links
   const navLinks = [
@@ -88,13 +94,7 @@ function Donate() {
 
   // Track when Stripe Buy Button custom element is defined
   useEffect(() => {
-    if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) {
-      setStripeStatus('timeout');
-      return;
-    }
-
-    if (customElements.get('stripe-buy-button')) {
-      setStripeStatus('ready');
+    if (stripeStatus !== 'loading') {
       return;
     }
 
@@ -106,7 +106,7 @@ function Donate() {
     });
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [stripeStatus]);
 
   const scrollToSection = (href: string) => {
     if (href.startsWith('#')) {
@@ -116,7 +116,7 @@ function Donate() {
       }
     } else {
       // Navigate to route
-      window.location.href = href;
+      window.location.assign(href);
     }
     setIsMobileMenuOpen(false);
   };
