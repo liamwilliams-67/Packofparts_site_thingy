@@ -398,10 +398,13 @@ function Donate() {
                       Donate via Stripe
                     </a>
                   ) : (
-                    <p className="text-gray-500 text-center py-4">
-                      The payment button could not be loaded. Please try disabling your ad-blocker or{' '}
-                      <a href="/contact" className="text-light-blue underline">contact us</a>{' '}
-                      for alternative payment options.
+                    <p className="text-gray-500 text-center py-4 text-sm">
+                      Online card payments are not available in this environment.
+                      Please use the check/mail option below, or visit the{' '}
+                      <a href="https://packofparts.org/donate" target="_blank" rel="noopener noreferrer" className="text-light-blue underline">
+                        production site
+                      </a>{' '}
+                      to donate online.
                     </p>
                   )
                 )}
