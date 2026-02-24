@@ -1,7 +1,8 @@
 node_modules
 dist
-.env
 .env.local
 .env.*.local
+server/node_modules
+server/.env
 # Large video file - keep for reference but don't use in production
 # public/IMG_1496.MOV

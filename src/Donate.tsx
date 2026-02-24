@@ -36,7 +36,6 @@ function Donate() {
 
     return customElements.get('stripe-buy-button') ? 'ready' : 'loading';
   });
-
   // Navigation links
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -149,7 +148,7 @@ function Donate() {
                 link.hasDropdown ? (
                   <div 
                     key={link.name}
-                    className="relative"
+                    className="relative flex items-center"
                     onMouseEnter={() => setIsCommunityDropdownOpen(true)}
                     onMouseLeave={() => setIsCommunityDropdownOpen(false)}
                   >
