@@ -1,5 +1,18 @@
 /* Summer Camps Page Specific Styles */
 
+/* Camp Cards */
+.camp-card {
+  border: 1px solid rgba(128, 211, 238, 0.35);
+  box-shadow: 0 4px 16px rgba(24, 38, 81, 0.08);
+  transition: all 0.3s ease;
+}
+
+.camp-card:hover {
+  box-shadow: 0 8px 28px rgba(24, 38, 81, 0.15);
+  border-color: rgba(128, 211, 238, 0.65);
+  transform: translateY(-4px);
+}
+
 /* Camp Feature Cards */
 .camp-feature-card {
   background: white;
