@@ -94,26 +94,6 @@ app.post('/create-checkout-session', async (req, res) => {
         selectedCamps: selectedCamps.join(', '),
         addonWL: addonWL ? 'Yes' : 'No',
       },
-      custom_fields: [
-        {
-          key: 'studentname',
-          label: { type: 'custom', custom: 'Student Name' },
-          type: 'text',
-          optional: true,
-        },
-        {
-          key: 'grade',
-          label: { type: 'custom', custom: 'Grade' },
-          type: 'text',
-          optional: true,
-        },
-        {
-          key: 'parentname',
-          label: { type: 'custom', custom: 'Parent/Guardian Name' },
-          type: 'text',
-          optional: true,
-        },
-      ],
       success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?success=true`,
       cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?canceled=true`,
     });
