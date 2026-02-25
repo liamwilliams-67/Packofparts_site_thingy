@@ -33,9 +33,13 @@ const ADDON_PRICE_MAP = {
  * Accepts:
  *   selectedCamps  - array of camp key strings (e.g. ['camp_cad', 'camp_programming'])
  *   addonWL        - boolean
- *   parentEmail    - string
  *   registrantName - string
+ *   registrantEmail - string
  *   childGrade     - string
+ *   parentName     - string
+ *   parentEmail    - string
+ *   parentPhone    - string
+ *   hearAboutUs    - string
  *
  * Returns: { url } – the Stripe Checkout Session URL
  */
@@ -44,9 +48,13 @@ app.post('/create-checkout-session', async (req, res) => {
     const {
       selectedCamps,
       addonWL,
-      parentEmail,
       registrantName,
+      registrantEmail,
       childGrade,
+      parentName,
+      parentEmail,
+      parentPhone,
+      hearAboutUs,
     } = req.body;
 
     if (!selectedCamps || selectedCamps.length === 0) {
@@ -78,10 +86,34 @@ app.post('/create-checkout-session', async (req, res) => {
       customer_email: parentEmail || undefined,
       metadata: {
         registrantName: registrantName || '',
+        registrantEmail: registrantEmail || '',
         childGrade: childGrade || '',
+        parentName: parentName || '',
+        parentPhone: parentPhone || '',
+        hearAboutUs: hearAboutUs || '',
         selectedCamps: selectedCamps.join(', '),
         addonWL: addonWL ? 'Yes' : 'No',
       },
+      custom_fields: [
+        {
+          key: 'studentname',
+          label: { type: 'custom', custom: 'Student Name' },
+          type: 'text',
+          optional: true,
+        },
+        {
+          key: 'grade',
+          label: { type: 'custom', custom: 'Grade' },
+          type: 'text',
+          optional: true,
+        },
+        {
+          key: 'parentname',
+          label: { type: 'custom', custom: 'Parent/Guardian Name' },
+          type: 'text',
+          optional: true,
+        },
+      ],
       success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?success=true`,
       cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?canceled=true`,
     });

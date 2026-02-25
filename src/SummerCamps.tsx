@@ -164,9 +164,13 @@ function SummerCamps() {
         body: JSON.stringify({
           selectedCamps: selectedCamps.map(c => c.stripeKey),
           addonWL,
-          parentEmail,
           registrantName,
+          registrantEmail,
           childGrade,
+          parentName,
+          parentEmail,
+          parentPhone,
+          hearAboutUs,
         }),
       });
 
