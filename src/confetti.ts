@@ -28,6 +28,12 @@ export const CONFETTI_SPRAY_DURATION_MS = 250;
 /** Number of sub-bursts each detonator fires over the spray duration */
 export const CONFETTI_SUB_BURSTS = 5;
 
+/** Multiplier for how long particles stay alive (1.0 = default, 1.25 = 25% longer) */
+export const CONFETTI_FLOAT_MULTIPLIER = 1.25;
+
+/** Side-to-side drift amplitude while falling (0 = straight down, higher = more sway) */
+export const CONFETTI_DRIFT = 2;
+
 // Team colors: navy + light-blue + secondary-blue + white accent
 const TEAM_COLORS = ['#182651', '#80D3EE', '#7FC3F2', '#ffffff'];
 
@@ -75,13 +81,14 @@ export function fireFountainSpray(): void {
               particleCount: particlesPerBurst,
               angle: 90,                             // straight up from all points
               spread: isCenter ? 18 : 12,            // center has 15% more spread
-              startVelocity: isCenter ? 69 : 56,     // 25% taller fire
+              startVelocity: isCenter ? 83 : 67,     // taller to compensate for deeper origin
               scalar: isCenter
                 ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
                 : CONFETTI_BASE_SIZE,
-              ticks: isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS,
+              ticks: Math.round((isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS) * CONFETTI_FLOAT_MULTIPLIER),
+              drift: CONFETTI_DRIFT,
               gravity: 0.8,
-              origin: { x: pt.x, y: 1.2 },          // further below viewport to hide gap
+              origin: { x: pt.x, y: 1.4 },          // deep below viewport
               colors: TEAM_COLORS,
             });
           }, b * interval);
