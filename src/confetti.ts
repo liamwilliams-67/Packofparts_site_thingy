@@ -2,7 +2,7 @@ import confetti from 'canvas-confetti';
 
 // ─── Adjustable parameters ─────────────────────────────────────────────────
 /** Base number of confetti particles per burst */
-export const CONFETTI_BASE_PARTICLE_COUNT = 60;
+export const CONFETTI_BASE_PARTICLE_COUNT = 120;
 
 /** Multiplier applied to the center detonation point */
 export const CONFETTI_CENTER_DENSITY_MULTIPLIER = 2;
@@ -21,6 +21,12 @@ export const CONFETTI_BASE_TICKS = 200;
 
 /** How long (in ticks) the center burst stays alive */
 export const CONFETTI_CENTER_TICKS = 300;
+
+/** Duration in ms over which each detonator sprays its particles (avoids instant burst) */
+export const CONFETTI_SPRAY_DURATION_MS = 250;
+
+/** Number of sub-bursts each detonator fires over the spray duration */
+export const CONFETTI_SUB_BURSTS = 5;
 
 // Team colors: navy + light-blue + secondary-blue + white accent
 const TEAM_COLORS = ['#182651', '#80D3EE', '#7FC3F2', '#ffffff'];
@@ -55,21 +61,31 @@ export function fireFountainSpray(): void {
         const pt = points[ptIdx];
         const isCenter = pt.isCenter;
 
-        confetti({
-          particleCount: isCenter
-            ? CONFETTI_BASE_PARTICLE_COUNT * CONFETTI_CENTER_DENSITY_MULTIPLIER
-            : CONFETTI_BASE_PARTICLE_COUNT,
-          angle: 90,                             // straight up from all points
-          spread: isCenter ? 31 : 24,            // tight spread (2.25× less than original)
-          startVelocity: isCenter ? 55 : 45,
-          scalar: isCenter
-            ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
-            : CONFETTI_BASE_SIZE,
-          ticks: isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS,
-          gravity: 0.8,
-          origin: { x: pt.x, y: 1.1 },          // below viewport to hide initial arc
-          colors: TEAM_COLORS,
-        });
+        const totalParticles = isCenter
+          ? CONFETTI_BASE_PARTICLE_COUNT * CONFETTI_CENTER_DENSITY_MULTIPLIER
+          : CONFETTI_BASE_PARTICLE_COUNT;
+
+        // Spray particles over CONFETTI_SPRAY_DURATION_MS in sub-bursts
+        const particlesPerBurst = Math.ceil(totalParticles / CONFETTI_SUB_BURSTS);
+        const interval = CONFETTI_SPRAY_DURATION_MS / CONFETTI_SUB_BURSTS;
+
+        for (let b = 0; b < CONFETTI_SUB_BURSTS; b++) {
+          setTimeout(() => {
+            confetti({
+              particleCount: particlesPerBurst,
+              angle: 90,                             // straight up from all points
+              spread: isCenter ? 16 : 12,            // tight spread (2× less than previous)
+              startVelocity: isCenter ? 69 : 56,     // 25% taller fire
+              scalar: isCenter
+                ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
+                : CONFETTI_BASE_SIZE,
+              ticks: isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS,
+              gravity: 0.8,
+              origin: { x: pt.x, y: 1.1 },          // below viewport to hide initial arc
+              colors: TEAM_COLORS,
+            });
+          }, b * interval);
+        }
       });
     }, pairIdx * CONFETTI_STAGGER_MS);
   });
