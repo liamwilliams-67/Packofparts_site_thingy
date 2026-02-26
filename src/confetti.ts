@@ -109,7 +109,7 @@ function tick(): void {
     p.alpha = p.age / p.maxAge > 0.8 ? 1 - (p.age / p.maxAge - 0.8) / 0.2 : 1.0;
 
     // Vertical physics: gravity acceleration with air-resistance decay
-    p.vy = p.vy * p.decay + 0.45;
+    p.vy = p.vy * p.decay + 0.12;
 
     if (!p.isFalling) {
       // Rising phase: carry horizontal spread, integrate velocity
@@ -184,7 +184,7 @@ function spawnBurst(
       vx,
       vy,
       isFalling: false,
-      sineAmplitude: 30 + Math.random() * 50,        // 30–80 px horizontal swing
+      sineAmplitude: 10 + Math.random() * 17,        // 10–27 px horizontal swing (3× smaller)
       sineFrequency: 0.018 + Math.random() * 0.012,  // ~2–3 full waves while falling
       sinePhase: Math.random() * TWO_PI,         // random starting phase
       color: TEAM_COLORS[Math.floor(Math.random() * TEAM_COLORS.length)],
@@ -192,7 +192,7 @@ function spawnBurst(
       h: (3 + Math.random() * 3) * scalar,
       rotation: Math.random() * TWO_PI,
       rotSpeed: (Math.random() - 0.5) * 0.18,
-      decay: 0.977 + Math.random() * 0.008,
+      decay: 0.988 + Math.random() * 0.008,
       alpha: 1,
       age: 0,
       maxAge,
