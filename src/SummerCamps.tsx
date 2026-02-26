@@ -729,7 +729,7 @@ function SummerCamps() {
                         <div className="font-orbitron text-navy">${subtotal.toFixed(2)}</div>
                       </div>
                       <div className="flex items-center justify-between mb-1">
-                        <div className="text-gray-500 text-sm">Processing Fees ({(PROCESSING_FEE_RATE * 100).toFixed(1)}% + ${PROCESSING_FEE_FIXED.toFixed(2)})</div>
+                        <div className="text-gray-500 text-sm">Processing Fees</div>
                         <div className="font-orbitron text-navy text-sm">${processingFee.toFixed(2)}</div>
                       </div>
                       <div className="mb-1">&nbsp;</div>
