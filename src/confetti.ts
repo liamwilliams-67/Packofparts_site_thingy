@@ -77,7 +77,6 @@ export function fireFountainSpray(): void {
 
         for (let b = 0; b < CONFETTI_SUB_BURSTS; b++) {
           setTimeout(() => {
-            const half = Math.ceil(particlesPerBurst / 2);
             const shared = {
               angle: 90,                             // straight up from all points
               spread: isCenter ? 18 : 12,
@@ -90,10 +89,9 @@ export function fireFountainSpray(): void {
               origin: { x: pt.x, y: 1.4 },
               colors: TEAM_COLORS,
             };
-            // Fire two halves with opposite drift so particles intermix naturally
-            const driftMag = Math.random() * CONFETTI_DRIFT;
-            confetti({ ...shared, particleCount: half, drift: driftMag });
-            confetti({ ...shared, particleCount: half, drift: -driftMag });
+            // Random drift per sub-burst for natural sway (no split)
+            const drift = (Math.random() * 2 - 1) * CONFETTI_DRIFT;
+            confetti({ ...shared, particleCount: particlesPerBurst, drift });
           }, b * interval);
         }
       });
