@@ -163,11 +163,11 @@ function spawnBurst(
 
   const spreadRad = (isCenter ? 18 : 12) * (Math.PI / 180);
   // Scale launch speed to canvas height so particles never exit the top of the screen.
-  // V_max = baseSpeed * 1.2 (worst-case multiplier). With gravity=0.12 and decay≈0.988–0.996,
-  // max rise ≈ V_max² / 0.096. Coefficients below keep max rise ≤ 90 % of canvas height.
+  // V_max = baseSpeed * 1.2 (worst-case multiplier). With gravity=0.12 and ignoring decay,
+  // max rise ≈ V_max² / 0.24. Coefficients below target max rise ≈ 80% / 65% of canvas height.
   const baseSpeed = isCenter
-    ? Math.sqrt(0.060 * _canvas.height)   // center: wider spread, slightly faster
-    : Math.sqrt(0.040 * _canvas.height);  // outer: narrower, more conservative
+    ? Math.sqrt(0.13 * _canvas.height)   // center: max rise ≈ 80 % of viewport
+    : Math.sqrt(0.11 * _canvas.height);  // outer: max rise ≈ 65 % of viewport
   const maxAge = Math.round(
     (isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS) * CONFETTI_FLOAT_MULTIPLIER,
   );
