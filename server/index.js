@@ -14,18 +14,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Server-side mapping of camp keys to Stripe Price IDs from environment variables.
+// Server-side mapping of camp keys to Stripe Price IDs and prices from environment variables.
 // This avoids trusting client-sent price IDs.
 const CAMP_PRICE_MAP = {
-  camp_cad: process.env.STRIPE_CAMP_CAD_PRICE_ID,
-  camp_programming: process.env.STRIPE_CAMP_PROGRAMMING_PRICE_ID,
-  camp_engineering1: process.env.STRIPE_CAMP_ENGINEERING1_PRICE_ID,
-  camp_engineering2: process.env.STRIPE_CAMP_ENGINEERING2_PRICE_ID,
+  camp_cad: { priceId: process.env.STRIPE_CAMP_CAD_PRICE_ID, amount: 250 },
+  camp_programming: { priceId: process.env.STRIPE_CAMP_PROGRAMMING_PRICE_ID, amount: 250 },
+  camp_engineering1: { priceId: process.env.STRIPE_CAMP_ENGINEERING1_PRICE_ID, amount: 250 },
+  camp_engineering2: { priceId: process.env.STRIPE_CAMP_ENGINEERING2_PRICE_ID, amount: 250 },
 };
 
 const ADDON_PRICE_MAP = {
-  addon_womens_leadership: process.env.STRIPE_ADDON_WL_PRICE_ID,
+  addon_womens_leadership: { priceId: process.env.STRIPE_ADDON_WL_PRICE_ID, amount: 100 },
 };
+
+// Processing fee configuration (Stripe's standard rate)
+const PROCESSING_FEE_RATE = 0.029; // 2.9%
+const PROCESSING_FEE_FIXED = 0.30;  // 30 cents
 
 /**
  * POST /create-checkout-session
@@ -63,21 +67,39 @@ app.post('/create-checkout-session', async (req, res) => {
 
     // Build line_items by mapping camp keys to server-side Price IDs
     const lineItems = [];
+    let subtotal = 0;
     for (const campKey of selectedCamps) {
-      const priceId = CAMP_PRICE_MAP[campKey];
-      if (!priceId) {
+      const camp = CAMP_PRICE_MAP[campKey];
+      if (!camp || !camp.priceId) {
         return res.status(400).json({ error: `Unknown camp key or missing price ID: ${campKey}` });
       }
-      lineItems.push({ price: priceId, quantity: 1 });
+      lineItems.push({ price: camp.priceId, quantity: 1 });
+      subtotal += camp.amount;
     }
 
     // Add Women's Leadership add-on if selected
     if (addonWL) {
-      const addonPriceId = ADDON_PRICE_MAP.addon_womens_leadership;
-      if (!addonPriceId) {
+      const addon = ADDON_PRICE_MAP.addon_womens_leadership;
+      if (!addon || !addon.priceId) {
         return res.status(400).json({ error: "Women's Leadership add-on price ID is not configured" });
       }
-      lineItems.push({ price: addonPriceId, quantity: 1 });
+      lineItems.push({ price: addon.priceId, quantity: 1 });
+      subtotal += addon.amount;
+    }
+
+    // Calculate processing fee and add as a line item
+    if (subtotal > 0) {
+      const processingFee = Math.round((subtotal * PROCESSING_FEE_RATE + PROCESSING_FEE_FIXED) * 100); // in cents
+      lineItems.push({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Processing Fee',
+          },
+          unit_amount: processingFee,
+        },
+        quantity: 1,
+      });
     }
 
     // Create a helper object for the metadata so you don't have to type it twice
