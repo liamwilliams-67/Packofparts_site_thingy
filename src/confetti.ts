@@ -2,7 +2,7 @@ import confetti from 'canvas-confetti';
 
 // ─── Adjustable parameters ─────────────────────────────────────────────────
 /** Base number of confetti particles per burst */
-export const CONFETTI_BASE_PARTICLE_COUNT = 120;
+export const CONFETTI_BASE_PARTICLE_COUNT = 96;
 
 /** Multiplier applied to the center detonation point */
 export const CONFETTI_CENTER_DENSITY_MULTIPLIER = 2;
@@ -74,14 +74,14 @@ export function fireFountainSpray(): void {
             confetti({
               particleCount: particlesPerBurst,
               angle: 90,                             // straight up from all points
-              spread: isCenter ? 16 : 12,            // tight spread (2× less than previous)
+              spread: isCenter ? 18 : 12,            // center has 15% more spread
               startVelocity: isCenter ? 69 : 56,     // 25% taller fire
               scalar: isCenter
                 ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
                 : CONFETTI_BASE_SIZE,
               ticks: isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS,
               gravity: 0.8,
-              origin: { x: pt.x, y: 1.1 },          // below viewport to hide initial arc
+              origin: { x: pt.x, y: 1.2 },          // further below viewport to hide gap
               colors: TEAM_COLORS,
             });
           }, b * interval);
