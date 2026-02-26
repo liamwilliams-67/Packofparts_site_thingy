@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import './SummerCamps.css';
 import { STRIPE_CAMP_PRODUCTS, STRIPE_ADDON_PRODUCTS } from './stripeConfig';
+import { fireFountainSpray } from './confetti';
 
 // Backend API URL – leave empty for dev (Vite proxy), or set VITE_API_URL for production
 const API_URL = import.meta.env.VITE_API_URL || '';
@@ -59,6 +60,13 @@ function SummerCamps() {
   }, []);
 
   const [statusDismissed, setStatusDismissed] = useState(false);
+
+  // Fire confetti on successful checkout
+  useEffect(() => {
+    if (checkoutSuccess && !statusDismissed) {
+      fireFountainSpray();
+    }
+  }, [checkoutSuccess, statusDismissed]);
 
   const clearError = (field: string) => {
     setFieldErrors((prev) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { 
   Mail, 
   MapPin, 
@@ -22,6 +22,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { STRIPE_BUY_BUTTON_ID, STRIPE_PUBLISHABLE_KEY, STRIPE_PAYMENT_LINK } from './stripeConfig';
+import { fireFountainSpray } from './confetti';
 import './Donate.css';
 
 function Donate() {
@@ -36,6 +37,21 @@ function Donate() {
 
     return customElements.get('stripe-buy-button') ? 'ready' : 'loading';
   });
+
+  // Read checkout status from Stripe redirect query params
+  const donationSuccess = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('success') === 'true';
+  }, []);
+
+  const [statusDismissed, setStatusDismissed] = useState(false);
+
+  // Fire confetti on successful donation
+  useEffect(() => {
+    if (donationSuccess && !statusDismissed) {
+      fireFountainSpray();
+    }
+  }, [donationSuccess, statusDismissed]);
   // Navigation links
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -276,6 +292,33 @@ function Donate() {
           </p>
         </div>
       </section>
+
+      {/* Donation Success Modal */}
+      {donationSuccess && !statusDismissed && (
+        <div
+          className="fixed inset-0 z-[100] backdrop-blur-md bg-navy/85 flex items-center justify-center px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="donation-status-title"
+          onKeyDown={(e) => e.key === 'Escape' && setStatusDismissed(true)}
+          tabIndex={-1}
+        >
+          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+            <button
+              onClick={() => setStatusDismissed(true)}
+              className="absolute top-4 right-4 text-white/70 hover:text-light-blue transition-colors duration-200"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <CheckCircle className="w-14 h-14 text-light-blue mb-5 flex-shrink-0" />
+            <h3 id="donation-status-title" className="text-xl font-orbitron font-bold text-white mb-4">Thank You for Your Donation!</h3>
+            <p className="text-white/80 leading-relaxed">
+              Your generous contribution has been received. Thank you for supporting Pack of Parts and inspiring the next generation of STEM leaders!
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Impact Section */}
       <section className="section-padding">
