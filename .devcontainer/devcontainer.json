@@ -1,6 +1,6 @@
 {
   "name": "Pack of Parts Website",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
-  "postCreateCommand": "npm ci",
-  "forwardPorts": [5173]
+  "postCreateCommand": "npm ci && cd server && npm ci",
+  "forwardPorts": [5173, 3001]
 }

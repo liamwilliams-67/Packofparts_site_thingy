@@ -18,9 +18,14 @@ import {
 } from 'lucide-react';
 import './SummerCamps.css';
 import { STRIPE_CAMP_PRODUCTS, STRIPE_ADDON_PRODUCTS } from './stripeConfig';
+import { fireFountainSpray } from './confetti';
 
-// Backend API URL – set in .env: VITE_API_URL=http://localhost:3001 (dev) or production URL
+// Backend API URL – leave empty for dev (Vite proxy), or set VITE_API_URL for production
 const API_URL = import.meta.env.VITE_API_URL || '';
+
+// Processing fee configuration (Stripe's standard rate)
+const PROCESSING_FEE_RATE = 0.029; // 2.9%
+const PROCESSING_FEE_FIXED = 0.30;  // 30 cents
 
 function formatPhoneNumber(value: string): string {
   const digits = value.replace(/\D/g, '').slice(0, 10);
@@ -55,6 +60,13 @@ function SummerCamps() {
   }, []);
 
   const [statusDismissed, setStatusDismissed] = useState(false);
+
+  // Fire confetti on successful checkout
+  useEffect(() => {
+    if (checkoutSuccess && !statusDismissed) {
+      fireFountainSpray();
+    }
+  }, [checkoutSuccess, statusDismissed]);
 
   const clearError = (field: string) => {
     setFieldErrors((prev) => {
@@ -151,13 +163,9 @@ function SummerCamps() {
     // Collect selected camp objects with their server-side keys
     const selectedCamps = campsList.filter(c => selectedCampKeys.includes(c.key));
 
-    if (!API_URL) {
-      console.error('VITE_API_URL is not configured. Set it in .env to point to the checkout server.');
-      alert('Checkout is not available: the backend server URL is not configured.\n\nPlease set VITE_API_URL in your .env file (e.g. http://localhost:3001) and restart the dev server.');
-      return;
-    }
-
     try {
+      // When API_URL is empty (dev/Codespaces), this fetches from the same origin;
+      // Vite's dev server proxy forwards it to http://localhost:3001.
       const response = await fetch(`${API_URL}/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -718,12 +726,30 @@ function SummerCamps() {
               </div>
 
               <div className="pt-4 border-t">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-gray-700 font-medium">Total</div>
-                  <div className="font-orbitron font-bold text-navy">
-                    ${campsList.filter(c => Object.values(selectedByWeek).includes(c.key)).reduce((s, c) => s + c.price, 0) + (addonWL ? 100 : 0)}
-                  </div>
-                </div>
+                {(() => {
+                  const subtotal = campsList.filter(c => Object.values(selectedByWeek).includes(c.key)).reduce((s, c) => s + c.price, 0) + (addonWL ? 100 : 0);
+                  const processingFee = subtotal > 0 ? Math.round(((subtotal + PROCESSING_FEE_FIXED) / (1 - PROCESSING_FEE_RATE) - subtotal) * 100) / 100 : 0;
+                  const total = Math.round((subtotal + processingFee) * 100) / 100;
+                  return (
+                    <>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-gray-700 font-medium">Subtotal</div>
+                        <div className="font-orbitron text-navy">${subtotal.toFixed(2)}</div>
+                      </div>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-gray-500 text-sm">Processing Fees</div>
+                        <div className="font-orbitron text-navy text-sm">${processingFee.toFixed(2)}</div>
+                      </div>
+                      <div className="mb-1">&nbsp;</div>
+                      <div className="border-t pt-2 mb-4">
+                        <div className="flex items-center justify-between">
+                          <div className="text-gray-700 font-medium">Total</div>
+                          <div className="font-orbitron font-bold text-navy">${total.toFixed(2)}</div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })()}
 
                 <div className="flex items-center gap-4">
                   <button type="submit" className="btn-primary text-navy inline-flex items-center gap-2">Go to Checkout</button>
