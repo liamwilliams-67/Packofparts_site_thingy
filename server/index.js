@@ -80,23 +80,34 @@ app.post('/create-checkout-session', async (req, res) => {
       lineItems.push({ price: addonPriceId, quantity: 1 });
     }
 
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items: lineItems,
-      customer_email: parentEmail || undefined,
-      metadata: {
-        registrantName: registrantName || '',
-        registrantEmail: registrantEmail || '',
-        childGrade: childGrade || '',
-        parentName: parentName || '',
-        parentPhone: parentPhone || '',
-        hearAboutUs: hearAboutUs || '',
-        selectedCamps: selectedCamps.join(', '),
-        addonWL: addonWL ? 'Yes' : 'No',
-      },
-      success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?success=true`,
-      cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?canceled=true`,
-    });
+    // Create a helper object for the metadata so you don't have to type it twice
+const registrationMetadata = {
+  registrantName: registrantName || '',
+  registrantEmail: registrantEmail || '',
+  childGrade: childGrade || '',
+  parentName: parentName || '',
+  parentPhone: parentPhone || '',
+  hearAboutUs: hearAboutUs || '',
+  selectedCamps: selectedCamps.join(', '),
+  addonWL: addonWL ? 'Yes' : 'No',
+};
+
+const session = await stripe.checkout.sessions.create({
+  mode: 'payment',
+  line_items: lineItems,
+  customer_email: parentEmail || undefined,
+  
+  // This attaches info to the 'Checkout' object
+  metadata: registrationMetadata, 
+
+  // THIS is what makes it show up in the 'Payments' tab in your Dashboard
+  payment_intent_data: {
+    metadata: registrationMetadata,
+  },
+  
+  success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?success=true`,
+  cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/summer-camps?canceled=true`,
+});
 
     res.json({ url: session.url });
   } catch (err) {
