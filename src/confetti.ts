@@ -77,6 +77,8 @@ export function fireFountainSpray(): void {
 
         for (let b = 0; b < CONFETTI_SUB_BURSTS; b++) {
           setTimeout(() => {
+            // Alternate drift direction each sub-burst for side-to-side motion
+            const driftSign = b % 2 === 0 ? 1 : -1;
             confetti({
               particleCount: particlesPerBurst,
               angle: 90,                             // straight up from all points
@@ -86,7 +88,7 @@ export function fireFountainSpray(): void {
                 ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
                 : CONFETTI_BASE_SIZE,
               ticks: Math.round((isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS) * CONFETTI_FLOAT_MULTIPLIER),
-              drift: CONFETTI_DRIFT,
+              drift: CONFETTI_DRIFT * driftSign,
               gravity: 0.8,
               origin: { x: pt.x, y: 1.4 },          // deep below viewport
               colors: TEAM_COLORS,
