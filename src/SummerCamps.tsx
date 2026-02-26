@@ -164,15 +164,26 @@ function SummerCamps() {
         body: JSON.stringify({
           selectedCamps: selectedCamps.map(c => c.stripeKey),
           addonWL,
-          parentEmail,
           registrantName,
+          registrantEmail,
           childGrade,
+          parentName,
+          parentEmail,
+          parentPhone,
+          hearAboutUs,
         }),
       });
 
       if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error || 'Failed to create checkout session');
+        const text = await response.text().catch(() => '');
+        let errorMessage = 'Failed to create checkout session';
+        try {
+          const errData = JSON.parse(text);
+          if (errData.error) errorMessage = errData.error;
+        } catch {
+          if (text) errorMessage = `Server returned ${response.status}: ${text.slice(0, 200)}`;
+        }
+        throw new Error(errorMessage);
       }
 
       const { url } = await response.json();
