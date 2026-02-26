@@ -19,7 +19,7 @@ import {
 import './SummerCamps.css';
 import { STRIPE_CAMP_PRODUCTS, STRIPE_ADDON_PRODUCTS } from './stripeConfig';
 
-// Backend API URL – set in .env: VITE_API_URL=http://localhost:3001 (dev) or production URL
+// Backend API URL – leave empty for dev (Vite proxy), or set VITE_API_URL for production
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 // Processing fee configuration (Stripe's standard rate)
@@ -155,13 +155,9 @@ function SummerCamps() {
     // Collect selected camp objects with their server-side keys
     const selectedCamps = campsList.filter(c => selectedCampKeys.includes(c.key));
 
-    if (!API_URL) {
-      console.error('VITE_API_URL is not configured. Set it in .env to point to the checkout server.');
-      alert('Checkout is not available: the backend server URL is not configured.\n\nPlease set VITE_API_URL in your .env file (e.g. http://localhost:3001) and restart the dev server.');
-      return;
-    }
-
     try {
+      // When API_URL is empty (dev/Codespaces), this fetches from the same origin;
+      // Vite's dev server proxy forwards it to http://localhost:3001.
       const response = await fetch(`${API_URL}/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
