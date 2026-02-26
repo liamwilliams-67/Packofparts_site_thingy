@@ -87,9 +87,12 @@ app.post('/create-checkout-session', async (req, res) => {
       subtotal += addon.amount;
     }
 
-    // Calculate processing fee and add as a line item
+    // Calculate processing fee using the inverse formula so that after Stripe
+    // deducts its 2.9% + $0.30 from the total, the net equals the subtotal.
+    // total = (subtotal + fixed) / (1 - rate);  fee = total - subtotal
     if (subtotal > 0) {
-      const processingFee = Math.round((subtotal * PROCESSING_FEE_RATE + PROCESSING_FEE_FIXED) * 100); // in cents
+      const totalNeeded = (subtotal + PROCESSING_FEE_FIXED) / (1 - PROCESSING_FEE_RATE);
+      const processingFee = Math.round((totalNeeded - subtotal) * 100); // in cents
       lineItems.push({
         price_data: {
           currency: 'usd',

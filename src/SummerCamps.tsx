@@ -720,7 +720,7 @@ function SummerCamps() {
               <div className="pt-4 border-t">
                 {(() => {
                   const subtotal = campsList.filter(c => Object.values(selectedByWeek).includes(c.key)).reduce((s, c) => s + c.price, 0) + (addonWL ? 100 : 0);
-                  const processingFee = subtotal > 0 ? Math.round((subtotal * PROCESSING_FEE_RATE + PROCESSING_FEE_FIXED) * 100) / 100 : 0;
+                  const processingFee = subtotal > 0 ? Math.round(((subtotal + PROCESSING_FEE_FIXED) / (1 - PROCESSING_FEE_RATE) - subtotal) * 100) / 100 : 0;
                   const total = Math.round((subtotal + processingFee) * 100) / 100;
                   return (
                     <>
