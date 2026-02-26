@@ -59,7 +59,7 @@ export function fireFountainSpray(): void {
           particleCount: isCenter
             ? CONFETTI_BASE_PARTICLE_COUNT * CONFETTI_CENTER_DENSITY_MULTIPLIER
             : CONFETTI_BASE_PARTICLE_COUNT,
-          angle: 270 + (pt.x - 0.5) * -40,   // spray upward, angled outward
+          angle: 90 + (0.5 - pt.x) * 40,      // 90° = straight up; left points lean right, right lean left
           spread: isCenter ? 70 : 55,
           startVelocity: isCenter ? 55 : 45,
           scalar: isCenter
@@ -67,9 +67,8 @@ export function fireFountainSpray(): void {
             : CONFETTI_BASE_SIZE,
           ticks: isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS,
           gravity: 0.8,
-          origin: { x: pt.x, y: 1.05 },       // just below viewport bottom
+          origin: { x: pt.x, y: 0.99 },       // bottom edge of viewport
           colors: TEAM_COLORS,
-          disableForReducedMotion: true,
         });
       });
     }, pairIdx * CONFETTI_STAGGER_MS);
