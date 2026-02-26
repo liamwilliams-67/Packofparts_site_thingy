@@ -162,7 +162,12 @@ function spawnBurst(
   const startY = _canvas.height;  // launch from bottom edge
 
   const spreadRad = (isCenter ? 18 : 12) * (Math.PI / 180);
-  const baseSpeed = isCenter ? 40 : 32;
+  // Scale launch speed to canvas height so particles never exit the top of the screen.
+  // V_max = baseSpeed * 1.2 (worst-case multiplier). With gravity=0.12 and decay≈0.988–0.996,
+  // max rise ≈ V_max² / 0.096. Coefficients below keep max rise ≤ 90 % of canvas height.
+  const baseSpeed = isCenter
+    ? Math.sqrt(0.060 * _canvas.height)   // center: wider spread, slightly faster
+    : Math.sqrt(0.040 * _canvas.height);  // outer: narrower, more conservative
   const maxAge = Math.round(
     (isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS) * CONFETTI_FLOAT_MULTIPLIER,
   );
@@ -184,7 +189,7 @@ function spawnBurst(
       vx,
       vy,
       isFalling: false,
-      sineAmplitude: 10 + Math.random() * 17,        // 10–27 px horizontal swing (3× smaller)
+      sineAmplitude: 5 + Math.random() * 8.5,           // 5–13.5 px horizontal swing (2× smaller)
       sineFrequency: 0.018 + Math.random() * 0.012,  // ~2–3 full waves while falling
       sinePhase: Math.random() * TWO_PI,         // random starting phase
       color: TEAM_COLORS[Math.floor(Math.random() * TEAM_COLORS.length)],
