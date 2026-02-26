@@ -14,7 +14,7 @@ export const CONFETTI_BASE_SIZE = 1.0;
 export const CONFETTI_CENTER_SIZE_MULTIPLIER = 1.3;
 
 /** Delay in ms between successive detonation pairs */
-export const CONFETTI_STAGGER_MS = 500;
+export const CONFETTI_STAGGER_MS = 750;
 
 /** How long (in ticks) each normal burst stays alive */
 export const CONFETTI_BASE_TICKS = 200;
@@ -59,15 +59,15 @@ export function fireFountainSpray(): void {
           particleCount: isCenter
             ? CONFETTI_BASE_PARTICLE_COUNT * CONFETTI_CENTER_DENSITY_MULTIPLIER
             : CONFETTI_BASE_PARTICLE_COUNT,
-          angle: 90 + (0.5 - pt.x) * 40,      // 90° = straight up; left points lean right, right lean left
-          spread: isCenter ? 70 : 55,
+          angle: 90,                             // straight up from all points
+          spread: isCenter ? 31 : 24,            // tight spread (2.25× less than original)
           startVelocity: isCenter ? 55 : 45,
           scalar: isCenter
             ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
             : CONFETTI_BASE_SIZE,
           ticks: isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS,
           gravity: 0.8,
-          origin: { x: pt.x, y: 0.99 },       // bottom edge of viewport
+          origin: { x: pt.x, y: 1.1 },          // below viewport to hide initial arc
           colors: TEAM_COLORS,
         });
       });
