@@ -474,7 +474,7 @@ function SummerCamps() {
       {/* Checkout Status Modal */}
       {(checkoutSuccess || checkoutCanceled) && !statusDismissed && (
         <div
-          className="fixed inset-0 z-[100] backdrop-blur-md bg-navy/85 flex items-start justify-center pt-16 px-4"
+          className="fixed inset-0 z-[100] backdrop-blur-md bg-navy/85 flex items-center justify-center px-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="checkout-status-title"
