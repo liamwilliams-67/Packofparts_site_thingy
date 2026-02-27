@@ -1,6 +1,6 @@
 // ─── Adjustable parameters ─────────────────────────────────────────────────
 /** Base number of confetti particles per burst */
-export const CONFETTI_BASE_PARTICLE_COUNT = 96;
+export const CONFETTI_BASE_PARTICLE_COUNT = 130;
 
 /** Multiplier applied to the center detonation point */
 export const CONFETTI_CENTER_DENSITY_MULTIPLIER = 2;
@@ -12,7 +12,7 @@ export const CONFETTI_BASE_SIZE = 1.0;
 export const CONFETTI_CENTER_SIZE_MULTIPLIER = 1.3;
 
 /** Delay in ms between successive detonation pairs */
-export const CONFETTI_STAGGER_MS = 750;
+export const CONFETTI_STAGGER_MS = 1200;
 
 /** How long (in ticks / frames) each normal burst stays alive */
 export const CONFETTI_BASE_TICKS = 200;
@@ -21,10 +21,10 @@ export const CONFETTI_BASE_TICKS = 200;
 export const CONFETTI_CENTER_TICKS = 300;
 
 /** Duration in ms over which each detonator sprays its particles */
-export const CONFETTI_SPRAY_DURATION_MS = 250;
+export const CONFETTI_SPRAY_DURATION_MS = 900;
 
 /** Number of sub-bursts each detonator fires over the spray duration */
-export const CONFETTI_SUB_BURSTS = 5;
+export const CONFETTI_SUB_BURSTS = 10;
 
 /** Multiplier for how long particles stay alive */
 export const CONFETTI_FLOAT_MULTIPLIER = 1.25;
@@ -44,24 +44,25 @@ const OFFSCREEN_THRESHOLD = 80;
 interface Particle {
   x: number;
   y: number;
-  /** x recorded when the particle begins falling */
   fallStartX: number;
-  /** y recorded when the particle begins falling */
   fallStartY: number;
   vx: number;
   vy: number;
   isFalling: boolean;
-  /** Horizontal amplitude of the sinusoidal fall path (px) */
   sineAmplitude: number;
-  /** Angular frequency of the sinusoidal fall path (rad / px) */
   sineFrequency: number;
-  /** Initial phase of the sinusoidal fall path (rad) */
   sinePhase: number;
   color: string;
+  // --- Ensure these three are here ---
+  baseColor: { r: number; g: number; b: number }; 
+  flip: number;
+  flipSpeed: number;
+  // ------------------------------------
   w: number;
   h: number;
   rotation: number;
   rotSpeed: number;
+  gravity: number;
   decay: number;
   alpha: number;
   age: number;
@@ -105,106 +106,115 @@ function tick(): void {
     p.age++;
     if (p.age > p.maxAge || p.y > _canvas.height + OFFSCREEN_THRESHOLD) continue;
 
-    // Fade out over the last 20% of lifetime
     p.alpha = p.age / p.maxAge > 0.8 ? 1 - (p.age / p.maxAge - 0.8) / 0.2 : 1.0;
 
-    // Vertical physics: gravity acceleration with air-resistance decay
-    p.vy = p.vy * p.decay + 0.12;
+    // 10% Faster Gravity
+    p.vy = p.vy * p.decay + p.gravity; 
 
     if (!p.isFalling) {
-      // Rising phase: carry horizontal spread, integrate velocity
       p.vx *= 0.99;
-      p.x += p.vx;
+      p.x += p.vx + (CONFETTI_DRIFT * 0.1);
       p.y += p.vy;
       if (p.vy >= 0) {
-        // Particle has peaked — lock in the fall origin, switch to sine path
         p.isFalling = true;
         p.fallStartX = p.x;
         p.fallStartY = p.y;
       }
     } else {
-      // Falling phase: x = fallStartX + A · sin(ω · distanceFallen + φ)
       p.y += p.vy;
       const d = p.y - p.fallStartY;
-      p.x = p.fallStartX + p.sineAmplitude * Math.sin(p.sineFrequency * d + p.sinePhase);
+      
+      // NATURAL SWAY: Combined large sway + micro-flutter
+      const sway = p.sineAmplitude * Math.sin(p.sineFrequency * d + p.sinePhase);
+      const flutter = (p.sineAmplitude * 0.2) * Math.sin(p.sineFrequency * 5 * d);
+      
+      p.fallStartX += (CONFETTI_DRIFT * 0.15);
+      p.x = p.fallStartX + sway + flutter;
     }
 
     p.rotation += p.rotSpeed;
+    p.flip += p.flipSpeed;
     surviving.push(p);
 
-    // Draw confetti piece as a small rotated rectangle
     _ctx.save();
     _ctx.globalAlpha = p.alpha;
+    
+    // SHIMMER EFFECT: Change brightness based on flip angle
+    const shimmer = Math.cos(p.flip);
+    const brightness = 0.9 + (shimmer * 0.1); 
+    _ctx.fillStyle = `rgb(${p.baseColor.r * brightness}, ${p.baseColor.g * brightness}, ${p.baseColor.b * brightness})`;
+
     _ctx.translate(p.x, p.y);
     _ctx.rotate(p.rotation);
-    _ctx.fillStyle = p.color;
+    _ctx.scale(shimmer, 1); 
+    
     _ctx.fillRect(-p.w * 0.5, -p.h * 0.5, p.w, p.h);
     _ctx.restore();
   }
 
   _particles = surviving;
-
   if (_particles.length === 0) {
     teardownCanvas();
     return;
   }
-
   _rafId = requestAnimationFrame(tick);
 }
 
-function spawnBurst(
-  originX: number,  // 0–1 fraction of canvas width
-  count: number,
-  isCenter: boolean,
-): void {
-  if (!_canvas) return;
-  const startX = originX * _canvas.width;
-  const startY = _canvas.height;  // launch from bottom edge
+// Add this helper function above spawnBurst to handle the colors
+const hexToRgb = (hex: string) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return { r, g, b };
+};
 
-  const spreadRad = (isCenter ? 18 : 12) * (Math.PI / 180);
-  // Scale launch speed to canvas height so particles never exit the top of the screen.
-  // V_max = baseSpeed * 1.2 (worst-case multiplier). With gravity=0.12 and ignoring decay,
-  // max rise ≈ V_max² / 0.24. Coefficients below target max rise ≈ 80% / 65% of canvas height.
+function spawnBurst(originX: number, count: number, isCenter: boolean): void {
+  if (!_canvas) return;
+  const baseStartX = originX * _canvas.width;
+  const baseStartY = _canvas.height;
+
+  const spreadRad = (isCenter ? 25 : 20) * (Math.PI / 180); 
   const baseSpeed = isCenter
-    ? Math.sqrt(0.13 * _canvas.height)   // center: max rise ≈ 80 % of viewport
-    : Math.sqrt(0.11 * _canvas.height);  // outer: max rise ≈ 65 % of viewport
-  const maxAge = Math.round(
-    (isCenter ? CONFETTI_CENTER_TICKS : CONFETTI_BASE_TICKS) * CONFETTI_FLOAT_MULTIPLIER,
-  );
-  const scalar = isCenter
-    ? CONFETTI_BASE_SIZE * CONFETTI_CENTER_SIZE_MULTIPLIER
-    : CONFETTI_BASE_SIZE;
+    ? Math.sqrt(0.28 * _canvas.height)   
+    : Math.sqrt(0.24 * _canvas.height);  
 
   for (let i = 0; i < count; i++) {
     const angle = (Math.random() - 0.5) * spreadRad;
-    const speed = baseSpeed * (0.6 + Math.random() * 0.6);
+    
+    // Define speed as a local variable first
+    const speed = baseSpeed * (0.4 + Math.random() * 1.0); 
     const vx = Math.sin(angle) * speed;
-    const vy = -Math.cos(angle) * speed;  // negative = upward
+    const vy = -Math.cos(angle) * speed;
+    const colorHex = TEAM_COLORS[Math.floor(Math.random() * TEAM_COLORS.length)];
 
     _particles.push({
-      x: startX,
-      y: startY,
-      fallStartX: startX,
-      fallStartY: startY,
+      x: baseStartX + (Math.random() - 0.5) * 15,
+      y: baseStartY + (Math.random() * 40), 
+      fallStartX: baseStartX,
+      fallStartY: baseStartY,
       vx,
       vy,
       isFalling: false,
-      sineAmplitude: 5 + Math.random() * 8.5,           // 5–13.5 px horizontal swing (2× smaller)
-      sineFrequency: 0.018 + Math.random() * 0.012,  // ~2–3 full waves while falling
-      sinePhase: Math.random() * TWO_PI,         // random starting phase
-      color: TEAM_COLORS[Math.floor(Math.random() * TEAM_COLORS.length)],
-      w: (5 + Math.random() * 5) * scalar,
-      h: (3 + Math.random() * 3) * scalar,
+      sineAmplitude: 10 + Math.random() * 12,           
+      sineFrequency: 0.003 + Math.random() * 0.004,  
+      sinePhase: Math.random() > 0.5 ? 0 : Math.PI,     
+      color: colorHex,
+      // Fixes the "missing property" errors
+      baseColor: hexToRgb(colorHex),
+      flip: Math.random() * TWO_PI,
+      flipSpeed: (Math.random() - 0.5) * 0.25,
+      w: (5 + Math.random() * 5) * (isCenter ? 1.3 : 1),
+      h: (3 + Math.random() * 4) * (isCenter ? 1.3 : 1),
       rotation: Math.random() * TWO_PI,
-      rotSpeed: (Math.random() - 0.5) * 0.18,
-      decay: 0.988 + Math.random() * 0.008,
+      rotSpeed: (Math.random() - 0.5) * 0.2,
+      decay: 0.97 + Math.random() * 0.02, 
+      gravity: 0.06 + Math.random() * 0.08, 
       alpha: 1,
       age: 0,
-      maxAge,
+      maxAge: Math.round((isCenter ? 300 : 200) * 1.5),
     });
   }
 }
-
 /**
  * "Fountain Spray" confetti animation.
  *
