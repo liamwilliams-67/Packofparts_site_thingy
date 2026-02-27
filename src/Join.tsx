@@ -424,7 +424,7 @@ function Join() {
             </div>
 
             <div>
-              <div className="info-card">
+              <div className="info-card-join">
                 <h3 className="text-white font-orbitron font-semibold text-2xl mb-6">
                   Team Details
                 </h3>
