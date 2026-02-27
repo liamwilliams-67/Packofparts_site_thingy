@@ -226,39 +226,19 @@ function spawnBurst(originX: number, count: number, isCenter: boolean): void {
  * Each particle rises with fountain physics then falls in a sinusoidal
  * x = sin(y) path for a natural swaying descent.
  */
+// ─── DISABLED ──────────────────────────────────────────────────────────────
+// Confetti is currently handled by the external confettipage.com script in
+// index.html.  fireFountainSpray() is kept as a no-op so the import in
+// SummerCamps.tsx and Donate.tsx continues to compile without changes.
+//
+// TO REACTIVATE this built-in renderer:
+//   1. Remove (or comment out) the confettipage.com <script> tag in index.html.
+//   2. Replace the no-op body below with the original implementation
+//      (see git history for this file — look for the commit immediately
+//       before the one that introduced this DISABLED block).
+//   3. No changes needed in SummerCamps.tsx or Donate.tsx — they already call
+//      fireFountainSpray() and will pick up the restored behaviour automatically.
+// ───────────────────────────────────────────────────────────────────────────
 export function fireFountainSpray(): void {
-  // 7 evenly spaced x-positions — index 0 = far-left, 6 = far-right, 3 = center
-  const points = Array.from({ length: 7 }, (_, i) => ({
-    x: (i + 1) / 8,
-    isCenter: i === 3,
-  }));
-
-  // Pair order: (0,6) → (1,5) → (2,4) → (3)  — outside-in
-  const pairs: number[][] = [[0, 6], [1, 5], [2, 4], [3]];
-
-  pairs.forEach((pair, pairIdx) => {
-    setTimeout(() => {
-      pair.forEach((ptIdx) => {
-        const pt = points[ptIdx];
-        const isCenter = pt.isCenter;
-
-        const totalParticles = isCenter
-          ? CONFETTI_BASE_PARTICLE_COUNT * CONFETTI_CENTER_DENSITY_MULTIPLIER
-          : CONFETTI_BASE_PARTICLE_COUNT;
-
-        const particlesPerBurst = Math.ceil(totalParticles / CONFETTI_SUB_BURSTS);
-        const interval = CONFETTI_SPRAY_DURATION_MS / CONFETTI_SUB_BURSTS;
-
-        for (let b = 0; b < CONFETTI_SUB_BURSTS; b++) {
-          setTimeout(() => {
-            ensureCanvas();
-            spawnBurst(pt.x, particlesPerBurst, isCenter);
-            if (_rafId === null) {
-              _rafId = requestAnimationFrame(tick);
-            }
-          }, b * interval);
-        }
-      });
-    }, pairIdx * CONFETTI_STAGGER_MS);
-  });
+  // no-op — see reactivation instructions above
 }
