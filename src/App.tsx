@@ -6,8 +6,6 @@ import {
   Github,
   Linkedin,
   Mail, 
-  Menu, 
-  X, 
   ChevronLeft,
   ChevronRight,
   MapPin,
