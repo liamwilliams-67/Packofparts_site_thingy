@@ -10,46 +10,48 @@ import {
   X, 
   ChevronLeft,
   ChevronRight,
-  ChevronDown,
   MapPin,
   School,
   ArrowRight
 } from 'lucide-react';
 // import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
+import DesktopNav from './components/DesktopNav';
+import MobileNav from './components/MobileNav';
+import QuickLinks from './components/QuickLinks';
 
 // Animation constants for hero text movement
 // This multiplier ensures text moves completely off-screen during the scroll animation
-const OFF_SCREEN_MULTIPLIER = 8;
+// const OFF_SCREEN_MULTIPLIER = 8;
 
 // Helper component for directional text animation (moves entire text block left or right)
-interface DirectionalTextProps {
-  text: string;
-  translateX: number;
-  direction: 'left' | 'right';
-  className?: string;
-  speedMultiplier?: number; // Multiplier to adjust speed for different text elements
-}
+// interface DirectionalTextProps {
+//   text: string;
+//   translateX: number;
+//   direction: 'left' | 'right';
+//   className?: string;
+//   speedMultiplier?: number; // Multiplier to adjust speed for different text elements
+// }
 
-const DirectionalText = ({ text, translateX, direction, className = '', speedMultiplier = 1 }: DirectionalTextProps) => {
-  // Calculate the actual translation with direction and speed multiplier
-  const actualTranslateX = translateX * speedMultiplier * OFF_SCREEN_MULTIPLIER;
+// const DirectionalText = ({ text, translateX, direction, className = '', speedMultiplier = 1 }: DirectionalTextProps) => {
+//   // Calculate the actual translation with direction and speed multiplier
+//   const actualTranslateX = translateX * speedMultiplier * OFF_SCREEN_MULTIPLIER;
   
-  return (
-    <span
-      className={className}
-      style={{
-        display: 'inline-block',
-        transform: direction === 'left' 
-          ? `translateX(-${actualTranslateX}px)` 
-          : `translateX(${actualTranslateX}px)`,
-        transition: 'transform 0.1s ease-out',
-      }}
-    >
-      {text}
-    </span>
-  );
-};
+//   return (
+//     <span
+//       className={className}
+//       style={{
+//         display: 'inline-block',
+//         transform: direction === 'left' 
+//           ? `translateX(-${actualTranslateX}px)` 
+//           : `translateX(${actualTranslateX}px)`,
+//         transition: 'transform 0.1s ease-out',
+//       }}
+//     >
+//       {text}
+//     </span>
+//   );
+// };
 
 // Sponsor logos with homepage links
 // To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
@@ -86,7 +88,7 @@ const SPONSOR_SINGLE_WIDTH = sponsors.length * SPONSOR_ITEM_WIDTH;
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
+  // const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
 
   // Sponsor carousel refs
   const sponsorStripRef = useRef<HTMLDivElement>(null);
@@ -102,23 +104,7 @@ function App() {
     coveredExtra: number; // extra pixels already applied to sponsorPosRef for this jump
   } | null>(null);
 
- const navLinks = [
-  { name: 'Join The Club', href: '/join' },
-  { name: 'For Members', href: '/members' },
-  { 
-    name: 'Community', 
-    href: '/community',
-    hasDropdown: true,
-    dropdownItems: [
-      { name: 'Meet the Team', href: '/community/meet-the-team' },
-      { name: 'STEM Kits', href: '/community/stem-kits' },
-      { name: 'Recycling Initiative', href: '/community/recycling' }
-    ]
-  },
-  { name: 'Donate', href: '/donate' },
-  { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
-  { name: 'Summer Camps', href: '/summer-camps' },
-];
+ 
 
   // Team photos
   const teamPhotos = [
@@ -236,122 +222,9 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
-        }`}
-      >
-        <div className="container-custom pt-4 pb-0">
-          <div className="nav-glass rounded-pill px-4 md:px-8 py-3 flex items-center justify-between">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-3">
-              <img 
-                src="/logo.png" 
-                alt="Pack of Parts Logo" 
-                className="h-10 w-auto"
-              />
-              <span className="hidden sm:block text-white font-orbitron font-bold text-sm md:text-base">
-                Pack of Parts
-              </span>
-            </a>
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
-                link.hasDropdown ? (
-                  <div 
-                    key={link.name}
-                    className="relative flex items-center"
-                    onMouseEnter={() => setIsCommunityDropdownOpen(true)}
-                    onMouseLeave={() => setIsCommunityDropdownOpen(false)}
-                  >
-                    <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200 inline-flex items-center gap-1"
-                    >
-                      {link.name}
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isCommunityDropdownOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    {/* Dropdown Menu */}
-                    <div className={`absolute top-full left-0 mt-2 py-2 bg-navy/95 backdrop-blur-lg rounded-lg shadow-xl border border-white/10 min-w-[200px] transition-all duration-200 ${isCommunityDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
-                      {link.dropdownItems?.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="block px-4 py-2 text-white/90 hover:text-light-blue hover:bg-white/5 text-sm font-medium transition-colors duration-200"
-                        >
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    key={link.name}
-                    onClick={() => scrollToSection(link.href)}
-                    className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200"
-                  >
-                    {link.name}
-                  </button>
-                )
-              ))}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden text-white p-2"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <div 
-          className={`lg:hidden fixed inset-0 top-20 transition-all duration-300 ${
-            isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`}
-        >
-          <div className="flex flex-col items-center justify-start h-full px-4 pt-6">
-            <div className="nav-glass w-full max-w-xs rounded-3xl px-8 py-8 flex flex-col items-center gap-6">
-              {navLinks.map((link, index) => (
-                link.hasDropdown ? (
-                  <div key={link.name} className="flex flex-col items-center gap-2">
-                    <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                      style={{ animationDelay: `${index * 80}ms` }}
-                    >
-                      {link.name}
-                    </button>
-                    <div className="flex flex-col items-center gap-2">
-                      {link.dropdownItems?.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="text-white/70 text-sm font-medium hover:text-light-blue transition-colors duration-200"
-                        >
-                          → {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    key={link.name}
-                    onClick={() => scrollToSection(link.href)}
-                    className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                    style={{ animationDelay: `${index * 80}ms` }}
-                  >
-                    {link.name}
-                  </button>
-                )
-              ))}
-            </div>
-          </div>
-        </div>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}>
+              <DesktopNav isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+              <MobileNav isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
       </nav>
 
       {/* Scroll Expansion Hero Section */}
@@ -444,8 +317,29 @@ function App() {
         }
       > */}
 
-      <div className="container-custom text-center px-4">
-            {/* Static content for frozen section - same format as original hero */}
+      <div 
+          className="relative z-20 min-h-screen flex items-center justify-center"
+          style={{ 
+            background: 'black',
+          }}
+        >
+          {/* Video/Image Background for frozen section */}
+          <div className="absolute inset-0 z-0">
+              <video
+                src={"/IMG_1496.mp4"}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster={"/team-photo-2.jpg"}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            <div className="absolute inset-0 bg-black/40" />
+          </div>
+          
+          {/* Frozen content - displays the static text with original formatting */}
+            <div className="relative z-10">
+              <div className="container-custom text-center px-4">
             <div className="mb-4">
               <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
                 #1294
@@ -473,7 +367,9 @@ function App() {
               </button>
             </div>
           </div>
-          
+            </div>
+        </div>
+
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">
         <div className="container-custom">
@@ -835,43 +731,7 @@ function App() {
             </div>
 
             {/* Quick Links */}
-            <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-              <h4 className="text-white font-orbitron font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-3">
-                {navLinks.filter(link => !link.hasDropdown).map((link) => (
-                  <li key={link.name}>
-                    <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group"
-                    >
-                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                      {link.name}
-                    </button>
-                  </li>
-                ))}
-                <li>
-                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
-                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    Community
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Meet the Team
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → STEM Kits
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Recycling Initiative
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <QuickLinks scrollToSection={scrollToSection} />
 
             {/* Contact Info */}
             <div className="reveal" style={{ transitionDelay: '0.2s' }}>
@@ -910,7 +770,7 @@ function App() {
 
       {/* Summer Camps Section - Anchor target */}
       <div id="camps" className="hidden" />
-      </ScrollExpandMedia>
+      {/* </ScrollExpandMedia> */}
     </div>
   );
 }

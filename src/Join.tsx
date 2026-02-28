@@ -4,50 +4,30 @@ import {
   MapPin, 
   School, 
   Users, 
+  CircleDollarSign,
   Instagram,
   Facebook,
   Youtube,
   Github,
   Linkedin,
-  Menu,
-  X,
   Wrench,
+  Shapes,
   Code,
   Lightbulb,
   Calendar,
   Clock,
-  CheckCircle,
-  ChevronDown,
-  ChevronRight
+  CheckCircle
 } from 'lucide-react';
 import './Join.css';
 import { Timeline } from '@/components/ui/timeline';
+import DesktopNav from '@/components/DesktopNav';
+import MobileNav from '@/components/MobileNav';
+import QuickLinks from '@/components/QuickLinks';
 
 function Join() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
-  const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
-
-  // Navigation links
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Join The Club', href: '/join' },
-    { name: 'For Members', href: '/members' },
-    { 
-      name: 'Community', 
-      href: '/community',
-      hasDropdown: true,
-      dropdownItems: [
-        { name: 'Meet the Team', href: '/community/meet-the-team' },
-        { name: 'STEM Kits', href: '/community/stem-kits' },
-        { name: 'Recycling Initiative', href: '/community/recycling' }
-      ]
-    },
-    { name: 'Donate', href: '/donate' },
-    { name: 'Contact Us', href: '/contact' },
-    { name: 'Summer Camps', href: '/summer-camps' },
-  ];
 
   // Timeline data for How to Join section
   const timelineData = [
@@ -111,7 +91,7 @@ function Join() {
             Parent/Guardian Info
           </h4>
           <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
-            Almost done! Here's a document for your parent or guardian to read so they know what's happening in the club. Please be sure to ask them to spend a few minutes and go over this with you.
+            Almost done! We'll provide a document for your parent or guardian to read so they know what's happening in the club. Please be sure to ask them to spend a few minutes and go over this with you.
           </p>
         </div>
       ),
@@ -185,124 +165,9 @@ function Join() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
-        }`}
-      >
-        <div className="container-custom pt-4 pb-0">
-          <div className="nav-glass rounded-pill px-4 md:px-8 py-3 flex items-center justify-between">
-            {/* Logo */}
-            <a href="/" className="flex items-center gap-3">
-              <img 
-                src="/logo.png" 
-                alt="Pack of Parts Logo" 
-                className="h-10 w-auto"
-              />
-              <span className="hidden sm:block text-white font-orbitron font-bold text-sm md:text-base">
-                Pack of Parts
-              </span>
-            </a>
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
-                link.hasDropdown ? (
-                  <div 
-                    key={link.name}
-                    className="relative flex items-center"
-                    onMouseEnter={() => setIsCommunityDropdownOpen(true)}
-                    onMouseLeave={() => setIsCommunityDropdownOpen(false)}
-                  >
-                    <a
-                      href={link.href}
-                      className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200 inline-flex items-center gap-1"
-                    >
-                      {link.name}
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isCommunityDropdownOpen ? 'rotate-180' : ''}`} />
-                    </a>
-                    {/* Dropdown Menu */}
-                    <div className={`absolute top-full left-0 mt-2 py-2 bg-navy/95 backdrop-blur-lg rounded-lg shadow-xl border border-white/10 min-w-[200px] transition-all duration-200 ${isCommunityDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
-                      {link.dropdownItems?.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="block px-4 py-2 text-white/90 hover:text-light-blue hover:bg-white/5 text-sm font-medium transition-colors duration-200"
-                        >
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200"
-                  >
-                    {link.name}
-                  </a>
-                )
-              ))}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden text-white p-2"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <div 
-          className={`lg:hidden fixed inset-0 top-20 transition-all duration-300 ${
-            isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`}
-        >
-          <div className="flex flex-col items-center justify-start h-full px-4 pt-6">
-            <div className="nav-glass w-full max-w-xs rounded-3xl px-8 py-8 flex flex-col items-center gap-6">
-              {navLinks.map((link, index) => (
-                link.hasDropdown ? (
-                  <div key={link.name} className="flex flex-col items-center gap-2">
-                    <a
-                      href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                      style={{ animationDelay: `${index * 80}ms` }}
-                    >
-                      {link.name}
-                    </a>
-                    <div className="flex flex-col items-center gap-2">
-                      {link.dropdownItems?.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="text-white/70 text-sm font-medium hover:text-light-blue transition-colors duration-200"
-                        >
-                          → {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                    style={{ animationDelay: `${index * 80}ms` }}
-                  >
-                    {link.name}
-                  </a>
-                )
-              ))}
-            </div>
-          </div>
-        </div>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}>
+        <DesktopNav isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+        <MobileNav isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
       </nav>
 
       {/* Hero Section */}
@@ -411,7 +276,6 @@ function Join() {
               <div className="space-y-4">
                 {[
                   'High school students from EHS (grades 9-12)',
-                  'Students from Eastlake High School',
                   'Commitment to attend meetings and competitions',
                   'No experience necessary — we teach everything!'
                 ].map((req, index) => (
@@ -486,40 +350,33 @@ function Join() {
             {[
               {
                 title: 'Design',
-                // Change this icon later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                icon: Wrench,
-                description: 'Design and build the robot\'s physical structure using CAD software and machine tools.',
-                skills: ['CAD Design', 'Machining', 'Assembly', 'Prototyping']
+                icon: Shapes,
+                description: 'Design and build the robot\'s physical structure using CAD software and machine tools.'
               },
               {
                 title: 'Programming',
                 icon: Code,
-                description: 'Write code for autonomous and teleoperated robot control systems.',
-                skills: ['Java', 'Robot Control', 'Vision Processing', 'Debugging']
+                description: 'Write code for autonomous and teleoperated robot control systems.'
               },
               {
                 title: 'Mechanical',
                 icon: Wrench,
-                description: 'Builds the phyisical fram of the robot which gets passed on to the other teams to do their part.',
-                skills: ['Hands-on', 'Building', 'Framework']
+                description: 'Builds the phyisical fram of the robot which gets passed on to the other teams to do their part.'
               },
               {
                 title: 'Electrical',
                 icon: Lightbulb,
-                description: 'Wire and integrate electrical systems, sensors, and motor controllers.',
-                skills: ['Wiring', 'Electronics', 'Pneumatics', 'Troubleshooting']
+                description: 'Wire and integrate electrical systems, sensors, and motor controllers.'
               },
               {
                 title: 'Business & PR',
-                icon: Users,
-                description: 'Manage team finances, fundraising, community outreach, and social media.',
-                skills: ['Fundraising', 'Sponsorships', 'Social Media', 'Events']
+                icon: CircleDollarSign,
+                description: 'Manage team finances, fundraising, community outreach, and social media.'
               },
               {
                 title: 'Scouting',
                 icon: Users,
-                description: 'Scouting analyzse game strategy, scout opponents, and plan competition tactics.',
-                skills: ['Scouting', 'Planning', 'Code & Apps', 'Predictions']
+                description: 'Scouting analyzse game strategy, scout opponents, and plan competition tactics.'
               }              
             ].map((team, index) => (
               <div 
@@ -538,16 +395,6 @@ function Join() {
                 <p className="text-gray-600 mb-4">
                   {team.description}
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {team.skills.map((skill, i) => (
-                    <span 
-                      key={i}
-                      className="px-3 py-1 bg-light-blue/10 text-navy text-sm rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
               </div>
             ))}
           </div>
@@ -654,44 +501,7 @@ function Join() {
               </div>
             </div>
 
-            {/* Quick Links */}
-            <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-              <h4 className="text-white font-orbitron font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-3">
-                {navLinks.filter(link => !link.hasDropdown).map((link) => (
-                  <li key={link.name}>
-                    <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group"
-                    >
-                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                      {link.name}
-                    </button>
-                  </li>
-                ))}
-                <li>
-                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
-                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    Community
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Meet the Team
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → STEM Kits
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Recycling Initiative
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <QuickLinks scrollToSection={scrollToSection} />
 
             {/* Contact Info */}
             <div className="reveal" style={{ transitionDelay: '0.2s' }}>

@@ -21,36 +21,17 @@ import {
   Rocket,
   Target,
   Sparkles,
-  ChevronDown,
   ChevronRight
 } from 'lucide-react';
 import './Community.css';
+import DesktopNav from './components/DesktopNav';
+import MobileNav from './components/MobileNav';
+import QuickLinks from './components/QuickLinks';
 
 function Community() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
-  const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
-
-  // Navigation links
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Join The Club', href: '/join' },
-    { name: 'For Members', href: '/members' },
-    { 
-      name: 'Community', 
-      href: '/community',
-      hasDropdown: true,
-      dropdownItems: [
-        { name: 'Meet the Team', href: '/community/meet-the-team' },
-        { name: 'STEM Kits', href: '/community/stem-kits' },
-        { name: 'Recycling Initiative', href: '/community/recycling' }
-      ]
-    },
-    { name: 'Donate', href: '/donate' },
-    { name: 'Contact Us', href: '/contact' },
-    { name: 'Summer Camps', href: '/summer-camps' },
-  ];
 
   useEffect(() => {
     document.title = 'Community | Pack of Parts';
@@ -123,46 +104,7 @@ function Community() {
             </a>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
-                link.hasDropdown ? (
-                  <div 
-                    key={link.name}
-                    className="relative"
-                    onMouseEnter={() => setIsCommunityDropdownOpen(true)}
-                    onMouseLeave={() => setIsCommunityDropdownOpen(false)}
-                  >
-                    <a
-                      href={link.href}
-                      className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200 inline-flex items-center gap-1"
-                    >
-                      {link.name}
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isCommunityDropdownOpen ? 'rotate-180' : ''}`} />
-                    </a>
-                    {/* Dropdown Menu */}
-                    <div className={`absolute top-full left-0 mt-2 py-2 bg-navy/95 backdrop-blur-lg rounded-lg shadow-xl border border-white/10 min-w-[200px] transition-all duration-200 ${isCommunityDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
-                      {link.dropdownItems?.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="block px-4 py-2 text-white/90 hover:text-light-blue hover:bg-white/5 text-sm font-medium transition-colors duration-200"
-                        >
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200"
-                  >
-                    {link.name}
-                  </a>
-                )
-              ))}
-            </div>
+            <DesktopNav isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
             {/* Mobile Menu Button */}
             <button
@@ -175,52 +117,7 @@ function Community() {
         </div>
 
         {/* Mobile Menu */}
-        <div 
-          className={`lg:hidden fixed inset-0 top-20 transition-all duration-300 ${
-            isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`}
-        >
-          <div className="flex flex-col items-center justify-start h-full px-4 pt-6">
-            <div className="nav-glass w-full max-w-xs rounded-3xl px-8 py-8 flex flex-col items-center gap-6">
-              {navLinks.map((link, index) => (
-                link.hasDropdown ? (
-                  <div key={link.name} className="flex flex-col items-center gap-2">
-                    <a
-                      href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                      style={{ animationDelay: `${index * 80}ms` }}
-                    >
-                      {link.name}
-                    </a>
-                    <div className="flex flex-col items-center gap-2">
-                      {link.dropdownItems?.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="text-white/70 text-sm font-medium hover:text-light-blue transition-colors duration-200"
-                        >
-                          → {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-white text-xl font-orbitron font-semibold hover:text-light-blue transition-colors duration-200"
-                    style={{ animationDelay: `${index * 80}ms` }}
-                  >
-                    {link.name}
-                  </a>
-                )
-              ))}
-            </div>
-          </div>
-        </div>
+        <MobileNav isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
       </nav>
 
       {/* Hero Section */}
@@ -613,43 +510,7 @@ function Community() {
             </div>
 
             {/* Quick Links */}
-            <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-              <h4 className="text-white font-orbitron font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-3">
-                {navLinks.filter(link => !link.hasDropdown).map((link) => (
-                  <li key={link.name}>
-                    <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group"
-                    >
-                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                      {link.name}
-                    </button>
-                  </li>
-                ))}
-                <li>
-                  <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
-                    <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    Community
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Meet the Team
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/stem-kits" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → STEM Kits
-                  </a>
-                </li>
-                <li>
-                  <a href="/community/recycling" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Recycling Initiative
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <QuickLinks scrollToSection={scrollToSection} />
 
             {/* Contact Info */}
             <div className="reveal" style={{ transitionDelay: '0.2s' }}>
