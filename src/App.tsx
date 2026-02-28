@@ -84,7 +84,7 @@ const MAX_FRAME_DELTA_MS = 100;
 const SPONSOR_SINGLE_WIDTH = sponsors.length * SPONSOR_ITEM_WIDTH;
 
 function App() {
-  const [isNavVisible, setIsNavVisible] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
 
@@ -136,7 +136,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsNavVisible(window.scrollY > 100);
+      // setIsNavVisible(window.scrollY > 100);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -237,7 +237,7 @@ function App() {
       {/* Navigation */}
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          true ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
+          isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
         }`}
       >
         <div className="container-custom pt-4 pb-0">
