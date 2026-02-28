@@ -14,4 +14,4 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-  echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF8fPZ94/IW3mQ4QIhw7xvbvTQxhCEF1jzxu8DidhCdF github-deploy" >> ~/.ssh/authorized_keys
+            echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF8fPZ94/IW3mQ4QIhw7xvbvTQxhCEF1jzxu8DidhCdF github-deploy' >> ~/.ssh/authorized_keys
