@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -68,11 +69,19 @@ const ScrollExpandMedia = ({
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
   const [isMobileState, setIsMobileState] = useState(false);
   const [hasAnimationCompleted, setHasAnimationCompleted] = useState(false);
 
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Refs for event handler values to avoid recreating listeners on every state change
+  const scrollProgressRef = useRef(0);
+  const mediaFullyExpandedRef = useRef(false);
+  const touchStartYRef = useRef(0);
+  const hasAnimationCompletedRef = useRef(false);
+
+  // RAF debouncing ref
+  const rafRef = useRef(0);
 
   // Reset state when mediaType changes - this is an intentional pattern for resetting animation state
   useEffect(() => {
@@ -82,41 +91,59 @@ const ScrollExpandMedia = ({
       setShowContent(false);
       setMediaFullyExpanded(false);
       setHasAnimationCompleted(false);
+      scrollProgressRef.current = 0;
+      mediaFullyExpandedRef.current = false;
+      hasAnimationCompletedRef.current = false;
     });
   }, [mediaType]);
 
+  // RAF-debounced progress update to limit re-renders to one per animation frame
+  const scheduleProgressUpdate = useCallback((newProgress: number) => {
+    scrollProgressRef.current = newProgress;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      setScrollProgress(newProgress);
+      rafRef.current = 0;
+    });
+  }, []);
+
+  // Cleanup RAF on unmount
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      // After animation is complete and user has scrolled past the freeze section
-      if (hasAnimationCompleted) {
-        // Allow normal scrolling - don't prevent default
-        // Check if we're at the top and trying to scroll up
+      if (hasAnimationCompletedRef.current) {
         if (e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
-          // Don't reset the animation when scrolling back up
-          // Just allow normal scroll behavior
           return;
         }
         return;
       }
       
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
+      if (mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= SCROLL_THRESHOLD) {
+        mediaFullyExpandedRef.current = false;
+        hasAnimationCompletedRef.current = false;
         setMediaFullyExpanded(false);
         setHasAnimationCompleted(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!mediaFullyExpandedRef.current) {
         e.preventDefault();
         const scrollDelta = e.deltaY * WHEEL_SCROLL_SENSITIVITY;
         const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
+          Math.max(scrollProgressRef.current + scrollDelta, 0),
           1
         );
-        setScrollProgress(newProgress);
+        scheduleProgressUpdate(newProgress);
 
         if (newProgress >= 1) {
+          mediaFullyExpandedRef.current = true;
           setMediaFullyExpanded(true);
           setShowContent(true);
-          // Mark animation as completed after a short delay to create the "freeze" effect
           setTimeout(() => {
+            hasAnimationCompletedRef.current = true;
             setHasAnimationCompleted(true);
           }, ANIMATION_COMPLETION_DELAY_MS);
         } else if (newProgress < 0.75) {
@@ -126,60 +153,60 @@ const ScrollExpandMedia = ({
     };
 
     const handleTouchStart = (e: TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
+      touchStartYRef.current = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartY) return;
+      if (!touchStartYRef.current) return;
 
       const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
+      const deltaY = touchStartYRef.current - touchY;
 
-      // After animation is complete
-      if (hasAnimationCompleted) {
-        // Allow normal scrolling
+      if (hasAnimationCompletedRef.current) {
         if (deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
-          // Don't reset animation on scroll up
           return;
         }
         return;
       }
 
-      if (mediaFullyExpanded && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
+      if (mediaFullyExpandedRef.current && deltaY < TOUCH_SWIPE_THRESHOLD && window.scrollY <= SCROLL_THRESHOLD) {
+        mediaFullyExpandedRef.current = false;
+        hasAnimationCompletedRef.current = false;
         setMediaFullyExpanded(false);
         setHasAnimationCompleted(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!mediaFullyExpandedRef.current) {
         e.preventDefault();
-        // Increase sensitivity for mobile, especially when scrolling back
         const scrollFactor = deltaY < 0 ? TOUCH_SCROLL_BACK_SENSITIVITY : TOUCH_SCROLL_FORWARD_SENSITIVITY;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
+          Math.max(scrollProgressRef.current + scrollDelta, 0),
           1
         );
-        setScrollProgress(newProgress);
+        scheduleProgressUpdate(newProgress);
 
         if (newProgress >= 1) {
+          mediaFullyExpandedRef.current = true;
           setMediaFullyExpanded(true);
           setShowContent(true);
           setTimeout(() => {
+            hasAnimationCompletedRef.current = true;
             setHasAnimationCompleted(true);
           }, ANIMATION_COMPLETION_DELAY_MS);
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
 
-        setTouchStartY(touchY);
+        touchStartYRef.current = touchY;
       }
     };
 
     const handleTouchEnd = (): void => {
-      setTouchStartY(0);
+      touchStartYRef.current = 0;
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded && !hasAnimationCompleted) {
+      if (!mediaFullyExpandedRef.current && !hasAnimationCompletedRef.current) {
         window.scrollTo(0, 0);
       }
     };
@@ -197,7 +224,7 @@ const ScrollExpandMedia = ({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY, hasAnimationCompleted]);
+  }, [scheduleProgressUpdate]);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -212,6 +239,9 @@ const ScrollExpandMedia = ({
 
   const mediaWidth = MEDIA_BASE_WIDTH + scrollProgress * (isMobileState ? MEDIA_MOBILE_WIDTH_DELTA : MEDIA_DESKTOP_WIDTH_DELTA);
   const mediaHeight = MEDIA_BASE_HEIGHT + scrollProgress * (isMobileState ? MEDIA_MOBILE_HEIGHT_DELTA : MEDIA_DESKTOP_HEIGHT_DELTA);
+  // Scale factors for GPU-composited transform (avoids layout reflow from width/height changes)
+  const scaleX = Math.min(mediaWidth / window.innerWidth, 1);
+  const scaleY = Math.min(mediaHeight / window.innerHeight, 1);
   const textTranslateX = scrollProgress * (isMobileState ? TEXT_MOBILE_TRANSLATE_FACTOR : TEXT_DESKTOP_TRANSLATE_FACTOR);
 
   // Split title for the animation effect
@@ -240,6 +270,7 @@ const ScrollExpandMedia = ({
             src={bgImageSrc}
             alt="Background"
             className="w-full h-full object-cover"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-black/60" />
         </div>
@@ -255,13 +286,13 @@ const ScrollExpandMedia = ({
         ) : (
           // Default title/date structure with scroll animation
           <div
-            className={`absolute left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center text-center px-4 ${
+            className={`absolute left-1/2 z-20 flex flex-col items-center justify-center text-center px-4 ${
               textBlend ? 'mix-blend-difference' : ''
             }`}
             style={{
-              top: isMobileState
-                ? `${15 - scrollProgress * 10}%`
-                : `${20 - scrollProgress * 10}%`,
+              top: isMobileState ? '15%' : '20%',
+              transform: `translateX(-50%) translateY(${-scrollProgress * 10}vh)`,
+              willChange: 'transform',
             }}
           >
             {date && (
@@ -311,18 +342,17 @@ const ScrollExpandMedia = ({
           </div>
         )}
 
-        {/* Media Container - MODIFIED: Removed max constraints for full coverage */}
+        {/* Media Container - GPU-accelerated scale transform */}
         <div
           className="relative z-10 flex items-center justify-center"
           style={{
-            width: `${mediaWidth}px`,
-            height: `${mediaHeight}px`,
-            maxWidth: '100vw',  // Changed from 95vw to allow full coverage
-            maxHeight: '100vh', // Changed from 85vh to allow full coverage
-            transition: 'all 0.1s ease-out',
+            width: '100vw',
+            height: '100vh',
+            transform: `scale(${scaleX}, ${scaleY})`,
+            willChange: 'transform',
           }}
         >
-          <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl" style={{
+          <div className="relative w-full h-full overflow-hidden" style={{
             // Remove border radius when fully expanded
             borderRadius: scrollProgress >= BORDER_RADIUS_THRESHOLD ? '0px' : '16px',
           }}>
@@ -341,6 +371,7 @@ const ScrollExpandMedia = ({
                 src={mediaSrc}
                 alt={title || 'Media content'}
                 className="w-full h-full object-cover"
+                decoding="async"
               />
             )}
           </div>
@@ -372,6 +403,7 @@ const ScrollExpandMedia = ({
                 src={mediaSrc}
                 alt={title || 'Media content'}
                 className="absolute inset-0 w-full h-full object-cover"
+                decoding="async"
               />
             )}
             <div className="absolute inset-0 bg-black/40" />
