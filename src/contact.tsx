@@ -324,13 +324,14 @@ function Contact() {
                     </div>
                     <div>
                       <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Meeting Times</h3>
-                      <p className="text-gray-600 font-semibold mt-1">Build Season (January – February)</p>
-                      <p className="text-gray-600 text-sm">Monday, Wednesday, Friday, Saturday</p>
-                      <p className="text-gray-600 text-sm">Mon – Fri: 6:00 – 8:45 PM</p>
+                      <p className="text-gray-600 font-semibold mt-1">Build Season (January – April)</p>
+                      <p className="text-gray-600 text-sm">Mon: 6:00 - 8:45 PM</p>
+                      <p className="text-gray-600 text-sm">Wed: 6:00 - 8:45 PM</p>
+                      <p className="text-gray-600 text-sm">Fri: 6:00 - 8:45 PM</p>
                       <p className="text-gray-600 text-sm">Saturday: 10:00 AM – 5:00 PM</p>
                       <p className="text-gray-600 font-semibold mt-2">Off-Season (September – December)</p>
-                      <p className="text-gray-600 text-sm">Monday, Wednesday</p>
-                      <p className="text-gray-600 text-sm">6:00 – 8:45 PM</p>
+                      <p className="text-gray-600 text-sm">Mon: 6:00 - 8:45 PM</p>
+                      <p className="text-gray-600 text-sm">Wed: 6:00 - 8:45 PM</p>
                     </div>
                   </div>
                 </div>

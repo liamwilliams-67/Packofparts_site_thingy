@@ -435,9 +435,8 @@ function Join() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Season Schedule</h4>
                       <p className="text-white/70 text-sm">
-                        Pre-Season: January - February (Mon, Wen)<br />
-                        Competition Season: February - April (Mon, Wen, Fri, Sat)<br />
-                        Off-Season: May - December (Mon, Wen)
+                        Pre-Season: September - December (Mon, Wen)<br />
+                        Competition Season: January - April (Mon, Wen, Fri, Sat)<br />
                       </p>
                     </div>
                   </div>
@@ -460,17 +459,6 @@ function Join() {
                         Eastlake High School<br />
                         D-125<br />
                         Sammamish, WA
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <Users className="w-6 h-6 text-light-blue flex-shrink-0 mt-1" />
-                    <div>
-                      <h4 className="text-white font-semibold mb-1">Team Size</h4>
-                      <p className="text-white/70 text-sm">
-                        50-60 active members<br />
-                        Multiple sub-teams (Build, Prog, Design, etc.)
                       </p>
                     </div>
                   </div>

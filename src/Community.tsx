@@ -341,14 +341,14 @@ function Community() {
             {[
               {
                 icon: GraduationCap,
-                title: 'Summer Robotics Camps',
+                title: 'Summer Camps',
                 description: 'Week-long camps for middle school students introducing robotics, programming, and engineering concepts.',
-                impact: '100+ students reached annually'
+                impact: '500+ students reached'
               },
               {
                 icon: School,
-                title: 'Elementary School Demos',
-                description: 'Interactive robot demonstrations at local elementary schools to inspire young students.',
+                title: 'Community/School Demos',
+                description: 'Interactive robot demonstrations at places including the Sammamish Farmers Market, Margaret Mead Elementary, and more, to inspire young students.',
                 impact: '15+ schools visited each year'
               },
               {
@@ -381,10 +381,6 @@ function Community() {
                       <p className="text-gray-600 mb-4">
                         {program.description}
                       </p>
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-light-blue/10 rounded-full">
-                        <Award className="w-4 h-4 text-light-blue" />
-                        <span className="text-navy font-semibold text-sm">{program.impact}</span>
-                      </div>
                     </div>
                   </div>
                 </div>

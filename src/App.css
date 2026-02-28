@@ -3,6 +3,7 @@
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
 }
 
 /* Custom selection color */
