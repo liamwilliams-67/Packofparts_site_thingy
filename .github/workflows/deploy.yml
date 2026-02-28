@@ -74,8 +74,8 @@ jobs:
             cd /home/ubuntu/backend
             npm install --production
 
-            pm2 restart backend || pm2 start index.js --name backend
+            pm2 restart backend || pm2 start server/index.js --name backend
             pm2 save
-
-            sudo ufw deny 3001
+            
             sudo systemctl restart nginx
+
