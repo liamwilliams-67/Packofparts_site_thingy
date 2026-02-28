@@ -60,7 +60,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            cat > /home/ubuntu/backend/.env <<EOF
+            cat > /home/ubuntu/backend/server/.env <<EOF
             STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
             CLIENT_URL=https://1294-test-page.robot-armies.com
             PORT=3001
@@ -71,11 +71,12 @@ jobs:
             STRIPE_ADDON_WL_PRICE_ID=${{ secrets.STRIPE_ADDON_WL_PRICE_ID }}
             EOF
 
-            cd /home/ubuntu/backend
+            cd /home/ubuntu/backend/server
             npm install --production
 
-            pm2 restart backend || pm2 start server/index.js --name backend
+            pm2 restart backend || pm2 start /home/ubuntu/backend/server/index.js --name backend
             pm2 save
             
             sudo systemctl restart nginx
+
 
