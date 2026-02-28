@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { 
   Instagram, 
   Facebook, 
@@ -12,7 +12,7 @@ import {
   School,
   ArrowRight
 } from 'lucide-react';
-// import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
+import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
 import DesktopNav from './components/DesktopNav';
 import MobileNav from './components/MobileNav';
@@ -20,36 +20,36 @@ import QuickLinks from './components/QuickLinks';
 
 // Animation constants for hero text movement
 // This multiplier ensures text moves completely off-screen during the scroll animation
-// const OFF_SCREEN_MULTIPLIER = 8;
+const OFF_SCREEN_MULTIPLIER = 8;
 
 // Helper component for directional text animation (moves entire text block left or right)
-// interface DirectionalTextProps {
-//   text: string;
-//   translateX: number;
-//   direction: 'left' | 'right';
-//   className?: string;
-//   speedMultiplier?: number; // Multiplier to adjust speed for different text elements
-// }
+interface DirectionalTextProps {
+  text: string;
+  translateX: number;
+  direction: 'left' | 'right';
+  className?: string;
+  speedMultiplier?: number; // Multiplier to adjust speed for different text elements
+}
 
-// const DirectionalText = ({ text, translateX, direction, className = '', speedMultiplier = 1 }: DirectionalTextProps) => {
-//   // Calculate the actual translation with direction and speed multiplier
-//   const actualTranslateX = translateX * speedMultiplier * OFF_SCREEN_MULTIPLIER;
+const DirectionalText = memo(({ text, translateX, direction, className = '', speedMultiplier = 1 }: DirectionalTextProps) => {
+  // Calculate the actual translation with direction and speed multiplier
+  const actualTranslateX = translateX * speedMultiplier * OFF_SCREEN_MULTIPLIER;
   
-//   return (
-//     <span
-//       className={className}
-//       style={{
-//         display: 'inline-block',
-//         transform: direction === 'left' 
-//           ? `translateX(-${actualTranslateX}px)` 
-//           : `translateX(${actualTranslateX}px)`,
-//         transition: 'transform 0.1s ease-out',
-//       }}
-//     >
-//       {text}
-//     </span>
-//   );
-// };
+  return (
+    <span
+      className={className}
+      style={{
+        display: 'inline-block',
+        transform: direction === 'left' 
+          ? `translateX(-${actualTranslateX}px)` 
+          : `translateX(${actualTranslateX}px)`,
+        transition: 'transform 0.1s ease-out',
+      }}
+    >
+      {text}
+    </span>
+  );
+});
 
 // Sponsor logos with homepage links
 // To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
@@ -102,7 +102,91 @@ function App() {
     coveredExtra: number; // extra pixels already applied to sponsorPosRef for this jump
   } | null>(null);
 
- 
+  // Memoize heroContent callback to avoid creating new function references on re-renders
+  const heroContent = useCallback(({ textTranslateX }: HeroContentRenderProps) => (
+    <div className="container-custom text-center px-4">
+      <div 
+        className="animate-fade-in-up"
+        style={{ animationDelay: '0.3s' }}
+      >
+        <DirectionalText 
+          text="#1294" 
+          translateX={textTranslateX} 
+          direction="left"
+          speedMultiplier={1.2}
+          className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4"
+        />
+      </div>
+      
+      <h1 
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
+        style={{ animationDelay: '0.5s' }}
+      >
+        <DirectionalText 
+          text="Eastlake Robotics Club" 
+          translateX={textTranslateX} 
+          direction="right"
+          speedMultiplier={1.5}
+        />
+      </h1>
+      
+      <h2 
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
+        style={{ animationDelay: '0.8s' }}
+      >
+        <DirectionalText 
+          text="Pack of Parts" 
+          translateX={textTranslateX} 
+          direction="left"
+          speedMultiplier={1.3}
+        />
+      </h2>
+      
+      <p 
+        className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
+        style={{ animationDelay: '1.1s' }}
+      >
+        <DirectionalText 
+          text="FRC Team 1294 | Sammamish, Washington" 
+          translateX={textTranslateX} 
+          direction="left"
+          speedMultiplier={1.0}
+        />
+      </p>
+    </div>
+  ), []);
+
+  // Memoize frozenContent since it's static and never changes
+  const frozenContent = useMemo(() => (
+    <div className="container-custom text-center px-4">
+      <div className="mb-4">
+        <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
+          #1294
+        </span>
+      </div>
+      
+      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4">
+        Eastlake Robotics Club
+      </h1>
+      
+      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6">
+        Pack of Parts
+      </h2>
+      
+      <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
+        FRC Team 1294 | Sammamish, Washington
+      </p>
+      
+      <div>
+        <button 
+          onClick={() => window.location.href = '/join'}
+          className="btn-primary text-sm md:text-base animate-pulse-glow"
+        >
+          Join The Club
+        </button>
+      </div>
+    </div>
+  ), []);
 
   // Team photos
   const teamPhotos = [
@@ -226,147 +310,14 @@ function App() {
       </nav>
 
       {/* Scroll Expansion Hero Section */}
-      {/* <ScrollExpandMedia
+      <ScrollExpandMedia
         mediaType="video"
         mediaSrc="/IMG_1496.mp4"
         posterSrc="/team-photo-2.jpg"
         bgImageSrc="/team-photo-2.jpg"
-        heroContent={({ textTranslateX }: HeroContentRenderProps) => (
-          <div className="container-custom text-center px-4">
-            <div 
-              className="animate-fade-in-up"
-              style={{ animationDelay: '0.3s' }}
-            >
-              <DirectionalText 
-                text="#1294" 
-                translateX={textTranslateX} 
-                direction="left"
-                speedMultiplier={1.2}
-                className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4"
-              />
-            </div>
-            
-            <h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-              style={{ animationDelay: '0.5s' }}
-            >
-              <DirectionalText 
-                text="Eastlake Robotics Club" 
-                translateX={textTranslateX} 
-                direction="right"
-                speedMultiplier={1.5}
-              />
-            </h1>
-            
-            <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
-              style={{ animationDelay: '0.8s' }}
-            >
-              <DirectionalText 
-                text="Pack of Parts" 
-                translateX={textTranslateX} 
-                direction="left"
-                speedMultiplier={1.3}
-              />
-            </h2>
-            
-            <p 
-              className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
-              style={{ animationDelay: '1.1s' }}
-            >
-              <DirectionalText 
-                text="FRC Team 1294 | Sammamish, Washington" 
-                translateX={textTranslateX} 
-                direction="left"
-                speedMultiplier={1.0}
-              />
-            </p>
-          </div>
-        )}
-        frozenContent={
-          <div className="container-custom text-center px-4">
-            <div className="mb-4">
-              <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
-                #1294
-              </span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4">
-              Eastlake Robotics Club
-            </h1>
-            
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6">
-              Pack of Parts
-            </h2>
-            
-            <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
-              FRC Team 1294 | Sammamish, Washington
-            </p>
-            
-            <div>
-              <button 
-                onClick={() => window.location.href = '/join'}
-                className="btn-primary text-sm md:text-base animate-pulse-glow"
-              >
-                Join The Club
-              </button>
-            </div>
-          </div>
-        }
-      > */}
-
-      <div 
-          className="relative z-20 min-h-screen flex items-center justify-center"
-          style={{ 
-            background: 'black',
-          }}
-        >
-          {/* Video/Image Background for frozen section */}
-          <div className="absolute inset-0 z-0">
-              <video
-                src={"/IMG_1496.mp4"}
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster={"/team-photo-2.jpg"}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            <div className="absolute inset-0 bg-black/40" />
-          </div>
-          
-          {/* Frozen content - displays the static text with original formatting */}
-            <div className="relative z-10">
-              <div className="container-custom text-center px-4">
-            <div className="mb-4">
-              <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
-                #1294
-              </span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4">
-              Eastlake Robotics Club
-            </h1>
-            
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6">
-              Pack of Parts
-            </h2>
-            
-            <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
-              FRC Team 1294 | Sammamish, Washington
-            </p>
-            
-            <div>
-              <button 
-                onClick={() => window.location.href = '/join'}
-                className="btn-primary text-sm md:text-base animate-pulse-glow"
-              >
-                Join The Club
-              </button>
-            </div>
-          </div>
-            </div>
-        </div>
+        heroContent={heroContent}
+        frozenContent={frozenContent}
+      >
 
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">
@@ -769,7 +720,7 @@ function App() {
 
       {/* Summer Camps Section - Anchor target */}
       <div id="camps" className="hidden" />
-      {/* </ScrollExpandMedia> */}
+      </ScrollExpandMedia>
     </div>
   );
 }
