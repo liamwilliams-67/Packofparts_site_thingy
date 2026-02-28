@@ -1,0 +1,17 @@
+name: Add SSH Key
+
+on:
+  workflow_dispatch:
+
+jobs:
+  add-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add public key to server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+  echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF8fPZ94/IW3mQ4QIhw7xvbvTQxhCEF1jzxu8DidhCdF github-deploy" >> ~/.ssh/authorized_keys
