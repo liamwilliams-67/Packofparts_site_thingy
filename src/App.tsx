@@ -50,6 +50,7 @@ const DirectionalText = memo(({ text, translateX, direction, className = '', spe
     </span>
   );
 });
+DirectionalText.displayName = 'DirectionalText';
 
 // Sponsor logos with homepage links
 // To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
