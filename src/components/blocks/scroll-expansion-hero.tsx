@@ -26,6 +26,7 @@ const MEDIA_MOBILE_HEIGHT_DELTA = 500;  // Increased from 200 to cover full scre
 const MEDIA_DESKTOP_HEIGHT_DELTA = 700; // Increased from 400 to cover full screen
 const TEXT_MOBILE_TRANSLATE_FACTOR = 180;
 const TEXT_DESKTOP_TRANSLATE_FACTOR = 150;
+const TEXT_VERTICAL_TRANSLATE_FACTOR = 10;
 
 // Delay (in ms) before marking animation as complete, allows the hero to become a frozen section
 const ANIMATION_COMPLETION_DELAY_MS = 100;
@@ -240,8 +241,10 @@ const ScrollExpandMedia = ({
   const mediaWidth = MEDIA_BASE_WIDTH + scrollProgress * (isMobileState ? MEDIA_MOBILE_WIDTH_DELTA : MEDIA_DESKTOP_WIDTH_DELTA);
   const mediaHeight = MEDIA_BASE_HEIGHT + scrollProgress * (isMobileState ? MEDIA_MOBILE_HEIGHT_DELTA : MEDIA_DESKTOP_HEIGHT_DELTA);
   // Scale factors for GPU-composited transform (avoids layout reflow from width/height changes)
-  const scaleX = Math.min(mediaWidth / window.innerWidth, 1);
-  const scaleY = Math.min(mediaHeight / window.innerHeight, 1);
+  const vw = typeof window !== 'undefined' ? window.innerWidth : 1;
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 1;
+  const scaleX = Math.min(mediaWidth / vw, 1);
+  const scaleY = Math.min(mediaHeight / vh, 1);
   const textTranslateX = scrollProgress * (isMobileState ? TEXT_MOBILE_TRANSLATE_FACTOR : TEXT_DESKTOP_TRANSLATE_FACTOR);
 
   // Split title for the animation effect
@@ -291,7 +294,7 @@ const ScrollExpandMedia = ({
             }`}
             style={{
               top: isMobileState ? '15%' : '20%',
-              transform: `translateX(-50%) translateY(${-scrollProgress * 10}vh)`,
+              transform: `translateX(-50%) translateY(${-scrollProgress * TEXT_VERTICAL_TRANSLATE_FACTOR}vh)`,
               willChange: 'transform',
             }}
           >
