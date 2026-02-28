@@ -10,14 +10,7 @@ export default function QuickLinks({
       { name: 'For Members', href: '/members' },
       { 
         name: 'Meet the Team', 
-        href: '/community/meet-the-team'
-        // href: '/community',
-        // hasDropdown: true,
-        // dropdownItems: [
-        //   { name: 'Meet the Team', href: '/community/meet-the-team' },
-        //   { name: 'STEM Kits', href: '/community/stem-kits' },
-        //   { name: 'Recycling Initiative', href: '/community/recycling' }
-        // ]
+        href: '/meet-the-team'
       },
       { name: 'Donate', href: '/donate' },
       { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
