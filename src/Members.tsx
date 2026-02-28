@@ -137,42 +137,42 @@ function Members() {
                 title: 'STIMS',
                 icon: FileText,
                 description: 'The process of joining our team. This guides you through being officially registered with FIRST.',
-                link: './public/STIMS.pdf',
+                link: '/STIMS.pdf',
                 badge: 'Required'
               },
               {
                 title: 'Team Handbook',
                 icon: BookOpen,
                 description: 'Our Team Handbook outlines the expectations for all users and is a helpful resource for all new members.',
-                link: './public/handbook.pdf',
+                link: '/handbook.pdf',
                 badge: 'Essential'
               },
               {
                 title: 'Safety Notes',
                 icon: AlertTriangle,
                 description: 'Safety is an integral part of our team. This document details each machine in our shop and how to be safe around them.',
-                link: './public/Robotics Safety Notes.pdf',
+                link: '/Robotics Safety Notes.pdf',
                 badge: 'Required'
               },
               {
                 title: 'Safety Plan',
                 icon: Shield,
                 description: 'Here at Pack of Parts, we take safety very seriously. Here is our safety plan so we can always make sure that you are safe.',
-                link: './public/FRC Safety Plan 24.pdf',
+                link: '/FRC Safety Plan 24.pdf',
                 badge: 'Important'
               },
               {
                 title: 'Our Constitution',
                 icon: Award,
                 description: 'Our Constitution outlines our values and principles. We will strive to follow these principles to further our Gracious Professionalism.',
-                link: './public/Eastlake Robotics Constitution.pdf',
+                link: '/Eastlake Robotics Constitution.pdf',
                 badge: 'Core'
               },
               {
                 title: 'Our Bylaws',
                 icon: FileText,
                 description: 'Our Bylaws outline our detailed rules and regulations. This is our in-depth guide to running our club.',
-                link: './public/Eastlake Robotics Bylaws.pdf',
+                link: '/Eastlake Robotics Bylaws.pdf',
                 badge: 'Core'
               }
             ].map((doc, index) => (
