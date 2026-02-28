@@ -137,6 +137,7 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       // setIsNavVisible(window.scrollY > 100);
+      setIsNavVisible(true);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
