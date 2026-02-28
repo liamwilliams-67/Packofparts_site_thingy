@@ -15,7 +15,7 @@ import {
   School,
   ArrowRight
 } from 'lucide-react';
-import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
+// import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
 
 // Animation constants for hero text movement
@@ -77,7 +77,7 @@ const SPONSOR_JUMP_FACTOR = 3;
 // SPONSOR_SCROLL_SPEED: pixels scrolled per animation frame (~60fps), controls auto-scroll speed
 const SPONSOR_SCROLL_SPEED = 1.0;
 // SPONSOR_JUMP_DURATION_MS: duration in milliseconds of the arrow-button acceleration animation
-const SPONSOR_JUMP_DURATION_MS = 1500;
+const SPONSOR_JUMP_DURATION_MS = 500;
 // MAX_FRAME_DELTA_MS: caps dt so a tab-switch or long pause doesn't cause a huge position jump
 const MAX_FRAME_DELTA_MS = 100;
 // Total width of one full set of sponsors (used for seamless wrap-around)
@@ -355,14 +355,13 @@ function App() {
       </nav>
 
       {/* Scroll Expansion Hero Section */}
-      <ScrollExpandMedia
+      {/* <ScrollExpandMedia
         mediaType="video"
         mediaSrc="/IMG_1496.mp4"
         posterSrc="/team-photo-2.jpg"
         bgImageSrc="/team-photo-2.jpg"
         heroContent={({ textTranslateX }: HeroContentRenderProps) => (
           <div className="container-custom text-center px-4">
-            {/* #1294 - Goes LEFT */}
             <div 
               className="animate-fade-in-up"
               style={{ animationDelay: '0.3s' }}
@@ -376,7 +375,6 @@ function App() {
               />
             </div>
             
-            {/* Eastlake Robotics Club - Goes RIGHT */}
             <h1 
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
               style={{ animationDelay: '0.5s' }}
@@ -389,7 +387,6 @@ function App() {
               />
             </h1>
             
-            {/* Pack of Parts - Goes LEFT (same direction as #1294 for visual consistency) */}
             <h2 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
               style={{ animationDelay: '0.8s' }}
@@ -402,7 +399,6 @@ function App() {
               />
             </h2>
             
-            {/* FRC Team 1294 | Sammamish, Washington - Goes LEFT */}
             <p 
               className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10 animate-fade-in-up"
               style={{ animationDelay: '1.1s' }}
@@ -418,7 +414,6 @@ function App() {
         )}
         frozenContent={
           <div className="container-custom text-center px-4">
-            {/* Static content for frozen section - same format as original hero */}
             <div className="mb-4">
               <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
                 #1294
@@ -447,7 +442,38 @@ function App() {
             </div>
           </div>
         }
-      >
+      > */}
+
+      <div className="container-custom text-center px-4">
+            {/* Static content for frozen section - same format as original hero */}
+            <div className="mb-4">
+              <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest">
+                #1294
+              </span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4">
+              Eastlake Robotics Club
+            </h1>
+            
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6">
+              Pack of Parts
+            </h2>
+            
+            <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-10">
+              FRC Team 1294 | Sammamish, Washington
+            </p>
+            
+            <div>
+              <button 
+                onClick={() => window.location.href = '/join'}
+                className="btn-primary text-sm md:text-base animate-pulse-glow"
+              >
+                Join The Club
+              </button>
+            </div>
+          </div>
+          
         {/* Our Mission Section */}
       <section id="join" className="section-padding bg-white">
         <div className="container-custom">
