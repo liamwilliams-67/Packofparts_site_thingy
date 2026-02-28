@@ -1,5 +1,7 @@
 /* Meet the Team Page Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Reveal animations */
 .reveal {
   opacity: 0;

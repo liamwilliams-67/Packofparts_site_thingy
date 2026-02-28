@@ -1,5 +1,7 @@
 /* Join Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Benefit Cards */
 .benefit-card {
   background: white;

@@ -1,5 +1,7 @@
 /* STEM Kits Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* STEM Kit Cards */
 .stem-kit-card {
   background: white;

@@ -1,5 +1,7 @@
 /* Summer Camps Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Camp Cards */
 .camp-card {
   border: 1px solid rgba(128, 211, 238, 0.35);

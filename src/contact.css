@@ -1,5 +1,7 @@
 /* Contact Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Contact Cards */
 .contact-card {
   background: white;

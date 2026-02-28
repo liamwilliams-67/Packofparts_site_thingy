@@ -1,5 +1,7 @@
 /* Donate Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Impact Cards */
 .impact-card {
   background: white;

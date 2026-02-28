@@ -1,5 +1,7 @@
 /* 404 Not Found Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Animated 404 Number */
 .error-number {
   background: linear-gradient(135deg, #80D3EE 0%, #7FC3F2 50%, rgba(255, 255, 255, 0.8) 100%);

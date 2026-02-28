@@ -1,5 +1,7 @@
 /* Recycling Page Specific Styles */
-
+html, body {
+  overscroll-behavior-y: contain;
+}
 /* Recycling Cards */
 .recycling-card {
   background: white;

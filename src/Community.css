@@ -1,4 +1,7 @@
 /* Community Page Specific Styles */
+html, body {
+  overscroll-behavior-y: contain;
+}
 
 /* Value Cards */
 .value-card {
