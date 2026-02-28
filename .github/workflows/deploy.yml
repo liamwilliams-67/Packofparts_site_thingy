@@ -29,6 +29,7 @@ jobs:
           VITE_API_URL: ""
           VITE_STRIPE_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_BUY_BUTTON_ID }}
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_STRIPE_PAYMENT_LINK: ${{ secrets.VITE_STRIPE_PAYMENT_LINK }}
           VITE_STRIPE_CAMP_CAD_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_CAD_PRICE_ID }}
           VITE_STRIPE_CAMP_PROGRAMMING_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_PROGRAMMING_PRICE_ID }}
           VITE_STRIPE_CAMP_ENGINEERING1_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_ENGINEERING1_PRICE_ID }}
@@ -78,5 +79,6 @@ jobs:
             pm2 save
             
             sudo systemctl restart nginx
+
 
 
