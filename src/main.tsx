@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/contact" element={<Contact />} />
         <Route path="/join" element={<Join />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/community/meet-the-team" element={<MeetTheTeam />} />
+        <Route path="/meet-the-team" element={<MeetTheTeam />} />
         <Route path="/community/stem-kits" element={<StemKits />} />
         <Route path="/community/recycling" element={<Recycling />} />
         <Route path="/summer-camps" element={<SummerCamps />} />
