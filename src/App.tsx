@@ -443,12 +443,17 @@ function App() {
       <section id="members" className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Video */}``
+            {/* Video */}
             <div className="reveal order-2 lg:order-1">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
-                <iframe className="w-full aspect-video object-cover" src="https://www.youtube.com/embed/qIBiCYVLwaA" title="Chairman&#39;s Award Video 2023" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 transition-colors duration-300">
-                </div>
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl group w-full">
+                <iframe 
+                  className="w-full aspect-video" 
+                  src="https://www.youtube.com/embed/qIBiCYVLwaA" 
+                  title="Chairman's Award Video 2023" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                ></iframe>
               </div>
             </div>
 
