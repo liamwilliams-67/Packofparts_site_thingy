@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://1294-test-page.robot-armies.com  # Change this with the current production link
+      url: https://1294-test-page.robot-armies.com
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,15 +26,16 @@ jobs:
       - name: Build project
         run: npm run build
         env:
+          VITE_API_URL: ""
           VITE_STRIPE_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_BUY_BUTTON_ID }}
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
-          VITE_STRIPE_CAMP_CAD_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_CAMP_CAD_BUY_BUTTON_ID }}
-          VITE_STRIPE_CAMP_PROGRAMMING_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_CAMP_PROGRAMMING_BUY_BUTTON_ID }}
-          VITE_STRIPE_CAMP_ENGINEERING1_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_CAMP_ENGINEERING1_BUY_BUTTON_ID }}
-          VITE_STRIPE_CAMP_ENGINEERING2_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_CAMP_ENGINEERING2_BUY_BUTTON_ID }}
-          VITE_STRIPE_ADDON_WL_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_ADDON_WL_BUY_BUTTON_ID }}
+          VITE_STRIPE_CAMP_CAD_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_CAD_PRICE_ID }}
+          VITE_STRIPE_CAMP_PROGRAMMING_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_PROGRAMMING_PRICE_ID }}
+          VITE_STRIPE_CAMP_ENGINEERING1_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_ENGINEERING1_PRICE_ID }}
+          VITE_STRIPE_CAMP_ENGINEERING2_PRICE_ID: ${{ secrets.VITE_STRIPE_CAMP_ENGINEERING2_PRICE_ID }}
+          VITE_STRIPE_ADDON_WL_PRICE_ID: ${{ secrets.VITE_STRIPE_ADDON_WL_PRICE_ID }}
 
-      - name: Copy files to server
+      - name: Copy frontend to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -43,11 +44,38 @@ jobs:
           source: "dist/*"
           target: "/var/www/html/"
 
-      - name: Restart Nginx
+      - name: Copy backend to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "server/*"
+          target: "/home/ubuntu/backend/"
+
+      - name: Configure backend & restart services
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ubuntu
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
+            cat > /home/ubuntu/backend/.env <<EOF
+            STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+            CLIENT_URL=https://1294-test-page.robot-armies.com
+            PORT=3001
+            STRIPE_CAMP_CAD_PRICE_ID=${{ secrets.STRIPE_CAMP_CAD_PRICE_ID }}
+            STRIPE_CAMP_PROGRAMMING_PRICE_ID=${{ secrets.STRIPE_CAMP_PROGRAMMING_PRICE_ID }}
+            STRIPE_CAMP_ENGINEERING1_PRICE_ID=${{ secrets.STRIPE_CAMP_ENGINEERING1_PRICE_ID }}
+            STRIPE_CAMP_ENGINEERING2_PRICE_ID=${{ secrets.STRIPE_CAMP_ENGINEERING2_PRICE_ID }}
+            STRIPE_ADDON_WL_PRICE_ID=${{ secrets.STRIPE_ADDON_WL_PRICE_ID }}
+            EOF
+
+            cd /home/ubuntu/backend
+            npm install --production
+
+            pm2 restart backend || pm2 start index.js --name backend
+            pm2 save
+
+            sudo ufw deny 3001
             sudo systemctl restart nginx
