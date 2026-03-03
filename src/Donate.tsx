@@ -136,21 +136,21 @@ function Donate() {
         <div className="relative z-10 container-custom text-center px-4 py-20">
           <div 
             className="animate-fade-in-up"
-            style={{ animationDelay: '0.2s' }}
+            style={{ animationDelay: '0.1s' }}
           >
             <Heart className="w-16 h-16 text-light-blue mx-auto mb-6" />
           </div>
           
           <h1 
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-            style={{ animationDelay: '0.4s' }}
+            style={{ animationDelay: '0.25s' }}
           >
             Support Our <span className="text-gradient">Mission</span>
           </h1>
           
           <p 
             className="text-white/80 text-base md:text-lg lg:text-xl max-w-3xl mx-auto animate-fade-in-up"
-            style={{ animationDelay: '0.6s' }}
+            style={{ animationDelay: '0.4s' }}
           >
             Pack of Parts is a non-profit organization. We fund our activities from club participation fees, 
             corporate sponsors, and generous supporters like you. Your donation helps inspire the next generation 

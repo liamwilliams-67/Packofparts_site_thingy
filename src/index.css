@@ -184,7 +184,7 @@
   .reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.6s var(--ease-robotic);
+    transition: all 0.7s var(--ease-robotic);
   }
   
   .reveal.active {
