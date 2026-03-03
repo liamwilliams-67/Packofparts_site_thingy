@@ -18,15 +18,6 @@ html, body {
   border-color: rgba(128, 211, 238, 0.4);
 }
 
-/* Map Embed Card (matches calendar-embed-card style) */
-.map-embed-card {
-  background: white;
-  border-radius: 1.5rem;
-  border: 2px solid rgba(128, 211, 238, 0.2);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
 /* Contact Form Wrapper */
 .contact-form-wrapper {
   background: white;

@@ -167,19 +167,6 @@ function Contact() {
                     <p className="text-gray-600">400 228th AVE NE, Sammamish, WA 98074</p>
                   </div>
                 </div>
-              </div>
-
-            </div>
-
-            {/* Google Maps Embed */}
-            <div className="reveal map-embed-card mt-8">
-              <div className="p-6">
-                <h3 className="text-2xl font-orbitron font-bold text-navy mb-4 text-center">
-                  Our Location
-                </h3>
-                <p className="text-gray-600 mb-6 text-center">
-                  Find us at Eastlake High School in Sammamish, Washington
-                </p>
                 {/*
                   ── Steps to make this Google Map functional ──
                   1. Go to https://console.cloud.google.com/ and create (or select) a project.
@@ -198,17 +185,18 @@ function Contact() {
                      Then pass  mapId: 'YOUR_MAP_ID'  in the Map constructor options above.
                   7. Reload the page – the interactive map will appear below.
                 */}
-                <div className="w-full rounded-lg overflow-hidden mb-4">
+                <div className="w-full rounded-lg overflow-hidden mt-4">
                   <div
                     ref={mapRef}
                     className="w-full"
                     style={{ height: MAP_HEIGHT }}
                   />
                 </div>
-                <p className="text-gray-600 text-sm text-center italic">
+                <p className="text-gray-600 text-sm italic mt-3">
                   The shop is located in room D-125 with access from the back of the high school across from the Renaissance school.
                 </p>
               </div>
+
             </div>
 
             <div className="reveal mt-12">
