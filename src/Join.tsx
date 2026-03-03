@@ -384,7 +384,7 @@ function Join() {
                 className="reveal role-card"
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <div className="flex items-start gap-4 mb-4">
+                <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
                     <team.icon className="w-6 h-6 text-light-blue" />
                   </div>
