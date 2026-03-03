@@ -230,7 +230,7 @@ function StemKits() {
         <div className="relative z-10 container-custom text-center px-4 py-20">
           <div 
             className="animate-fade-in-up"
-            style={{ animationDelay: '0.2s' }}
+            style={{ animationDelay: '0.1s' }}
           >
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
               STEMUNBOXED
@@ -239,14 +239,14 @@ function StemKits() {
           
           <h1 
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-            style={{ animationDelay: '0.4s' }}
+            style={{ animationDelay: '0.25s' }}
           >
             STEM <span className="text-gradient">Kits</span>
           </h1>
           
           <p 
             className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up"
-            style={{ animationDelay: '0.6s' }}
+            style={{ animationDelay: '0.4s' }}
           >
             Providing affordable and accessible STEM enrichment through engaging, 
             hands-on educational kits for elementary school students.

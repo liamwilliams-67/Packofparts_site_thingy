@@ -68,13 +68,13 @@ function Contact() {
           <div className="absolute inset-0 hero-gradient" />
         </div>
         <div className="relative z-10 container-custom text-center px-4 py-20">
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">GET IN TOUCH</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
             Contact <span className="text-gradient">Us</span>
           </h1>
-          <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <p className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             Have questions about joining, sponsorships, or camps? We'd love to hear from you.
           </p>
         </div>

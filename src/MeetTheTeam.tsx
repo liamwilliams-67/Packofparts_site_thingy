@@ -190,14 +190,14 @@ function MeetTheTeam() {
         </div>
         
         <div className="container-custom relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 reveal">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 reveal" style={{ transitionDelay: '0.1s' }}>
             <Users className="w-5 h-5 text-light-blue" />
             <span className="text-light-blue font-semibold text-sm uppercase tracking-wider">FRC Team 1294</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-6 reveal" style={{ transitionDelay: '0.1s' }}>
+          <h1 className="text-4xl md:text-6xl font-orbitron font-bold text-white mb-6 reveal" style={{ transitionDelay: '0.25s' }}>
             Meet the <span className="text-gradient">Pack</span>
           </h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto reveal" style={{ transitionDelay: '0.2s' }}>
+          <p className="text-xl text-white/80 max-w-2xl mx-auto reveal" style={{ transitionDelay: '0.4s' }}>
             Get to know the students and mentors who make up our award-winning robotics team. 
             Together, we're building robots and building futures.
           </p>

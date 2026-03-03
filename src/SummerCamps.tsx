@@ -284,7 +284,7 @@ function SummerCamps() {
         <div className="relative z-10 container-custom text-center px-4 py-20">
           <div 
             className="animate-fade-in-up"
-            style={{ animationDelay: '0.2s' }}
+            style={{ animationDelay: '0.1s' }}
           >
             <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
               SUMMER 2026
@@ -293,14 +293,14 @@ function SummerCamps() {
           
           <h1 
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-            style={{ animationDelay: '0.4s' }}
+            style={{ animationDelay: '0.25s' }}
           >
             Robotics Summer Camps
           </h1>
           
           <p 
             className="text-white/80 text-base md:text-lg lg:text-xl max-w-3xl mx-auto animate-fade-in-up mb-8"
-            style={{ animationDelay: '0.6s' }}
+            style={{ animationDelay: '0.4s' }}
           >
             Week-long STEM camps for middle school students. Build, code, and compete 
             with robots while making new friends and learning from FRC mentors!
@@ -308,7 +308,7 @@ function SummerCamps() {
 
           <div 
             className="animate-fade-in-up flex flex-wrap gap-4 justify-center"
-            style={{ animationDelay: '0.8s' }}
+            style={{ animationDelay: '0.55s' }}
           >
             <a href="#register" className="btn-primary inline-flex items-center gap-2">
               Register Now
