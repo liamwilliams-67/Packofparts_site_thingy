@@ -9,14 +9,15 @@ import {
   Github,
   Linkedin,
 } from 'lucide-react';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import './contact.css';
 import DesktopNav from '@/components/DesktopNav';
 import MobileNav from '@/components/MobileNav';
 import QuickLinks from '@/components/QuickLinks';
 
 function Contact() {
+  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
   const MAP_HEIGHT = 400;
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -52,11 +53,12 @@ function Contact() {
   useEffect(() => {
     if (!mapRef.current) return;
 
-    const map = new maplibregl.Map({
+    const map = new mapboxgl.Map({
       container: mapRef.current,
-      style: 'https://tiles.openfreemap.org/styles/bright',
-      center: [-122.0356, 47.6321],
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
+      center: [-122.03119, 47.6144],
       zoom: 15.5,
+      maxZoom: 20,
     });
 
     const markerEl = document.createElement('div');
@@ -66,7 +68,7 @@ function Contact() {
       '<div style="width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid #38bdf8;position:absolute;top:18px;left:4px"></div>' +
       '</div>';
 
-    const popup = new maplibregl.Popup({ offset: 28 }).setHTML(
+    const popup = new mapboxgl.Popup({ offset: 28 }).setHTML(
       '<div style="font-family:sans-serif;padding:4px">' +
       '<strong>Pack of Parts – FRC 1294</strong><br/>' +
       'Eastlake High School<br/>' +
@@ -75,8 +77,8 @@ function Contact() {
       '</div>'
     );
 
-    const marker = new maplibregl.Marker({ element: markerEl })
-      .setLngLat([-122.0356, 47.6321])
+    const marker = new mapboxgl.Marker({ element: markerEl })
+      .setLngLat([-122.03119, 47.6144])
       .setPopup(popup)
       .addTo(map);
 
