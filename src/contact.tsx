@@ -9,6 +9,8 @@ import {
   Github,
   Linkedin,
 } from 'lucide-react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './contact.css';
 import DesktopNav from '@/components/DesktopNav';
 import MobileNav from '@/components/MobileNav';
@@ -48,60 +50,47 @@ function Contact() {
   }, []);
 
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    if (!apiKey || !mapRef.current) return;
+    if (!mapRef.current) return;
 
-    const scriptId = 'google-maps-script';
-    const initMap = () => {
-      if (!mapRef.current || !window.google) return;
+    const map = new maplibregl.Map({
+      container: mapRef.current,
+      style: 'https://tiles.openfreemap.org/styles/bright',
+      center: [-122.0356, 47.6321],
+      zoom: 15.5,
+    });
 
-      const location = { lat: 47.6321, lng: -122.0356 };
+    const markerEl = document.createElement('div');
+    markerEl.innerHTML =
+      '<div style="width:24px;height:36px;position:relative;cursor:pointer">' +
+      '<div style="width:24px;height:24px;background:#38bdf8;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,.35);position:absolute;top:0"></div>' +
+      '<div style="width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid #38bdf8;position:absolute;top:18px;left:4px"></div>' +
+      '</div>';
 
-      const map = new window.google.maps.Map(mapRef.current, {
-        center: location,
-        zoom: 15,
-        disableDefaultUI: false,
-        mapTypeControl: false,
-        streetViewControl: false,
-        // mapId: 'YOUR_MAP_ID', // Required for AdvancedMarkerElement – see step 6 below
-      });
+    const popup = new maplibregl.Popup({ offset: 28 }).setHTML(
+      '<div style="font-family:sans-serif;padding:4px">' +
+      '<strong>Pack of Parts – FRC 1294</strong><br/>' +
+      'Eastlake High School<br/>' +
+      '400 228th Ave NE, Sammamish WA 98074<br/>' +
+      'Room D-125' +
+      '</div>'
+    );
 
-      const marker = new window.google.maps.marker.AdvancedMarkerElement({
-        map,
-        position: location,
-        title: 'Pack of Parts – Eastlake High School',
-      });
+    const marker = new maplibregl.Marker({ element: markerEl })
+      .setLngLat([-122.0356, 47.6321])
+      .setPopup(popup)
+      .addTo(map);
 
-      const infoWindow = new window.google.maps.InfoWindow({
-        content:
-          '<div style="font-family:sans-serif;padding:4px">' +
-          '<strong>Pack of Parts – FRC 1294</strong><br/>' +
-          'Eastlake High School<br/>' +
-          '400 228th AVE NE, Sammamish, WA 98074' +
-          '</div>',
-      });
+    map.on('load', () => marker.togglePopup());
 
-      marker.addListener('click', () => {
-        infoWindow.open({ anchor: marker, map });
-      });
-
-      infoWindow.open({ anchor: marker, map });
-    };
-
-    if (window.google?.maps) {
-      initMap();
-      return;
+    // Resize the map when the .reveal container becomes visible
+    const container = mapRef.current.closest('.reveal');
+    if (container) {
+      const ro = new ResizeObserver(() => map.resize());
+      ro.observe(container);
+      return () => { ro.disconnect(); map.remove(); };
     }
 
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker&callback=initGoogleMap`;
-      script.async = true;
-      script.defer = true;
-      (window as unknown as Record<string, unknown>).initGoogleMap = initMap;
-      document.head.appendChild(script);
-    }
+    return () => map.remove();
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -167,24 +156,6 @@ function Contact() {
                     <p className="text-gray-600">400 228th AVE NE, Sammamish, WA 98074</p>
                   </div>
                 </div>
-                {/*
-                  ── Steps to make this Google Map functional ──
-                  1. Go to https://console.cloud.google.com/ and create (or select) a project.
-                  2. Enable the "Maps JavaScript API" for that project:
-                     APIs & Services → Library → search "Maps JavaScript API" → Enable.
-                  3. Create an API key:
-                     APIs & Services → Credentials → Create Credentials → API Key.
-                  4. (Recommended) Restrict the key:
-                     • Application restriction → HTTP referrers → add your domain(s).
-                     • API restriction → restrict to "Maps JavaScript API".
-                  5. Add the key to your environment as VITE_GOOGLE_MAPS_API_KEY:
-                     • Local dev: create a .env file with  VITE_GOOGLE_MAPS_API_KEY=YOUR_KEY
-                     • Production: set it in your hosting provider's environment variables.
-                  6. To use AdvancedMarkerElement (custom markers), create a Map ID:
-                     Google Cloud Console → Google Maps Platform → Map Management → Create Map ID.
-                     Then pass  mapId: 'YOUR_MAP_ID'  in the Map constructor options above.
-                  7. Reload the page – the interactive map will appear below.
-                */}
                 <div className="w-full rounded-lg overflow-hidden mt-4">
                   <div
                     ref={mapRef}
