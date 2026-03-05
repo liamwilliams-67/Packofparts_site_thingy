@@ -16,8 +16,9 @@ import DesktopNav from '@/components/DesktopNav';
 import MobileNav from '@/components/MobileNav';
 import QuickLinks from '@/components/QuickLinks';
 
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+
 function Contact() {
-  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
   const MAP_HEIGHT = 400;
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
