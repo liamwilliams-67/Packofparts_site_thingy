@@ -26,6 +26,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
+          VITE_MAPBOX_TOKEN: ${{ secrets.VITE_MAPBOX_TOKEN }}
           VITE_API_URL: ""
           VITE_STRIPE_BUY_BUTTON_ID: ${{ secrets.VITE_STRIPE_BUY_BUTTON_ID }}
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
@@ -79,6 +80,7 @@ jobs:
             pm2 save
             
             sudo systemctl restart nginx
+
 
 
 
