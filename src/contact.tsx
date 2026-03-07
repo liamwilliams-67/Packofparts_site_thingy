@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Mail,
   MapPin,
@@ -9,15 +9,21 @@ import {
   Github,
   Linkedin,
 } from 'lucide-react';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import './contact.css';
 import DesktopNav from '@/components/DesktopNav';
 import MobileNav from '@/components/MobileNav';
 import QuickLinks from '@/components/QuickLinks';
 
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+
 function Contact() {
+  const MAP_HEIGHT = 400;
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
+  const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.title = 'Contact | Pack of Parts';
@@ -43,6 +49,69 @@ function Contact() {
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const map = new mapboxgl.Map({
+      container: mapRef.current,
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
+      center: [-122.03119, 47.6144],
+      zoom: 16,
+      maxZoom: 20,
+    });
+
+    const markerEl = document.createElement('div');
+markerEl.style.cssText = 'cursor:pointer;width:45px;display:flex;flex-direction:column;align-items:center;';
+markerEl.innerHTML = `
+  <div style="
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#0a1628;
+    border:3px solid #38bdf8;
+    box-shadow:0 2px 8px rgba(0,0,0,0.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  ">
+    <img src="/logo.png" style="width:35px;height:35px;object-fit:contain;" />
+  </div>
+  <div style="
+    width:0;
+    height:0;
+    border-left:11px solid transparent;
+    border-right:11px solid transparent;
+    border-top:13px solid #38bdf8;
+    margin-top:-2.5px;
+  "></div>
+`;
+
+    const popup = new mapboxgl.Popup({ offset: 55 }).setHTML(
+      '<div style="font-family:sans-serif;padding-bottom:0px;padding-top:0px">' +
+      '<strong>Robotics Shop</strong><br/>' +
+      'Room D-125' +
+      '</div>'
+    );
+
+    const marker = new mapboxgl.Marker({ element: markerEl, anchor: 'bottom' })
+      .setLngLat([-122.03119, 47.61425])
+      .setPopup(popup)
+      .addTo(map);
+
+    map.on('load', () => marker.togglePopup());
+
+    // Resize the map when the .reveal container becomes visible
+    const container = mapRef.current.closest('.reveal');
+    if (container) {
+      const ro = new ResizeObserver(() => map.resize());
+      ro.observe(container);
+      return () => { ro.disconnect(); map.remove(); };
+    }
+
+    return () => map.remove();
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -108,19 +177,18 @@ function Contact() {
                     <p className="text-gray-600">400 228th AVE NE, Sammamish, WA 98074</p>
                   </div>
                 </div>
+                <div className="w-full rounded-lg overflow-hidden mt-4">
+                  <div
+                    ref={mapRef}
+                    className="w-full"
+                    style={{ height: MAP_HEIGHT }}
+                  />
+                </div>
+                <p className="text-gray-600 text-sm italic mt-3">
+                  The shop is located in room D-125 with access from the back of the high school across from the Renaissance school.
+                </p>
               </div>
 
-              <div className="reveal contact-card">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center">
-                    <School className="w-6 h-6 text-light-blue" />
-                  </div>
-                  <div>
-                    <h3 className="text-navy font-orbitron font-semibold text-lg mb-1">Home School</h3>
-                    <p className="text-gray-600">Eastlake High School</p>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="reveal mt-12">

@@ -497,41 +497,46 @@ function App() {
       </section>
 
       {/* What is FIRST Section */}
-      <section id="community" className="section-padding bg-white">
-        <div className="container-custom">
-          {/* FRC Block */}
-          <div className="reveal mb-16 lg:mb-24">
-            <div className="max-w-4xl">
-              <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
-                The Competition
-              </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
-                What is the FIRST Robotics Competition?
-              </h2>
-              <p className="text-gray-600 leading-relaxed text-base md:text-lg">
-                Combining the excitement of sport with the rigors of science and technology, we call the 
-                FIRST Robotics Competition the ultimate Sport for the Mind. Under strict rules, limited 
-                resources, and an intense six-week time limit, teams of students are challenged to raise 
-                funds, design a team "brand," hone teamwork skills, and build & program industrialize robots 
-                to play a difficult field game against like-minded competitors. It's as close to real-world 
-                engineering as a student can get. Volunteer professional mentors lend their time and talents 
-                to guide each team. Each season ends with an exciting FIRST Championship in Houston, TX, and Detroit, MI.
-              </p>
-            </div>
-          </div>
+<section id="community" className="section-padding bg-white">
+  <div className="container-custom">
+    {/* FRC Block */}
+    <div className="reveal mb-16 lg:mb-24">
+      <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+        
+        {/* Text Side - Wide */}
+        <div className="lg:col-span-8">
+          <span className="text-light-blue font-orbitron text-sm tracking-widest uppercase mb-4 block">
+            The Competition
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-navy mb-6">
+            What is the FIRST Robotics Competition?
+          </h2>
+          <p className="text-gray-600 leading-relaxed text-base md:text-lg">
+            Combining the excitement of sport with the rigors of science and technology, we call the 
+            FIRST Robotics Competition the ultimate Sport for the Mind. Under strict rules, limited 
+            resources, and an intense six-week time limit, teams of students are challenged to raise 
+            funds, design a team "brand," hone teamwork skills, and build & program industrialize robots 
+            to play a difficult field game against like-minded competitors. It's as close to real-world 
+            engineering as a student can get. Volunteer professional mentors lend their time and talents 
+            to guide each team. Each season ends with an exciting FIRST Championship in Houston, TX, and Detroit, MI.
+          </p>
+        </div>
 
-          {/* Connector Line */}
-          <div className="hidden lg:block relative h-20 mb-16">
-            <svg className="absolute left-1/4 top-0 w-1/2 h-full" viewBox="0 0 400 80" fill="none">
-              <path 
-                d="M0 0 Q200 80 400 0" 
-                stroke="#80D3EE" 
-                strokeWidth="2" 
-                strokeDasharray="8 4"
-                className="animate-pulse"
-              />
-            </svg>
+        {/* Image Side - Height Matched/Smaller */}
+        <div className="lg:col-span-4 flex justify-center lg:justify-end">
+          <div className="relative rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+            <img 
+              src="/team-photo-8.jpg" 
+              alt="Team 1294 working on robot" 
+              className="w-full h-auto max-h-[400px] object-cover transform hover:scale-105 transition-transform duration-500"
+            />
           </div>
+        </div>
+
+      </div>
+    </div>
+    
+
 
           {/* FIRST Block */}
           <div className="reveal" style={{ transitionDelay: '0.2s' }}>
