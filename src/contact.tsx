@@ -58,28 +58,46 @@ function Contact() {
       container: mapRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-122.03119, 47.6144],
-      zoom: 15.5,
+      zoom: 16,
       maxZoom: 20,
     });
 
     const markerEl = document.createElement('div');
-    markerEl.innerHTML =
-      '<div style="width:24px;height:36px;position:relative;cursor:pointer">' +
-      '<div style="width:24px;height:24px;background:#38bdf8;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,.35);position:absolute;top:0"></div>' +
-      '<div style="width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid #38bdf8;position:absolute;top:18px;left:4px"></div>' +
-      '</div>';
+markerEl.style.cssText = 'cursor:pointer;width:45px;display:flex;flex-direction:column;align-items:center;';
+markerEl.innerHTML = `
+  <div style="
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#0a1628;
+    border:3px solid #38bdf8;
+    box-shadow:0 2px 8px rgba(0,0,0,0.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  ">
+    <img src="/logo.png" style="width:35px;height:35px;object-fit:contain;" />
+  </div>
+  <div style="
+    width:0;
+    height:0;
+    border-left:11px solid transparent;
+    border-right:11px solid transparent;
+    border-top:13px solid #38bdf8;
+    margin-top:-2.5px;
+  "></div>
+`;
 
-    const popup = new mapboxgl.Popup({ offset: 28 }).setHTML(
-      '<div style="font-family:sans-serif;padding:4px">' +
-      '<strong>Pack of Parts – FRC 1294</strong><br/>' +
-      'Eastlake High School<br/>' +
-      '400 228th Ave NE, Sammamish WA 98074<br/>' +
+    const popup = new mapboxgl.Popup({ offset: 55 }).setHTML(
+      '<div style="font-family:sans-serif;padding-bottom:0px;padding-top:0px">' +
+      '<strong>Robotics Shop</strong><br/>' +
       'Room D-125' +
       '</div>'
     );
 
-    const marker = new mapboxgl.Marker({ element: markerEl })
-      .setLngLat([-122.03119, 47.6144])
+    const marker = new mapboxgl.Marker({ element: markerEl, anchor: 'bottom' })
+      .setLngLat([-122.03119, 47.61425])
       .setPopup(popup)
       .addTo(map);
 
