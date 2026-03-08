@@ -88,17 +88,25 @@ app.post('/create-checkout-session', checkoutLimiter, async (req, res) => {
       return res.status(400).json({ error: 'Too many camps selected' });
     }
 
-    // Validate string fields are actually strings and within reasonable length
+    // Validate string fields are actually strings and within field-specific length limits
+    const fieldLimits = {
+      registrantName: 200, registrantEmail: 254, childGrade: 50,
+      parentName: 200, parentEmail: 254, parentPhone: 20, hearAboutUs: 500,
+    };
     const stringFields = { registrantName, registrantEmail, childGrade, parentName, parentEmail, parentPhone, hearAboutUs };
     for (const [field, value] of Object.entries(stringFields)) {
-      if (value !== undefined && value !== null && (typeof value !== 'string' || value.length > 500)) {
+      if (value !== undefined && value !== null && (typeof value !== 'string' || value.length > fieldLimits[field])) {
         return res.status(400).json({ error: `Invalid value for ${field}` });
       }
     }
 
-    // Basic email format check
-    if (parentEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parentEmail)) {
-      return res.status(400).json({ error: 'Invalid email address' });
+    // Basic email format check for both email fields
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (parentEmail && !emailRegex.test(parentEmail)) {
+      return res.status(400).json({ error: 'Invalid parent email address' });
+    }
+    if (registrantEmail && !emailRegex.test(registrantEmail)) {
+      return res.status(400).json({ error: 'Invalid registrant email address' });
     }
 
     // Build line_items by mapping camp keys to server-side Price IDs
