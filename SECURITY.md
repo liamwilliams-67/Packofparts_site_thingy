@@ -25,19 +25,18 @@
 
 ### Nginx Configuration
 
-A production-ready Nginx config is included in `nginx/site.conf`. It includes:
-- HTTP → HTTPS redirect
+The production Nginx config lives in `nginx/site.conf` and is **deployed automatically** by the CI/CD pipeline (`.github/workflows/deploy.yml`). On every push to `main`, the workflow copies the config to the server, validates it with `nginx -t`, and reloads Nginx.
+
+The config includes:
+- HTTP → HTTPS redirect (with IPv6 support)
 - HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy headers
 - `server_tokens off` to suppress version information
-- Proxy pass to the Node.js backend
-- Dotfile blocking (`.env`, `.git`, etc.)
+- Certbot-managed SSL (Let's Encrypt)
+- Proxy pass to the Node.js backend (`/create-checkout-session` and `/api/`)
+- Dotfile blocking (`.env`, `.git`, etc.) while allowing `.well-known` for Certbot renewals
+- SPA routing fallback
 
-To deploy:
-```bash
-sudo cp nginx/site.conf /etc/nginx/sites-available/packofparts
-sudo ln -sf /etc/nginx/sites-available/packofparts /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-```
+> **Note:** Manual changes to `/etc/nginx/sites-available/default` on the server will be overwritten on the next deploy. Edit `nginx/site.conf` in the repo instead.
 
 ### Backend Security
 

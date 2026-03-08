@@ -55,7 +55,16 @@ jobs:
           source: "server/*"
           target: "/home/ubuntu/backend/"
 
-      - name: Configure backend & restart services
+      - name: Copy nginx config to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "nginx/site.conf"
+          target: "/home/ubuntu/"
+
+      - name: Configure backend, nginx & restart services
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -78,9 +87,7 @@ jobs:
 
             pm2 restart backend || pm2 start /home/ubuntu/backend/server/index.js --name backend
             pm2 save
-            
-            sudo systemctl restart nginx
 
-
-
-
+            # Deploy nginx config and reload
+            sudo cp /home/ubuntu/nginx/site.conf /etc/nginx/sites-available/default
+            sudo nginx -t && sudo systemctl reload nginx
