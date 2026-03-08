@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import Stripe from 'stripe';
 
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -11,8 +13,24 @@ if (!process.env.STRIPE_SECRET_KEY) {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// Security headers
+app.use(helmet());
+
+// Restrict CORS to the configured client origin
+const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
+app.use(cors({ origin: allowedOrigin }));
+
+// Rate limiting for checkout endpoint
+const checkoutLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 30,                   // 30 requests per window per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
+});
+
+app.use(express.json({ limit: '1kb' }));
 
 // Server-side mapping of camp keys to Stripe Price IDs and prices from environment variables.
 // This avoids trusting client-sent price IDs.
@@ -47,7 +65,7 @@ const PROCESSING_FEE_FIXED = 0.30;  // 30 cents
  *
  * Returns: { url } – the Stripe Checkout Session URL
  */
-app.post('/create-checkout-session', async (req, res) => {
+app.post('/create-checkout-session', checkoutLimiter, async (req, res) => {
   try {
     const {
       selectedCamps,
@@ -61,8 +79,26 @@ app.post('/create-checkout-session', async (req, res) => {
       hearAboutUs,
     } = req.body;
 
-    if (!selectedCamps || selectedCamps.length === 0) {
+    // --- Input validation ---
+    if (!Array.isArray(selectedCamps) || selectedCamps.length === 0) {
       return res.status(400).json({ error: 'No camps selected' });
+    }
+
+    if (selectedCamps.length > Object.keys(CAMP_PRICE_MAP).length) {
+      return res.status(400).json({ error: 'Too many camps selected' });
+    }
+
+    // Validate string fields are actually strings and within reasonable length
+    const stringFields = { registrantName, registrantEmail, childGrade, parentName, parentEmail, parentPhone, hearAboutUs };
+    for (const [field, value] of Object.entries(stringFields)) {
+      if (value !== undefined && value !== null && (typeof value !== 'string' || value.length > 500)) {
+        return res.status(400).json({ error: `Invalid value for ${field}` });
+      }
+    }
+
+    // Basic email format check
+    if (parentEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parentEmail)) {
+      return res.status(400).json({ error: 'Invalid email address' });
     }
 
     // Build line_items by mapping camp keys to server-side Price IDs
@@ -137,7 +173,7 @@ const session = await stripe.checkout.sessions.create({
     res.json({ url: session.url });
   } catch (err) {
     console.error('Stripe checkout session error:', err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'An internal error occurred. Please try again.' });
   }
 });
 
