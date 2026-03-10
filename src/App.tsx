@@ -74,11 +74,14 @@ const sponsors = [
   { image: '/sponsor-8.png', url: '', name: 'Sponsor 8', description: '' },
   { image: '/sponsor-9.png', url: '', name: 'Sponsor 9', description: '' },
   { image: '/sponsor-10.png', url: 'https://happyglobalinc.com/', name: 'Happy Global Inc', description: 'Happy Global Inc is a company dedicated to bringing quality products and services to customers worldwide.' },
+  { image: '/sponsor-11.png', url: 'https://www.pagliacci.com/', name: 'Pagliacci', description: 'Pagliacci Pizza is a beloved Seattle-area pizza company known for its handcrafted pizzas and community involvement.' },
+  { image: '/sponsor-12.png', url: 'https://www.linxbot.com/', name: 'LINXBOT Inc.', description: 'LINXBOT Inc. specializes in robotics solutions, supporting STEM education and innovation in the community.' },
+  { image: '/sponsor-13.png', url: 'https://www.c2educate.com/', name: 'C2 Education', description: 'C2 Education provides personalized tutoring, test prep, and college counseling to help students achieve their academic goals.' },
 ];
 
 // Sponsor carousel configuration
-// SPONSOR_ITEM_WIDTH: total width (px) of each sponsor slot (w-80 = 320px + mx-8 = 32px per side = 64px total)
-const SPONSOR_ITEM_WIDTH = 384;
+// SPONSOR_ITEM_WIDTH: total width (px) of each sponsor slot (w-[400px] = 400px + mx-8 = 32px per side = 464px total)
+const SPONSOR_ITEM_WIDTH = 464;
 // SPONSOR_JUMP_FACTOR: number of sponsor slots to jump when an arrow button is clicked
 // Increase this value to jump further, decrease to jump less. Both arrows use the same factor.
 const SPONSOR_JUMP_FACTOR = 3;
@@ -618,7 +621,7 @@ function App() {
               the arrow buttons jump per click. Both arrows use the same factor.
             - SPONSOR_SCROLL_SPEED controls the auto-scroll speed (pixels per frame at ~60fps).
             - SPONSOR_ITEM_WIDTH must match the Tailwind classes used on each sponsor slot
-              (w-80 = 320px + mx-8 = 32px per side = 384px total).
+              (w-[400px] = 400px + mx-8 = 32px per side = 464px total).
             - To update sponsor links, modify the 'sponsors' array above the App function.
               Each sponsor has: { image: '/sponsor-X.png', url: 'https://...', name: 'Sponsor Name' }
               Set url to '' (empty string) if no link is available yet.
@@ -646,7 +649,7 @@ function App() {
                 <button
                   key={index}
                   onClick={() => setSelectedSponsor(sponsor)}
-                  className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                  className="flex-shrink-0 mx-8 w-[400px] h-60 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
                   title={sponsor.name}
                   aria-label={`View details for ${sponsor.name}`}
                 >
@@ -676,7 +679,7 @@ function App() {
         <DialogContent className="bg-navy border-white/20 text-white sm:max-w-md">
           <DialogHeader className="items-center text-center">
             <div className="w-full flex justify-center mb-4">
-              <div className="w-64 h-40 flex items-center justify-center">
+              <div className="w-80 h-[200px] flex items-center justify-center">
                 {selectedSponsor && (
                   <img
                     src={selectedSponsor.image}
