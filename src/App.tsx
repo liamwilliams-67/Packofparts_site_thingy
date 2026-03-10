@@ -10,13 +10,21 @@ import {
   ChevronRight,
   MapPin,
   School,
-  ArrowRight
+  ArrowRight,
+  ExternalLink
 } from 'lucide-react';
 // import ScrollExpandMedia, { type HeroContentRenderProps } from './components/blocks/scroll-expansion-hero';
 import './App.css';
 import DesktopNav from './components/DesktopNav';
 import MobileNav from './components/MobileNav';
 import QuickLinks from './components/QuickLinks';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 // Animation constants for hero text movement
 // This multiplier ensures text moves completely off-screen during the scroll animation
@@ -51,21 +59,21 @@ import QuickLinks from './components/QuickLinks';
 //   );
 // };
 
-// Sponsor logos with homepage links
+// Sponsor logos with homepage links and descriptions
 // To update sponsor links: Replace the 'url' value with the sponsor's homepage URL
-// Format: { image: '/sponsor-X.png', url: 'https://example.com', name: 'Sponsor Name' }
+// Format: { image: '/sponsor-X.png', url: 'https://example.com', name: 'Sponsor Name', description: '...' }
 // Set url to '' (empty string) if no link is available yet
 const sponsors = [
-  { image: '/sponsor-1.png', url: 'https://www.argosyfnd.org/', name: 'Argosy Foundation' },
-  { image: '/sponsor-2.png', url: 'https://firstwa.org/', name: 'FIRST Washington' },
-  { image: '/sponsor-3.png', url: 'https://www.ghaasfoundation.org/', name: 'Gene Haas Foundation' },
-  { image: '/sponsor-4.png', url: 'https://ehsptsa.org/Home', name: 'EHS PTSA' },
-  { image: '/sponsor-5.png', url: 'https://grizzlyjunk.com/', name: 'Grizzly Junk Removal' },
-  { image: '/sponsor-6.png', url: 'https://www.ebay.com/str/happyglobalschoice', name: 'Happy Globals Choice' },
-  { image: '/sponsor-7.png', url: 'https://www.speea.org/', name: 'SPEEA' },
-  { image: '/sponsor-8.png', url: '', name: 'Sponsor 8' },
-  { image: '/sponsor-9.png', url: '', name: 'Sponsor 9' },
-  { image: '/sponsor-10.png', url: 'https://happyglobalinc.com/', name: 'Sponsor 10' },
+  { image: '/sponsor-1.png', url: 'https://www.argosyfnd.org/', name: 'Argosy Foundation', description: 'The Argosy Foundation supports innovative organizations and programs that strengthen communities through education, the environment, and social services.' },
+  { image: '/sponsor-2.png', url: 'https://firstwa.org/', name: 'FIRST Washington', description: 'FIRST Washington is the regional affiliate for FIRST robotics programs in the state of Washington, inspiring young people to be science and technology leaders.' },
+  { image: '/sponsor-3.png', url: 'https://www.ghaasfoundation.org/', name: 'Gene Haas Foundation', description: 'The Gene Haas Foundation supports the growth of manufacturing in the United States by funding CNC machining education and scholarships.' },
+  { image: '/sponsor-4.png', url: 'https://ehsptsa.org/Home', name: 'EHS PTSA', description: 'The Eastlake High School PTSA supports students, families, and educators through community engagement, advocacy, and enrichment programs.' },
+  { image: '/sponsor-5.png', url: 'https://grizzlyjunk.com/', name: 'Grizzly Junk Removal', description: 'Grizzly Junk Removal provides fast, affordable, and eco-friendly junk removal services in the greater Seattle area.' },
+  { image: '/sponsor-6.png', url: 'https://www.ebay.com/str/happyglobalschoice', name: 'Happy Globals Choice', description: 'Happy Globals Choice offers a wide selection of quality products through their online storefront, supporting communities through commerce.' },
+  { image: '/sponsor-7.png', url: 'https://www.speea.org/', name: 'SPEEA', description: 'The Society of Professional Engineering Employees in Aerospace (SPEEA) represents engineers and technical workers, advocating for quality education and STEM initiatives.' },
+  { image: '/sponsor-8.png', url: '', name: 'Sponsor 8', description: '' },
+  { image: '/sponsor-9.png', url: '', name: 'Sponsor 9', description: '' },
+  { image: '/sponsor-10.png', url: 'https://happyglobalinc.com/', name: 'Happy Global Inc', description: 'Happy Global Inc is a company dedicated to bringing quality products and services to customers worldwide.' },
 ];
 
 // Sponsor carousel configuration
@@ -87,6 +95,7 @@ function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false);
+  const [selectedSponsor, setSelectedSponsor] = useState<typeof sponsors[number] | null>(null);
 
   // Sponsor carousel refs
   const sponsorStripRef = useRef<HTMLDivElement>(null);
@@ -633,39 +642,21 @@ function App() {
               onMouseEnter={() => { sponsorPausedRef.current = true; }}
               onMouseLeave={() => { sponsorPausedRef.current = false; }}
             >
-              {[...sponsors, ...sponsors].map((sponsor, index) => {
-                const hasValidUrl = sponsor.url && sponsor.url !== '#' && sponsor.url !== '';
-                const isExternalUrl = hasValidUrl && (sponsor.url.startsWith('http://') || sponsor.url.startsWith('https://'));
-
-                return hasValidUrl ? (
-                  <a
-                    key={index}
-                    href={sponsor.url}
-                    target={isExternalUrl ? "_blank" : undefined}
-                    rel={isExternalUrl ? "noopener noreferrer" : undefined}
-                    className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
-                    title={sponsor.name}
-                  >
-                    <img
-                      src={sponsor.image}
-                      alt={sponsor.name}
-                      className="sponsor-logo max-w-full max-h-full object-contain"
-                    />
-                  </a>
-                ) : (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center"
-                    title={sponsor.name}
-                  >
-                    <img
-                      src={sponsor.image}
-                      alt={sponsor.name}
-                      className="sponsor-logo max-w-full max-h-full object-contain"
-                    />
-                  </div>
-                );
-              })}
+              {[...sponsors, ...sponsors].map((sponsor, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedSponsor(sponsor)}
+                  className="flex-shrink-0 mx-8 w-80 h-48 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                  title={sponsor.name}
+                  aria-label={`View details for ${sponsor.name}`}
+                >
+                  <img
+                    src={sponsor.image}
+                    alt={sponsor.name}
+                    className="sponsor-logo max-w-full max-h-full object-contain"
+                  />
+                </button>
+              ))}
             </div>
           </div>
 
@@ -679,6 +670,46 @@ function App() {
           </button>
         </div>
       </section>
+
+      {/* Sponsor Detail Dialog */}
+      <Dialog open={selectedSponsor !== null} onOpenChange={(open) => { if (!open) setSelectedSponsor(null); }}>
+        <DialogContent className="bg-navy border-white/20 text-white sm:max-w-md">
+          <DialogHeader className="items-center text-center">
+            <div className="w-full flex justify-center mb-4">
+              <div className="w-64 h-40 flex items-center justify-center">
+                {selectedSponsor && (
+                  <img
+                    src={selectedSponsor.image}
+                    alt={selectedSponsor.name}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                )}
+              </div>
+            </div>
+            <DialogTitle className="text-xl font-orbitron font-bold text-white">
+              {selectedSponsor?.name}
+            </DialogTitle>
+            {selectedSponsor?.description && (
+              <DialogDescription className="text-white/70 text-sm mt-2">
+                {selectedSponsor.description}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+          {selectedSponsor?.url && selectedSponsor.url !== '' && (
+            <div className="flex justify-center mt-4">
+              <a
+                href={selectedSponsor.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-flex items-center gap-2"
+              >
+                Visit Website
+                <ExternalLink size={16} />
+              </a>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Footer */}
       <footer id="contact" className="bg-navy pt-16 pb-8 border-t border-white/10">
