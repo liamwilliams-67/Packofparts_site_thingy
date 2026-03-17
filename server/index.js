@@ -21,7 +21,16 @@ app.use(helmet());
 const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
 app.use(cors({ origin: allowedOrigin }));
 
-// Rate limiting for checkout endpoint
+// Global rate limiting for all API endpoints
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,                  // 100 requests per window per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
+});
+
+// Rate limiting for checkout endpoint (stricter than global)
 const checkoutLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 30,                   // 30 requests per window per IP
@@ -30,7 +39,10 @@ const checkoutLimiter = rateLimit({
   message: { error: 'Too many requests, please try again later.' },
 });
 
-app.use(express.json({ limit: '1kb' }));
+// Apply global rate limiting to all requests
+app.use(globalLimiter);
+
+app.use(express.json({ limit: '10kb' }));
 
 // Server-side mapping of camp keys to Stripe Price IDs and prices from environment variables.
 // This avoids trusting client-sent price IDs.
@@ -100,8 +112,8 @@ app.post('/create-checkout-session', checkoutLimiter, async (req, res) => {
       }
     }
 
-    // Basic email format check for both email fields
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Improved email format validation (RFC 5322 compliant)
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     if (parentEmail && !emailRegex.test(parentEmail)) {
       return res.status(400).json({ error: 'Invalid parent email address' });
     }
@@ -182,6 +194,24 @@ const session = await stripe.checkout.sessions.create({
   } catch (err) {
     console.error('Stripe checkout session error:', err);
     res.status(500).json({ error: 'An internal error occurred. Please try again.' });
+  }
+});
+
+/**
+ * POST /csp-violation-report
+ *
+ * Endpoint for receiving CSP violation reports from browsers.
+ * Logs violations for security monitoring.
+ */
+app.post('/csp-violation-report', express.json({ type: 'application/csp-report' }), (req, res) => {
+  try {
+    if (req.body && req.body['csp-report']) {
+      console.warn('CSP Violation:', JSON.stringify(req.body['csp-report'], null, 2));
+    }
+    res.status(204).end(); // No content response
+  } catch (err) {
+    console.error('Error processing CSP report:', err);
+    res.status(500).end();
   }
 });
 

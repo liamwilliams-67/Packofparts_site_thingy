@@ -71,6 +71,11 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
+            # Set secure file permissions on frontend files
+            find /var/www/html/dist -type f -exec chmod 644 {} \;
+            find /var/www/html/dist -type d -exec chmod 755 {} \;
+
+            # Create backend .env with secure permissions
             cat > /home/ubuntu/backend/server/.env <<EOF
             STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
             CLIENT_URL=https://1294-test-page.robot-armies.com
@@ -82,10 +87,14 @@ jobs:
             STRIPE_ADDON_WL_PRICE_ID=${{ secrets.STRIPE_ADDON_WL_PRICE_ID }}
             EOF
 
+            # Secure the .env file (only owner can read/write)
+            chmod 600 /home/ubuntu/backend/server/.env
+
             cd /home/ubuntu/backend/server
             npm install --production
 
-            pm2 restart backend || pm2 start /home/ubuntu/backend/server/index.js --name backend
+            # Use pm2 reload for zero-downtime deployment
+            pm2 reload backend || pm2 start /home/ubuntu/backend/server/index.js --name backend
             pm2 save
 
             # Deploy nginx config and reload

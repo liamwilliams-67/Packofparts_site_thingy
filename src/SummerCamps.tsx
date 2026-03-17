@@ -204,12 +204,17 @@ function SummerCamps() {
       // Network errors (backend not running, CORS, timeout, etc.) are TypeErrors from fetch()
       const isNetworkError = err instanceof TypeError;
       if (isNetworkError) {
-        alert(
-          'Could not connect to the checkout server.\n\n' +
-          'Make sure the backend is running:\n' +
-          '  cd server && npm install && npm start\n\n' +
-          'See server/.env.example for required environment variables.'
-        );
+        // Environment-aware error message
+        if (import.meta.env.DEV) {
+          alert(
+            'Could not connect to the checkout server.\n\n' +
+            'Make sure the backend is running:\n' +
+            '  cd server && npm install && npm start\n\n' +
+            'See server/.env.example for required environment variables.'
+          );
+        } else {
+          alert('Unable to process your registration at this time. Please try again in a few moments or contact us for assistance.');
+        }
       } else {
         const message = err instanceof Error ? err.message : 'Unknown error';
         alert(`Checkout failed: ${message}\n\nPlease try again or contact us.`);
