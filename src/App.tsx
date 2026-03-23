@@ -694,7 +694,7 @@ function App() {
         <DialogContent className="bg-navy border-white/20 text-white sm:max-w-md">
           <DialogHeader className="items-center text-center">
             <div className="w-full flex justify-center mb-4">
-              <div className="w-80 h-[200px] flex items-center justify-center">
+              <div className="w-full max-w-[280px] sm:max-w-[320px] h-[180px] sm:h-[200px] flex items-center justify-center">
                 {selectedSponsor && (
                   <img
                     src={selectedSponsor.image}

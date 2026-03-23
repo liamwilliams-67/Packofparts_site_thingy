@@ -169,7 +169,7 @@ function Donate() {
           onKeyDown={(e) => e.key === 'Escape' && setStatusDismissed(true)}
           tabIndex={-1}
         >
-          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-6 md:p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
             <button
               onClick={() => setStatusDismissed(true)}
               className="absolute top-4 right-4 text-white/70 hover:text-light-blue transition-colors duration-200"

@@ -230,15 +230,15 @@ function Members() {
                   View our full team calendar with all meetings, competitions, and events
                 </p>
                 {/* Google Calendar Embed */}
-                <div className="w-full rounded-lg overflow-hidden mb-6">
+                <div className="w-full rounded-lg overflow-hidden mb-6 h-[300px] md:h-[400px]">
                   <iframe
                     src="https://calendar.google.com/calendar/embed?src=c_e11324758594b0183182423ec69a588ed603016f28b0d1c90dd5c4fdded627fd%40group.calendar.google.com&ctz=America%2FLos_Angeles"
                     style={{ border: 0 }}
                     width="100%"
-                    height="400"
+                    height="100%"
                     scrolling="no"
                     title="Team Calendar"
-                    className="w-full"
+                    className="w-full h-full"
                   />
                 </div>
                 <div className="text-center">

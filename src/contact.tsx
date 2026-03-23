@@ -19,7 +19,10 @@ import QuickLinks from '@/components/QuickLinks';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function Contact() {
-  const MAP_HEIGHT = 400;
+  const getMapHeight = () => {
+    return window.innerWidth < 640 ? 300 : 400;
+  };
+  const [mapHeight, setMapHeight] = useState(getMapHeight());
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
@@ -33,8 +36,16 @@ function Contact() {
       setIsNavVisible(window.scrollY > 100 || window.scrollY === 0);
     };
 
+    const handleResize = () => {
+      setMapHeight(getMapHeight());
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -181,7 +192,7 @@ markerEl.innerHTML = `
                   <div
                     ref={mapRef}
                     className="w-full"
-                    style={{ height: MAP_HEIGHT }}
+                    style={{ height: mapHeight }}
                   />
                 </div>
                 <p className="text-gray-600 text-sm italic mt-3">
