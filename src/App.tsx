@@ -80,8 +80,12 @@ const sponsors = [
 ];
 
 // Sponsor carousel configuration
-// SPONSOR_ITEM_WIDTH: total width (px) of each sponsor slot (w-[400px] = 400px + mx-8 = 32px per side = 464px total)
-const SPONSOR_ITEM_WIDTH = 464;
+// getSponsorItemWidth: calculates the width dynamically based on viewport
+// Mobile (<640px): 280px + 16px margins = 296px
+// Desktop (≥640px): 400px + 32px margins = 464px
+const getSponsorItemWidth = () => {
+  return window.innerWidth < 640 ? 296 : 464;
+};
 // SPONSOR_JUMP_FACTOR: number of sponsor slots to jump when an arrow button is clicked
 // Increase this value to jump further, decrease to jump less. Both arrows use the same factor.
 const SPONSOR_JUMP_FACTOR = 3;
@@ -91,8 +95,6 @@ const SPONSOR_SCROLL_SPEED = 1.0;
 const SPONSOR_JUMP_DURATION_MS = 500;
 // MAX_FRAME_DELTA_MS: caps dt so a tab-switch or long pause doesn't cause a huge position jump
 const MAX_FRAME_DELTA_MS = 100;
-// Total width of one full set of sponsors (used for seamless wrap-around)
-const SPONSOR_SINGLE_WIDTH = sponsors.length * SPONSOR_ITEM_WIDTH;
 
 function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -105,6 +107,8 @@ function App() {
   const sponsorPosRef = useRef(0);
   const sponsorAnimRef = useRef<number>(0);
   const sponsorPausedRef = useRef(false);
+  // Track current item width (updates on resize)
+  const sponsorItemWidthRef = useRef(getSponsorItemWidth());
   // Previous RAF timestamp for computing delta-time (used by the jump animation)
   const prevTimestampRef = useRef<number | null>(null);
   // Active jump animation state: null when no jump is running
@@ -143,6 +147,9 @@ function App() {
   // Sponsor carousel animation (requestAnimationFrame-based for smooth infinite scroll)
   useEffect(() => {
     function animateSponsor(timestamp: number) {
+      const SPONSOR_ITEM_WIDTH = sponsorItemWidthRef.current;
+      const SPONSOR_SINGLE_WIDTH = sponsors.length * SPONSOR_ITEM_WIDTH;
+
       // Compute delta-time in ms since the last frame (capped to avoid big jumps after a tab-switch)
       const dt = prevTimestampRef.current !== null
         ? Math.min(timestamp - prevTimestampRef.current, MAX_FRAME_DELTA_MS)
@@ -185,6 +192,15 @@ function App() {
     }
     sponsorAnimRef.current = requestAnimationFrame(animateSponsor);
     return () => cancelAnimationFrame(sponsorAnimRef.current);
+  }, []);
+
+  // Update sponsor item width on resize
+  useEffect(() => {
+    const handleResize = () => {
+      sponsorItemWidthRef.current = getSponsorItemWidth();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   function jumpSponsors(direction: 'left' | 'right') {
@@ -258,20 +274,20 @@ function App() {
               />
             </div>
             
-            <h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
               style={{ animationDelay: '0.5s' }}
             >
-              <DirectionalText 
-                text="Eastlake Robotics Club" 
-                translateX={textTranslateX} 
+              <DirectionalText
+                text="Eastlake Robotics Club"
+                translateX={textTranslateX}
                 direction="right"
                 speedMultiplier={1.5}
               />
             </h1>
-            
-            <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
+
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-orbitron font-bold text-gradient mb-6 animate-fade-in-up animate-float"
               style={{ animationDelay: '0.8s' }}
             >
               <DirectionalText 
@@ -620,8 +636,7 @@ function App() {
             - SPONSOR_JUMP_FACTOR (defined near top of file) controls how many sponsor slots
               the arrow buttons jump per click. Both arrows use the same factor.
             - SPONSOR_SCROLL_SPEED controls the auto-scroll speed (pixels per frame at ~60fps).
-            - SPONSOR_ITEM_WIDTH must match the Tailwind classes used on each sponsor slot
-              (w-[400px] = 400px + mx-8 = 32px per side = 464px total).
+            - Responsive sponsor item widths: Mobile (w-[280px] + mx-4 = 296px), Desktop (w-[400px] + mx-8 = 464px)
             - To update sponsor links, modify the 'sponsors' array above the App function.
               Each sponsor has: { image: '/sponsor-X.png', url: 'https://...', name: 'Sponsor Name' }
               Set url to '' (empty string) if no link is available yet.
@@ -631,7 +646,7 @@ function App() {
           <button
             onClick={() => jumpSponsors('left')}
             aria-label="Scroll sponsors left"
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200"
+            className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200"
           >
             <ChevronLeft size={24} />
           </button>
@@ -649,7 +664,7 @@ function App() {
                 <button
                   key={index}
                   onClick={() => setSelectedSponsor(sponsor)}
-                  className="flex-shrink-0 mx-8 w-[400px] h-60 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                  className="flex-shrink-0 mx-4 sm:mx-8 w-[280px] sm:w-[400px] h-48 sm:h-60 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
                   title={sponsor.name}
                   aria-label={`View details for ${sponsor.name}`}
                 >
@@ -667,7 +682,7 @@ function App() {
           <button
             onClick={() => jumpSponsors('right')}
             aria-label="Scroll sponsors right"
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200"
+            className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-200"
           >
             <ChevronRight size={24} />
           </button>
@@ -679,7 +694,7 @@ function App() {
         <DialogContent className="bg-navy border-white/20 text-white sm:max-w-md">
           <DialogHeader className="items-center text-center">
             <div className="w-full flex justify-center mb-4">
-              <div className="w-80 h-[200px] flex items-center justify-center">
+              <div className="w-full max-w-[280px] sm:max-w-[320px] h-[180px] sm:h-[200px] flex items-center justify-center">
                 {selectedSponsor && (
                   <img
                     src={selectedSponsor.image}
@@ -750,7 +765,7 @@ function App() {
                   <a
                     key={social.label}
                     href={social.href}
-                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -760,7 +775,7 @@ function App() {
                   href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
                   <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />

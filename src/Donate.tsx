@@ -169,7 +169,7 @@ function Donate() {
           onKeyDown={(e) => e.key === 'Escape' && setStatusDismissed(true)}
           tabIndex={-1}
         >
-          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-6 md:p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
             <button
               onClick={() => setStatusDismissed(true)}
               className="absolute top-4 right-4 text-white/70 hover:text-light-blue transition-colors duration-200"
@@ -570,7 +570,7 @@ function Donate() {
                   <a
                     key={social.label}
                     href={social.href}
-                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -580,7 +580,7 @@ function Donate() {
                   href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
                   <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />

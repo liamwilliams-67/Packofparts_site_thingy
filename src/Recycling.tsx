@@ -138,7 +138,7 @@ function Recycling() {
                       <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isCommunityDropdownOpen ? 'rotate-180' : ''}`} />
                     </a>
                     {/* Dropdown Menu */}
-                    <div className={`absolute top-full left-0 mt-2 py-2 bg-navy/95 backdrop-blur-lg rounded-lg shadow-xl border border-white/10 min-w-[200px] transition-all duration-200 ${isCommunityDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                    <div className={`absolute top-full left-0 mt-2 py-2 bg-navy/95 backdrop-blur-lg rounded-lg shadow-xl border border-white/10 w-48 max-w-[calc(100vw-2rem)] transition-all duration-200 ${isCommunityDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
                       {link.dropdownItems?.map((item) => (
                         <a
                           key={item.name}
@@ -557,7 +557,7 @@ function Recycling() {
                   <a
                     key={social.label}
                     href={social.href}
-                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -567,7 +567,7 @@ function Recycling() {
                   href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
                   <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />

@@ -230,15 +230,15 @@ function Members() {
                   View our full team calendar with all meetings, competitions, and events
                 </p>
                 {/* Google Calendar Embed */}
-                <div className="w-full rounded-lg overflow-hidden mb-6">
+                <div className="w-full rounded-lg overflow-hidden mb-6 h-[300px] md:h-[400px]">
                   <iframe
                     src="https://calendar.google.com/calendar/embed?src=c_e11324758594b0183182423ec69a588ed603016f28b0d1c90dd5c4fdded627fd%40group.calendar.google.com&ctz=America%2FLos_Angeles"
                     style={{ border: 0 }}
                     width="100%"
-                    height="400"
+                    height="100%"
                     scrolling="no"
                     title="Team Calendar"
-                    className="w-full"
+                    className="w-full h-full"
                   />
                 </div>
                 <div className="text-center">
@@ -358,7 +358,7 @@ function Members() {
                   <a
                     key={social.label}
                     href={social.href}
-                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -368,7 +368,7 @@ function Members() {
                   href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
                   <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />

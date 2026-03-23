@@ -358,7 +358,7 @@ function SummerCamps() {
           onKeyDown={(e) => e.key === 'Escape' && setStatusDismissed(true)}
           tabIndex={-1}
         >
-          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-6 md:p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
             <button
               onClick={() => setStatusDismissed(true)}
               className="absolute top-4 right-4 text-white/70 hover:text-light-blue transition-colors duration-200"
@@ -441,35 +441,35 @@ function SummerCamps() {
               </p>
             </div>
 
-            <form onSubmit={handleCheckout} className="reveal bg-white p-8 rounded-2xl space-y-6">
+            <form onSubmit={handleCheckout} className="reveal bg-white p-6 md:p-8 rounded-2xl space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Student name <span className="text-red-500">*</span></label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Student name <span className="text-red-500">*</span></label>
                 <input
                   value={registrantName}
                   onChange={(e) => { setRegistrantName(e.target.value); clearError('registrantName'); }}
                   placeholder="First Last"
-                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.registrantName ? 'border-red-500' : ''}`}
+                  className={`w-full border px-4 py-3 min-h-[44px] rounded-md ${fieldErrors.registrantName ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.registrantName && <p className="text-red-500 text-sm mt-1">{fieldErrors.registrantName}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Child's email</label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Child's email</label>
                 <input
                   value={registrantEmail}
                   onChange={(e) => setRegistrantEmail(e.target.value)}
                   placeholder="you@example.com"
                   type="email"
-                  className="w-full border px-4 py-2 rounded-md"
+                  className="w-full border px-4 py-3 min-h-[44px] rounded-md"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Student grade (2026–2027 school year) <span className="text-red-500">*</span></label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Student grade (2026–2027 school year) <span className="text-red-500">*</span></label>
                 <select
                   value={childGrade}
                   onChange={(e) => { setChildGrade(e.target.value); clearError('childGrade'); }}
-                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.childGrade ? 'border-red-500' : ''}`}
+                  className={`w-full border px-4 py-3 min-h-[44px] rounded-md ${fieldErrors.childGrade ? 'border-red-500' : ''}`}
                 >
                   <option value="">Select grade</option>
                   <option value="6">6th grade</option>
@@ -481,30 +481,30 @@ function SummerCamps() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian name <span className="text-red-500">*</span></label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Parent or guardian name <span className="text-red-500">*</span></label>
                 <input
                   value={parentName}
                   onChange={(e) => { setParentName(e.target.value); clearError('parentName'); }}
                   placeholder="First Last"
-                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.parentName ? 'border-red-500' : ''}`}
+                  className={`w-full border px-4 py-3 min-h-[44px] rounded-md ${fieldErrors.parentName ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.parentName && <p className="text-red-500 text-sm mt-1">{fieldErrors.parentName}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian email <span className="text-red-500">*</span></label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Parent or guardian email <span className="text-red-500">*</span></label>
                 <input
                   value={parentEmail}
                   onChange={(e) => { setParentEmail(e.target.value); clearError('parentEmail'); }}
                   placeholder="you@example.com"
                   type="email"
-                  className={`w-full border px-4 py-2 rounded-md ${fieldErrors.parentEmail ? 'border-red-500' : ''}`}
+                  className={`w-full border px-4 py-3 min-h-[44px] rounded-md ${fieldErrors.parentEmail ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.parentEmail && <p className="text-red-500 text-sm mt-1">{fieldErrors.parentEmail}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Parent or guardian phone number <span className="text-red-500">*</span></label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Parent or guardian phone number <span className="text-red-500">*</span></label>
                 <input
                   value={parentPhone}
                   onChange={(e) => { setParentPhone(formatPhoneNumber(e.target.value)); clearError('parentPhone'); }}
@@ -516,11 +516,11 @@ function SummerCamps() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Where did you hear about us?</label>
+                <label className="block text-sm md:text-base font-medium text-gray-700 mb-2">Where did you hear about us?</label>
                 <select
                   value={hearAboutUs}
                   onChange={(e) => setHearAboutUs(e.target.value)}
-                  className="w-full border px-4 py-2 rounded-md"
+                  className="w-full border px-4 py-3 min-h-[44px] rounded-md"
                 >
                   <option value="">Select an option</option>
                   <option value="Instagram">Instagram</option>
@@ -723,7 +723,7 @@ function SummerCamps() {
                   <a
                     key={social.label}
                     href={social.href}
-                    className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                    className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -733,7 +733,7 @@ function SummerCamps() {
                   href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
+                  className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue"
                   aria-label="ChiefDelphi"
                 >
                   <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />

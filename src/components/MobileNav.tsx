@@ -18,11 +18,11 @@ export default function MobileNav({
     ];
 
   return (
-    <div className={`lg:hidden fixed inset-0 top-20 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+    <div className={`lg:hidden fixed inset-0 top-20 bg-navy/95 backdrop-blur-sm transition-all duration-300 z-40 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
       <div className="flex flex-col items-center justify-start h-full px-4 pt-6">
         <div className="nav-glass w-full max-w-xs rounded-3xl px-8 py-8 flex flex-col items-center gap-6">
           {navLinks.map((link, index) => (
-            
+
               <a
                 key={link.name}
                 href={link.href}

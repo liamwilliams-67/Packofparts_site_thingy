@@ -19,7 +19,10 @@ import QuickLinks from '@/components/QuickLinks';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function Contact() {
-  const MAP_HEIGHT = 400;
+  const getMapHeight = () => {
+    return window.innerWidth < 640 ? 300 : 400;
+  };
+  const [mapHeight, setMapHeight] = useState(getMapHeight());
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
@@ -33,8 +36,16 @@ function Contact() {
       setIsNavVisible(window.scrollY > 100 || window.scrollY === 0);
     };
 
+    const handleResize = () => {
+      setMapHeight(getMapHeight());
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -181,7 +192,7 @@ markerEl.innerHTML = `
                   <div
                     ref={mapRef}
                     className="w-full"
-                    style={{ height: MAP_HEIGHT }}
+                    style={{ height: mapHeight }}
                   />
                 </div>
                 <p className="text-gray-600 text-sm italic mt-3">
@@ -235,11 +246,11 @@ markerEl.innerHTML = `
                   { icon: Linkedin, href: 'https://linkedin.com/company/packofparts', label: 'Linkedin' },
                   { icon: Github, href: 'https://github.com/packofparts', label: 'Github' },
                 ].map((social) => (
-                  <a key={social.label} href={social.href} className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue" aria-label={social.label}>
+                  <a key={social.label} href={social.href} className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue" aria-label={social.label}>
                     <social.icon className="w-5 h-5" />
                   </a>
                 ))}
-                <a href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary" target="_blank" rel="noopener noreferrer" className="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue" aria-label="ChiefDelphi">
+                <a href="https://www.chiefdelphi.com/u/1294_pack_of_parts/summary" target="_blank" rel="noopener noreferrer" className="social-icon w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-light-blue" aria-label="ChiefDelphi">
                   <img src="/chiefdelphi-logo.svg" alt="ChiefDelphi" className="w-7 h-7" />
                 </a>
               </div>
