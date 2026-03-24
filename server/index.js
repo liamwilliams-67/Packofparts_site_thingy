@@ -14,6 +14,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
+// Trust the first proxy hop (nginx) so express-rate-limit uses the real
+// client IP from X-Forwarded-For rather than nginx's loopback address.
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet());
 
