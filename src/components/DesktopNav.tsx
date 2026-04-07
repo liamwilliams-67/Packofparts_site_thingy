@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 export default function DesktopNav({
@@ -7,6 +8,7 @@ export default function DesktopNav({
   isMobileMenuOpen: boolean;
   setIsMobileMenuOpen: (v: boolean) => void;
 }) {
+  const { pathname } = useLocation();
   const navLinks = [
     { name: 'Join The Club', href: '/join' },
     { name: 'For Members', href: '/members' },
@@ -15,7 +17,7 @@ export default function DesktopNav({
       href: '/meet-the-team'
     },
     { name: 'Donate', href: '/donate' },
-    { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
+    { name: 'Contact Us', href: '/contact' },
     { name: 'Summer Camps', href: '/summer-camps' },
   ];
   return (
@@ -29,12 +31,20 @@ export default function DesktopNav({
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-          {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-white/90 hover:text-light-blue text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`text-xs xl:text-sm font-semibold uppercase tracking-wide link-underline transition-colors duration-200 ${
+                  isActive ? 'text-light-blue' : 'text-white/90 hover:text-light-blue'
+                }`}
+              >
                 {link.name}
               </a>
-            )
-          )}
+            );
+          })}
         </div>
 
         {/* Mobile Menu Button */}

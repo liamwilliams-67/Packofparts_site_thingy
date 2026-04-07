@@ -17,7 +17,6 @@ Only the latest deployed version of the site is actively maintained.
 This project implements the following protections:
 
 - **Rate limiting** — nginx enforces per-IP rate limits on all routes (30 req/s general, 10 req/s API) with configurable burst limits. The Express backend adds a global application-level rate limit (100 req / 15 min).
-- **Cloudflare integration** — The server restores real client IPs from `CF-Connecting-IP` headers and trusts Cloudflare's IP ranges only.
 - **Content Security Policy (CSP)** — A strict CSP is served on all pages with a `/csp-violation-report` endpoint for monitoring violations.
 - **Input validation** — Contact form submissions are validated server-side including RFC 5322 email format checking. Request bodies are capped at 10 KB.
 - **DDoS / bot protection** — nginx blocks known bad bots, enforces connection limits, and applies slowloris mitigations (timeouts, buffer limits, method restrictions to GET/HEAD/POST/OPTIONS).
