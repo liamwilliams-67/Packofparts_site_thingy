@@ -34,81 +34,135 @@ function Join() {
     {
       title: "01",
       content: (
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            Interest Form
-          </h4>
-          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
-            Fill out an interest form if you are considering joining Pack of Parts for the 2025-2026 season.
-          </p>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 bg-gray-50 dark:bg-neutral-900 rounded-xl p-5 border border-gray-200 dark:border-neutral-700">
+            <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+              Interest Form
+            </h4>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+              Fill out an interest form if you are considering joining Pack of Parts for the 2025-2026 season.
+            </p>
+          </div>
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+            <img
+              src="/team-photo-1.jpg"
+              alt="Team members working together"
+              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+            />
+          </div>
         </div>
       ),
     },
     {
       title: "02",
       content: (
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            Shop Permission Form
-          </h4>
-          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
-            Now, fill out this form and have it signed by a parent or guardian. This is so you get permission to use tools and machines in the shop. Bring the signed form to the next club meeting.
-          </p>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 bg-gray-50 dark:bg-neutral-900 rounded-xl p-5 border border-gray-200 dark:border-neutral-700">
+            <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+              Shop Permission Form
+            </h4>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+              Fill out this form and have it signed by a parent or guardian. This gives you permission to use tools and machines in the shop. Bring the signed form to the next club meeting.
+            </p>
+          </div>
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+            <img
+              src="/team-photo-2.jpg"
+              alt="Students using shop equipment"
+              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+            />
+          </div>
         </div>
       ),
     },
     {
       title: "03",
       content: (
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            Member Handbook
-          </h4>
-          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
-            Next step is to get familiar with our member handbook. This tells you everything you should know about how we run the club and what will be expected of you.
-          </p>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 bg-gray-50 dark:bg-neutral-900 rounded-xl p-5 border border-gray-200 dark:border-neutral-700">
+            <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+              Member Handbook
+            </h4>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+              Get familiar with our member handbook. It covers everything you need to know about how we run the club and what will be expected of you.
+            </p>
+          </div>
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+            <img
+              src="/team-photo-3.jpg"
+              alt="Team handbook review"
+              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+            />
+          </div>
         </div>
       ),
     },
     {
       title: "04",
       content: (
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            Club Contract
-          </h4>
-          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
-            After you've read the handbook, the next step is to sign your member contract. Fill this form and have it signed by a parent/guardian.
-          </p>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 bg-gray-50 dark:bg-neutral-900 rounded-xl p-5 border border-gray-200 dark:border-neutral-700">
+            <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+              Club Contract
+            </h4>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+              After reading the handbook, sign your member contract. Fill out the form and have it signed by a parent or guardian.
+            </p>
+          </div>
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+            <img
+              src="/team-photo-4.jpg"
+              alt="Signing club contract"
+              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+            />
+          </div>
         </div>
       ),
     },
     {
       title: "05",
       content: (
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            Parent/Guardian Info
-          </h4>
-          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
-            Almost done! We'll provide a document for your parent or guardian to read so they know what's happening in the club. Please be sure to ask them to spend a few minutes and go over this with you.
-          </p>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 bg-gray-50 dark:bg-neutral-900 rounded-xl p-5 border border-gray-200 dark:border-neutral-700">
+            <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+              Parent/Guardian Info
+            </h4>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base">
+              Almost done! We'll provide a document for your parent or guardian to read so they know what's happening in the club. Ask them to spend a few minutes going over it with you.
+            </p>
+          </div>
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+            <img
+              src="/team-photo-5.jpg"
+              alt="Team at a competition"
+              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+            />
+          </div>
         </div>
       ),
     },
     {
       title: "06",
       content: (
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-4">
-            Club Fees
-          </h4>
-          <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base mb-4">
-            And finally, you need to pay the club fees. Building robots is expensive and these fees help pay those costs.
-          </p>
-          <p className="text-amber-600 dark:text-amber-400 text-sm font-medium italic">
-            NOTE: we're not yet ready to accept payments for this season yet, we'll let you know when it's time.
-          </p>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 bg-gray-50 dark:bg-neutral-900 rounded-xl p-5 border border-gray-200 dark:border-neutral-700">
+            <h4 className="text-xl md:text-2xl font-bold text-neutral-800 dark:text-neutral-200 mb-3">
+              Club Fees
+            </h4>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base mb-3">
+              Finally, pay the club fees. Building robots is expensive and these fees help cover those costs.
+            </p>
+            <p className="text-amber-600 dark:text-amber-400 text-sm font-medium italic">
+              NOTE: we're not yet ready to accept payments for this season yet, we'll let you know when it's time.
+            </p>
+          </div>
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+            <img
+              src="/team-photo-6.jpg"
+              alt="Pack of Parts team"
+              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+            />
+          </div>
         </div>
       ),
     },
