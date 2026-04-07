@@ -1,6 +1,4 @@
-# Pack of Parts — Website
-
-The official website for **Pack of Parts**, a student robotics organization. Built with React, TypeScript, and Vite.
+# About
 
 ## Pages
 
@@ -67,7 +65,3 @@ Create a `.env` file in the project root (never commit it). Required keys are do
 ├── public/         # Static assets
 └── index.html      # HTML entry point
 ```
-
-## License
-
-All rights reserved © Pack of Parts.
