@@ -18,7 +18,7 @@ import {
   Award,
   Linkedin
 } from 'lucide-react';
-import { STRIPE_BUY_BUTTON_ID, STRIPE_PUBLISHABLE_KEY, STRIPE_PAYMENT_LINK } from './stripeConfig';
+import { STRIPE_PAYMENT_LINK } from './stripeConfig';
 import { fireFountainSpray } from './confetti';
 import './Donate.css';
 
@@ -30,13 +30,6 @@ function Donate() {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
-  const [stripeStatus, setStripeStatus] = useState<'loading' | 'ready' | 'timeout'>(() => {
-    if (!STRIPE_BUY_BUTTON_ID || !STRIPE_PUBLISHABLE_KEY) {
-      return 'timeout';
-    }
-
-    return customElements.get('stripe-buy-button') ? 'ready' : 'loading';
-  });
 
   // Read checkout status from Stripe redirect query params
   const donationSuccess = useMemo(() => {
@@ -87,22 +80,6 @@ function Donate() {
 
     return () => observer.disconnect();
   }, []);
-
-  // Track when Stripe Buy Button custom element is defined
-  useEffect(() => {
-    if (stripeStatus !== 'loading') {
-      return;
-    }
-
-    const timeout = setTimeout(() => setStripeStatus((s) => s === 'loading' ? 'timeout' : s), 10000);
-
-    customElements.whenDefined('stripe-buy-button').then(() => {
-      clearTimeout(timeout);
-      setStripeStatus('ready');
-    });
-
-    return () => clearTimeout(timeout);
-  }, [stripeStatus]);
 
   const scrollToSection = (href: string) => {
     if (href.startsWith('#')) {
@@ -287,39 +264,23 @@ function Donate() {
                 </div>
               </div>
 
-              {/* Stripe Buy Button */}
+              {/* Donate Link */}
               <div className="w-full rounded-2xl overflow-hidden border-2 border-light-blue/20 shadow-md p-6 flex flex-col items-center justify-center">
-                {stripeStatus === 'loading' && (
-                  <p className="text-gray-400 text-sm animate-pulse py-4">
-                    Loading payment button…
+                {STRIPE_PAYMENT_LINK ? (
+                  <a
+                    href={STRIPE_PAYMENT_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary-light inline-flex items-center gap-2"
+                  >
+                    <CreditCard className="w-5 h-5" />
+                    Donate via Stripe
+                  </a>
+                ) : (
+                  <p className="text-gray-500 text-center py-4 text-sm">
+                    Online card payments are not configured. Please use the check/mail option below.
                   </p>
                 )}
-                {stripeStatus === 'timeout' && (
-                  STRIPE_PAYMENT_LINK ? (
-                    <a
-                      href={STRIPE_PAYMENT_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary-light inline-flex items-center gap-2"
-                    >
-                      <CreditCard className="w-5 h-5" />
-                      Donate via Stripe
-                    </a>
-                  ) : (
-                    <p className="text-gray-500 text-center py-4 text-sm">
-                      Online card payments are not available in this environment.
-                      Please use the check/mail option below, or visit the{' '}
-                      <a href="https://packofparts.org/donate" target="_blank" rel="noopener noreferrer" className="text-light-blue underline">
-                        production site
-                      </a>{' '}
-                      to donate online.
-                    </p>
-                  )
-                )}
-                <stripe-buy-button
-                  buy-button-id={STRIPE_BUY_BUTTON_ID}
-                  publishable-key={STRIPE_PUBLISHABLE_KEY}
-                />
               </div>
             </div>
 
