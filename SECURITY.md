@@ -1,17 +1,5 @@
 # Security Policy
 
-## Reporting a Vulnerability
-
-If you discover a security vulnerability in this project, please **do not** open a public issue.
-
-Report it privately by emailing the Pack of Parts team at the address listed on the [Contact page](https://packofparts.org/contact). Include as much detail as possible — a description of the issue, steps to reproduce, and any potential impact.
-
-We aim to acknowledge reports within 48 hours and provide a resolution or status update within 7 days.
-
-## Supported Versions
-
-Only the latest deployed version of the site is actively maintained.
-
 ## Security Measures
 
 This project implements the following protections:
