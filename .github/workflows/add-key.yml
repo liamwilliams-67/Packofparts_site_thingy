@@ -6,6 +6,8 @@ on:
 jobs:
   add-key:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Add public key to server
         uses: appleboy/ssh-action@v0.1.7
