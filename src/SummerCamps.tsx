@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   Mail, 
   MapPin, 
@@ -7,16 +7,12 @@ import {
   Facebook,
   Youtube,
   Github,
-  X,
   ArrowRight,
   Linkedin,
   CheckCircle,
-  XCircle,
   ExternalLink
 } from 'lucide-react';
 import './SummerCamps.css';
-import { STRIPE_CAMP_PRODUCTS, STRIPE_ADDON_PRODUCTS } from './stripeConfig';
-import { fireFountainSpray } from './confetti';
 import DesktopNav from '@/components/DesktopNav';
 import MobileNav from '@/components/MobileNav';
 import QuickLinks from '@/components/QuickLinks';
@@ -27,68 +23,42 @@ function SummerCamps() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [, setScrollY] = useState(0);
 
-  // Read checkout status from Stripe redirect query params
-  const { checkoutSuccess, checkoutCanceled } = useMemo(() => {
-    const params = new URLSearchParams(window.location.search);
-    return {
-      checkoutSuccess: params.get('success') === 'true',
-      checkoutCanceled: params.get('canceled') === 'true',
-    };
-  }, []);
-
-  const [statusDismissed, setStatusDismissed] = useState(false);
-
-  // Fire confetti on successful checkout
-  useEffect(() => {
-    if (checkoutSuccess && !statusDismissed) {
-      fireFountainSpray();
-    }
-  }, [checkoutSuccess, statusDismissed]);
-
   const campsList = [
     {
       key: 'CAD & Design',
-      stripeKey: 'camp_cad',
       title: 'CAD & Design',
       weekId: 'week1',
       dates: 'August 17-21, 2025',
       time: '9:00 AM - 12:00 PM',
       price: 250,
-      stripePriceId: STRIPE_CAMP_PRODUCTS.find(p => p.label === 'CAD & Design')?.stripePriceId || '',
       description: `For rising 6th-8th graders. This hands-on, week-long camp is all about introducing students to the exciting world of CAD & Design. Using Onshape, an online CAD tool, students will learn how to create their own CAD models, from simple shapes to personalized projects like name tags and desk organizers. Along the way, they'll explore how CAD is used in the real world in industries such as Semiconductors, Automotive, Aerospace, and many more. They will also get a behind-the-scenes look at how 3D printing works, and get to print some of their own designs. The week wraps up with a fun showcase where students present their final projects to other students, where their project would get voted on to win a trophy at the end of the camp.`,
       image: '/summercamps/cad.png',
     },
     {
       key: 'Programming',
-      stripeKey: 'camp_programming',
       title: 'Programming',
       weekId: 'week2',
       dates: 'August 24-28, 2025',
       time: '9:00 AM - 12:00 PM',
       price: 250,
-      stripePriceId: STRIPE_CAMP_PRODUCTS.find(p => p.label === 'Programming')?.stripePriceId || '',
       description: `For rising 6th-8th graders. In this camp, students will learn how to program robots using the WPILib framework. Each student will work with a Pololu ROMI robot throughout the week, applying new concepts as they learn them. The course introduces Java, one of the world’s most popular programming languages, and exposes students to programming techniques used by Team 1294 on competition robots, including PID control, commands, and subsystems. Over five days, students will progressively build their skills with the goal of programming their robot to autonomously complete an obstacle course as quickly as possible. No prior experience is required, but students must bring a personal (non-school) laptop.`,
       image: '/summercamps/prog.jpg',    },
     {
       key: 'Engineering 1',
-      stripeKey: 'camp_engineering1',
       title: 'Engineering 1',
       weekId: 'week1',
       dates: 'August 17-21, 2025',
       time: '9:00 AM - 12:00 PM',
       price: 250,
-      stripePriceId: STRIPE_CAMP_PRODUCTS.find(p => p.label === 'Engineering 1')?.stripePriceId || '',
       description: `For rising 6th-7th graders. This camp is for students who enjoy figuring out how things work and like to build with their hands. Each day features a new project—like experimenting with simple circuits, building a foam boat that actually moves, and working in teams to design a drawbridge. The projects are designed to be beginner-friendly but open-ended, so students can experiment, problem-solve, and make their ideas come to life. No prior experience is needed—just an interest in building and trying new things!`,
       image: '/summercamps/engineering1.png',    },
     {
       key: 'Engineering 2',
-      stripeKey: 'camp_engineering2',
       title: 'Engineering 2',
       weekId: 'week2',
       dates: 'August 24-28, 2025',
       time: '9:00 AM - 12:00 PM',
       price: 250,
-      stripePriceId: STRIPE_CAMP_PRODUCTS.find(p => p.label === 'Engineering 2')?.stripePriceId || '',
       description: `For rising 8th-9th graders. The engineering 2 summer camp serves to be a more advanced version of engineering 1, designed for older students. It will consist of larger, more in depth projects fit for an older age group with longer attention spans. There will not be any content overlap between the Engineering 1 and Engineering 2 camps. Engineering 2 aims to provide students with projects that allow them to explore more complicated topics with electrical and mechanical. It could also possibly include basic programming depending on the projects we select.`,
       image: '/summercamps/engineering2.avif',
     }
@@ -99,7 +69,6 @@ function SummerCamps() {
       key: 'Womens Leadership',
       title: "Women's Leadership Add-on",
       price: 100,
-      stripePriceId: STRIPE_ADDON_PRODUCTS.find(p => p.key === 'addon_womens_leadership')?.stripePriceId || '',
       description: `The women’s leadership camp will be held 1 hour before both Engineering 1 and 2 from 8 AM - 9 AM. This class teaches young women leadership skills that will help them navigate the world of engineering as a minority. During this camp, we will be teaching different leadership styles, communication styles, and learn how to navigate conflicts in order to teach young women to be confident in their areas of work.`,
       time: '8:00 AM - 9:00 AM',      image: '/summercamps/womens.png',    }
   ];
@@ -229,45 +198,6 @@ function SummerCamps() {
           </div>
         </div>
       </section> */}
-
-      {/* Checkout Status Modal */}
-      {(checkoutSuccess || checkoutCanceled) && !statusDismissed && (
-        <div
-          className="fixed inset-0 z-[100] backdrop-blur-md bg-navy/85 flex items-center justify-center px-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="checkout-status-title"
-          onKeyDown={(e) => e.key === 'Escape' && setStatusDismissed(true)}
-          tabIndex={-1}
-        >
-          <div className="relative bg-navy border-2 border-light-blue rounded-2xl p-6 md:p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
-            <button
-              onClick={() => setStatusDismissed(true)}
-              className="absolute top-4 right-4 text-white/70 hover:text-light-blue transition-colors duration-200"
-              aria-label="Close"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            {checkoutSuccess ? (
-              <>
-                <CheckCircle className="w-14 h-14 text-light-blue mb-5 flex-shrink-0" />
-                <h3 id="checkout-status-title" className="text-xl font-orbitron font-bold text-white mb-4">Registration Successful!</h3>
-                <p className="text-white/80 leading-relaxed">
-                  Thank you for registering! Your payment has been received. You will receive a confirmation email shortly with details about the camp.
-                </p>
-              </>
-            ) : (
-              <>
-                <XCircle className="w-14 h-14 text-light-blue mb-5 flex-shrink-0" />
-                <h3 id="checkout-status-title" className="text-xl font-orbitron font-bold text-white mb-4">Checkout Canceled</h3>
-                <p className="text-white/80 leading-relaxed">
-                  Your checkout was canceled and you have not been charged. You can register again anytime using the form below.
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Camps Section */}
       <section id="details" className="section-padding">
