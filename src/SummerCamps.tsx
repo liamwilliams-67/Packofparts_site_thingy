@@ -9,7 +9,6 @@ import {
   Github,
   ArrowRight,
   Linkedin,
-  CheckCircle,
   ExternalLink
 } from 'lucide-react';
 import './SummerCamps.css';
