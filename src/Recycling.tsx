@@ -40,7 +40,6 @@ function Recycling() {
       href: '/community',
       hasDropdown: true,
       dropdownItems: [
-        { name: 'Meet the Team', href: '/meet-the-team' },
         { name: 'STEM Kits', href: '/community/stem-kits' },
         { name: 'Recycling Initiative', href: '/community/recycling' }
       ]
@@ -594,11 +593,6 @@ function Recycling() {
                   <a href="/community" className="text-white/70 hover:text-light-blue transition-colors duration-200 flex items-center gap-2 group">
                     <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                     Community
-                  </a>
-                </li>
-                <li>
-                  <a href="/meet-the-team" className="text-white/70 hover:text-light-blue transition-colors duration-200 pl-4">
-                    → Meet the Team
                   </a>
                 </li>
                 <li>

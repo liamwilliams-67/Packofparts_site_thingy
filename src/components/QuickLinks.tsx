@@ -8,10 +8,6 @@ export default function QuickLinks({
     const navLinks = [
       { name: 'Join The Club', href: '/join' },
       { name: 'For Members', href: '/members' },
-      { 
-        name: 'Meet the Team', 
-        href: '/meet-the-team'
-      },
       { name: 'Donate', href: '/donate' },
       { name: 'Contact Us', href: '/contact' },  // Change this from '#contact' to '/contact'
       { name: 'Summer Camps', href: '/summer-camps' },

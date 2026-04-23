@@ -415,7 +415,7 @@ function Join() {
               {
                 title: 'Mechanical',
                 icon: Wrench,
-                description: 'Builds the phyisical fram of the robot which gets passed on to the other teams to do their part.'
+                description: 'Builds the physical frame of the robot which gets passed on to the other teams to do their part.'
               },
               {
                 title: 'Electrical',
