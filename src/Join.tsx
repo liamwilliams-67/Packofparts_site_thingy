@@ -47,7 +47,7 @@ function Join() {
             <img
               src="/team-photo-1.jpg"
               alt="Team members working together"
-              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+              className="w-full h-80 md:h-80 object-cover rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -69,7 +69,7 @@ function Join() {
             <img
               src="/team-photo-2.jpg"
               alt="Students using shop equipment"
-              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+              className="w-full h-80 md:h-80 object-cover rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -91,7 +91,7 @@ function Join() {
             <img
               src="/team-photo-3.jpg"
               alt="Team handbook review"
-              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+              className="w-full h-80 md:h-80 object-cover rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ function Join() {
             <img
               src="/team-photo-4.jpg"
               alt="Signing club contract"
-              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+              className="w-full h-80 md:h-80 object-cover rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -135,7 +135,7 @@ function Join() {
             <img
               src="/team-photo-5.jpg"
               alt="Team at a competition"
-              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+              className="w-full h-80 md:h-80 object-cover rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -160,7 +160,7 @@ function Join() {
             <img
               src="/team-photo-6.jpg"
               alt="Pack of Parts team"
-              className="w-full h-40 md:h-44 object-cover rounded-xl shadow-md"
+              className="w-full h-80 md:h-80 object-cover rounded-xl shadow-md"
             />
           </div>
         </div>
@@ -400,43 +400,63 @@ function Join() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* First row — 3 cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             {[
               {
                 title: 'Design',
                 icon: Shapes,
-                description: 'Design and build the robot\'s physical structure using CAD software and machine tools.'
+                description: 'Design and build the robot\'s physical structure using CAD software such as Fusion 360 and professional machine tools. Model every component in 3D before it is fabricated, ensuring precise fits and tolerances. Collaborate with the Mechanical team to iterate on designs based on real-world testing and manufacturing feedback.'
               },
               {
                 title: 'Programming',
                 icon: Code,
-                description: 'Write code for autonomous and teleoperated robot control systems.'
+                description: 'Write code for autonomous and teleoperated robot control systems using Java and the WPILib framework. Develop motion planning, sensor integration, and computer vision pipelines that give the robot a competitive edge. Debug and fine-tune software in real time during build season and at competition events.'
               },
               {
                 title: 'Mechanical',
                 icon: Wrench,
-                description: 'Builds the physical frame of the robot which gets passed on to the other teams to do their part.'
+                description: 'Build and assemble the physical frame of the robot, which is then handed off to other sub-teams for wiring and programming. Work with metal tubing, fasteners, gearboxes, and precision hand tools to bring CAD designs to life. Ensure every mechanism is strong and reliable enough to withstand the rigors of competition matches.'
               },
-              {
-                title: 'Electrical',
-                icon: Lightbulb,
-                description: 'Wire and integrate electrical systems, sensors, and motor controllers.'
-              },
-              {
-                title: 'Business & PR',
-                icon: CircleDollarSign,
-                description: 'Manage team finances, fundraising, community outreach, and social media.'
-              },
-              {
-                title: 'Scouting',
-                icon: Users,
-                description: 'Scouting analyzse game strategy, scout opponents, and plan competition tactics.'
-              }              
             ].map((team, index) => (
               <div 
                 key={index}
                 className="reveal role-card"
                 style={{ transitionDelay: `${index * 0.1}s` }}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">
+                    <team.icon className="w-6 h-6 text-light-blue" />
+                  </div>
+                  <h3 className="text-navy font-orbitron font-semibold text-xl">
+                    {team.title}
+                  </h3>
+                </div>
+                <p className="text-gray-600 mb-4">
+                  {team.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Second row — 2 cards, centered */}
+          <div className="flex flex-wrap justify-center gap-8">
+            {[
+              {
+                title: 'Electrical',
+                icon: Lightbulb,
+                description: 'Wire and integrate all electrical systems, sensors, motor controllers, and pneumatics across the robot. Follow FRC wiring standards to ensure safety, reliability, and fast repairs during competition. Collaborate closely with the Programming team to verify that every component is correctly configured and communicating as expected.'
+              },
+              {
+                title: 'Business & PR',
+                icon: CircleDollarSign,
+                description: 'Manage team finances, fundraising campaigns, sponsor relationships, community outreach initiatives, and social media accounts. Write award submissions, create marketing materials, and represent Pack of Parts at public events and outreach programs. Help sustain the team\'s long-term success by securing the resources needed to design, build, and compete at the highest level.'
+              },
+            ].map((team, index) => (
+              <div 
+                key={index + 3}
+                className="reveal role-card w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+                style={{ transitionDelay: `${(index + 3) * 0.1}s` }}
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 rounded-full bg-light-blue/10 flex items-center justify-center flex-shrink-0">

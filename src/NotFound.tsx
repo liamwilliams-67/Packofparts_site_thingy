@@ -173,18 +173,35 @@ function NotFound() {
               <h2 className="text-white font-orbitron font-semibold text-xl mb-6">
                 Looking for something? Try these pages:
               </h2>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {/* First row — 3 links */}
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
                 {[
                   { name: 'Join The Club', href: '/join', icon: Users },
                   { name: 'For Members', href: '/members', icon: School },
                   { name: 'Summer Camps', href: '/summer-camps', icon: School },
+                ].map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="quick-link group"
+                  >
+                    <link.icon className="w-5 h-5 text-light-blue group-hover:scale-110 transition-transform" />
+                    <span className="text-white/90 group-hover:text-light-blue transition-colors">
+                      {link.name}
+                    </span>
+                  </a>
+                ))}
+              </div>
+              {/* Second row — 2 links, centered */}
+              <div className="flex flex-wrap justify-center gap-4">
+                {[
                   { name: 'Donate', href: '/donate', icon: Mail },
                   { name: 'Contact', href: '/contact', icon: Mail },
                 ].map((link) => (
                   <a
                     key={link.name}
                     href={link.href}
-                    className="quick-link group"
+                    className="quick-link group w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.667rem)]"
                   >
                     <link.icon className="w-5 h-5 text-light-blue group-hover:scale-110 transition-transform" />
                     <span className="text-white/90 group-hover:text-light-blue transition-colors">
