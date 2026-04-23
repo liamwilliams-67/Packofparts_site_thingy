@@ -25,7 +25,6 @@ function NotFound() {
   const navLinks = [
     { name: 'Join The Club', href: '/join' },
     { name: 'For Members', href: '/members' },
-    { name: 'Meet the Team', href: '/meet-the-team' },
     { name: 'Donate', href: '/donate' },
     { name: 'Contact Us', href: '/contact' },
     { name: 'Summer Camps', href: '/summer-camps' },
@@ -178,7 +177,6 @@ function NotFound() {
                 {[
                   { name: 'Join The Club', href: '/join', icon: Users },
                   { name: 'For Members', href: '/members', icon: School },
-                  { name: 'Meet the Team', href: '/meet-the-team', icon: Users },
                   { name: 'Summer Camps', href: '/summer-camps', icon: School },
                   { name: 'Donate', href: '/donate', icon: Mail },
                   { name: 'Contact', href: '/contact', icon: Mail },

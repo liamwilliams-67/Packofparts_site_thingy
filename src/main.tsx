@@ -10,7 +10,7 @@ import SummerCamps from './SummerCamps.tsx'
 import Members from './Members.tsx'
 import Donate from './Donate.tsx'
 import NotFound from './NotFound.tsx'
-import MeetTheTeam from './MeetTheTeam.tsx'
+// import MeetTheTeam from './MeetTheTeam.tsx'
 // import StemKits from './StemKits.tsx'
 // import Recycling from './Recycling.tsx'
 
@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/contact" element={<Contact />} />
         <Route path="/join" element={<Join />} />
         {/* <Route path="/community" element={<Community />} /> */}
-        <Route path="/meet-the-team" element={<MeetTheTeam />} />
+        {/* <Route path="/meet-the-team" element={<MeetTheTeam />} /> */}
         {/* <Route path="/community/stem-kits" element={<StemKits />} /> */}
         {/* <Route path="/community/recycling" element={<Recycling />} /> */}
         <Route path="/summer-camps" element={<SummerCamps />} />
