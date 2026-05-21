@@ -69,6 +69,10 @@ module.exports = {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
         'glass': '0 8px 32px rgba(24, 38, 81, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
         'glow': '0 0 20px rgba(128, 211, 238, 0.4)',
+        'glow-lg': '0 0 40px rgba(128, 211, 238, 0.5), 0 0 80px rgba(128, 211, 238, 0.15)',
+        'navy-glow': '0 0 30px rgba(24, 38, 81, 0.4)',
+        'card': '0 4px 24px rgba(24, 38, 81, 0.08)',
+        'card-hover': '0 16px 48px rgba(24, 38, 81, 0.18)',
       },
       keyframes: {
         "accordion-down": {
@@ -103,24 +107,73 @@ module.exports = {
           "0%": { opacity: "0", transform: "translateX(-30px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
+        "slide-in-right": {
+          "0%": { opacity: "0", transform: "translateX(30px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
         "scale-in": {
           "0%": { opacity: "0", transform: "scale(0.8)" },
           "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        "scale-in-bounce": {
+          "0%": { opacity: "0", transform: "scale(0.7)" },
+          "70%": { transform: "scale(1.05)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        "glow-breathe": {
+          "0%, 100%": { boxShadow: "0 0 8px rgba(128, 211, 238, 0.3), 0 0 0 rgba(128, 211, 238, 0)" },
+          "50%": { boxShadow: "0 0 30px rgba(128, 211, 238, 0.7), 0 0 60px rgba(128, 211, 238, 0.2)" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "bounce-gentle": {
+          "0%, 100%": { transform: "translateX(-50%) translateY(0)" },
+          "50%": { transform: "translateX(-50%) translateY(-8px)" },
+        },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "-200% center" },
+          "100%": { backgroundPosition: "200% center" },
+        },
+        "count-pop": {
+          "0%": { opacity: "0", transform: "translateY(16px) scale(0.8)" },
+          "60%": { transform: "translateY(-4px) scale(1.05)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        "border-glow": {
+          "0%, 100%": { borderColor: "rgba(128, 211, 238, 0.2)" },
+          "50%": { borderColor: "rgba(128, 211, 238, 0.7)" },
+        },
+        "slide-down": {
+          "0%": { opacity: "0", transform: "translateY(-10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
-        // Sponsor marquee animation - change the duration (15s) to adjust speed
-        // Lower value = faster, higher value = slower. Original was 40s.
-        // Current setting: 15s = 2.67x speed (40s / 15s ≈ 2.67x)
         "marquee": "marquee 10s linear infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "float": "float 4s ease-in-out infinite",
         "fade-in-up": "fade-in-up 0.7s ease-out both",
-        "slide-in-left": "slide-in-left 0.5s ease-out both",
+        "slide-in-left": "slide-in-left 0.7s ease-out both",
+        "slide-in-right": "slide-in-right 0.7s ease-out both",
         "scale-in": "scale-in 0.4s ease-out both",
+        "scale-in-bounce": "scale-in-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both",
+        "glow-breathe": "glow-breathe 3s ease-in-out infinite",
+        "spin-slow": "spin-slow 8s linear infinite",
+        "bounce-gentle": "bounce-gentle 2s ease-in-out infinite",
+        "gradient-shift": "gradient-shift 4s ease infinite",
+        "shimmer": "shimmer 2.5s linear infinite",
+        "count-pop": "count-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both",
+        "border-glow": "border-glow 2.5s ease-in-out infinite",
+        "slide-down": "slide-down 0.4s ease-out both",
       },
     },
   },

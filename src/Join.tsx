@@ -196,7 +196,7 @@ function Join() {
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    document.querySelectorAll('.reveal').forEach((el) => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach((el) => {
       observer.observe(el);
     });
 
@@ -225,35 +225,47 @@ function Join() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-navy pt-20">
-        {/* Animated Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 hero-gradient" />
-        </div>
+      <section className="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-navy pt-20">
+        {/* Dot-grid background */}
+        <div className="absolute inset-0 hero-dots opacity-30 pointer-events-none" />
+
+        {/* Ambient glow */}
+        <div
+          className="absolute hero-orb pointer-events-none opacity-60"
+          style={{
+            width: '50vw',
+            height: '50vw',
+            maxWidth: 600,
+            maxHeight: 600,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
 
         {/* Hero Content */}
-        <div className="relative z-10 container-custom text-center px-4 py-20">
-          <div 
+        <div className="relative z-10 container-custom text-center px-4 py-24">
+          <div
             className="animate-fade-in-up"
-            style={{ animationDelay: '0.1s' }}
+            style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
           >
-            <span className="inline-block text-light-blue font-orbitron text-sm md:text-base tracking-widest mb-4">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-light-blue/15 border border-light-blue/30 text-light-blue font-orbitron text-sm tracking-widest mb-6 backdrop-blur-sm">
               JOIN THE TEAM
             </span>
           </div>
-          
-          <h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-            style={{ animationDelay: '0.25s' }}
+
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-black text-white mb-5 leading-tight animate-fade-in-up"
+            style={{ animationDelay: '0.25s', animationFillMode: 'both' }}
           >
-            Become a Member of Pack of Parts
+            Become a Member of<br className="hidden sm:block" /> Pack of Parts
           </h1>
-          
-          <p 
-            className="text-white/80 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up"
-            style={{ animationDelay: '0.4s' }}
+
+          <p
+            className="text-white/75 text-base md:text-lg lg:text-xl max-w-2xl mx-auto animate-fade-in-up"
+            style={{ animationDelay: '0.45s', animationFillMode: 'both' }}
           >
-            Join FRC Team 1294 and become part of a community that builds robots, 
+            Join FRC Team 1294 and become part of a community that builds robots,
             develops skills, and creates lifelong memories.
           </p>
         </div>
@@ -317,7 +329,7 @@ function Join() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="reveal">
+            <div className="reveal-left">
               <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-navy mb-6">
                 Who Can Join?
               </h2>
@@ -353,8 +365,8 @@ function Join() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Season Schedule</h4>
                       <p className="text-white/70 text-sm">
-                        Pre-Season: September - December (Mon, Wen)<br />
-                        Competition Season: January - April (Mon, Wen, Fri, Sat)<br />
+                        Pre-Season: September – December (Mon, Wed)<br />
+                        Competition Season: January – April (Mon, Wed, Fri, Sat)<br />
                       </p>
                     </div>
                   </div>
@@ -364,7 +376,7 @@ function Join() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Time Commitment</h4>
                       <p className="text-white/70 text-sm">
-                        Attend atleast 65% of meetings a month 
+                        Attend at least 65% of meetings a month
                       </p>
                     </div>
                   </div>
@@ -497,7 +509,7 @@ function Join() {
               },
               {
                 question: "How much does it cost to join?",
-                answer: "There is a 250 dollar club fee when joining. Transportation to events is not provivded and food is also not provided sometimes."
+                answer: "There is a $250 club fee when joining. Transportation to events is not provided and food may not always be provided."
               },
               {
                 question: "Will this help with college applications?",
