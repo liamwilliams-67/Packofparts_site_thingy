@@ -2,68 +2,128 @@
 html, body {
   overscroll-behavior-y: contain;
 }
-/* Benefit Cards */
+
+/* ─── Benefit Cards ─────────────────────────────────────────────────── */
 .benefit-card {
   background: white;
   padding: 2rem;
   border-radius: 1.5rem;
-  border: 1px solid rgba(128, 211, 238, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(128, 211, 238, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(128, 211, 238, 0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .benefit-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(24, 38, 81, 0.15);
-  border-color: rgba(128, 211, 238, 0.4);
+  box-shadow: 0 20px 48px rgba(24, 38, 81, 0.14);
+  border-color: rgba(128, 211, 238, 0.45);
 }
 
-/* Info Card */
+.benefit-card:hover::before {
+  opacity: 1;
+}
+
+/* ─── Info Card ─────────────────────────────────────────────────────── */
 .info-card-join {
   background: linear-gradient(135deg, #182651 0%, rgba(24, 38, 81, 0.95) 100%);
   padding: 2.5rem;
   border-radius: 1.5rem;
   border: 1px solid rgba(128, 211, 238, 0.2);
-  box-shadow: 0 8px 32px rgba(24, 38, 81, 0.2);
+  box-shadow: 0 8px 40px rgba(24, 38, 81, 0.25);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Role Cards */
+.info-card-join::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(128, 211, 238, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── Role Cards ────────────────────────────────────────────────────── */
 .role-card {
   background: white;
   padding: 2rem;
   border-radius: 1.5rem;
-  border: 1px solid rgba(128, 211, 238, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(128, 211, 238, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
   height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #80D3EE, #7FC3F2);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .role-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(24, 38, 81, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(24, 38, 81, 0.12);
   border-color: rgba(128, 211, 238, 0.5);
 }
 
-/* FAQ Items (reusing from Contact but with slight adjustments) */
+.role-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* ─── FAQ Items ─────────────────────────────────────────────────────── */
 .faq-item {
   background: white;
-  padding: 1.5rem;
+  padding: 1.5rem 1.75rem;
   border-radius: 1rem;
   border-left: 4px solid #80D3EE;
-  box-shadow: 0 2px 8px rgba(24, 38, 81, 0.06);
-  transition: all 0.3s ease;
+  border-top: 1px solid rgba(128, 211, 238, 0.1);
+  border-right: 1px solid rgba(128, 211, 238, 0.1);
+  border-bottom: 1px solid rgba(128, 211, 238, 0.1);
+  box-shadow: 0 2px 12px rgba(24, 38, 81, 0.06);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-left-color 0.3s ease;
 }
 
 .faq-item:hover {
-  box-shadow: 0 8px 24px rgba(24, 38, 81, 0.12);
-  transform: translateX(8px);
+  box-shadow: 0 10px 32px rgba(24, 38, 81, 0.12);
+  transform: translateX(6px);
+  border-left-color: #7FC3F2;
 }
 
-/* Social Icons */
+/* ─── Social Icons ──────────────────────────────────────────────────── */
 .social-icon {
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .social-icon:hover {
-  transform: scale(1.1);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 6px 20px rgba(128, 211, 238, 0.25);
 }

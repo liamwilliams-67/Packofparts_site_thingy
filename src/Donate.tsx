@@ -74,7 +74,7 @@ function Donate() {
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    document.querySelectorAll('.reveal').forEach((el) => {
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach((el) => {
       observer.observe(el);
     });
 
@@ -104,33 +104,47 @@ function Donate() {
 
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-navy pt-20">
-        {/* Animated Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 hero-gradient" />
-        </div>
+        {/* Dot-grid background */}
+        <div className="absolute inset-0 hero-dots opacity-30 pointer-events-none" />
+
+        {/* Ambient glow */}
+        <div
+          className="absolute hero-orb pointer-events-none opacity-50"
+          style={{
+            width: '50vw',
+            height: '50vw',
+            maxWidth: 600,
+            maxHeight: 600,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
 
         {/* Hero Content */}
-        <div className="relative z-10 container-custom text-center px-4 py-20">
-          <div 
+        <div className="relative z-10 container-custom text-center px-4 py-24">
+          <div
             className="animate-fade-in-up"
-            style={{ animationDelay: '0.1s' }}
+            style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
           >
-            <Heart className="w-16 h-16 text-light-blue mx-auto mb-6" />
+            <div className="w-20 h-20 rounded-full bg-light-blue/15 border border-light-blue/30 flex items-center justify-center mx-auto mb-6 backdrop-blur-sm animate-glow-breathe">
+              <Heart className="w-10 h-10 text-light-blue" />
+            </div>
           </div>
-          
-          <h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold text-white mb-4 animate-fade-in-up"
-            style={{ animationDelay: '0.25s' }}
+
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-black text-white mb-5 leading-tight animate-fade-in-up"
+            style={{ animationDelay: '0.25s', animationFillMode: 'both' }}
           >
-            Support Our <span className="text-gradient">Mission</span>
+            Support Our Mission
           </h1>
-          
-          <p 
-            className="text-white/80 text-base md:text-lg lg:text-xl max-w-3xl mx-auto animate-fade-in-up"
-            style={{ animationDelay: '0.4s' }}
+
+          <p
+            className="text-white/75 text-base md:text-lg lg:text-xl max-w-3xl mx-auto animate-fade-in-up"
+            style={{ animationDelay: '0.45s', animationFillMode: 'both' }}
           >
-            Pack of Parts is a non-profit organization. We fund our activities from club participation fees, 
-            corporate sponsors, and generous supporters like you. Your donation helps inspire the next generation 
+            Pack of Parts is a non-profit organization. We fund our activities from club participation fees,
+            corporate sponsors, and generous supporters like you. Your donation helps inspire the next generation
             of STEM leaders.
           </p>
         </div>
