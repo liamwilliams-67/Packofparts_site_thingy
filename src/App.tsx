@@ -12,7 +12,6 @@ import {
   School,
   ArrowRight,
   ExternalLink,
-  ChevronDown,
 } from 'lucide-react';
 import './App.css';
 import DesktopNav from './components/DesktopNav';
@@ -53,19 +52,10 @@ const SPONSOR_SCROLL_SPEED   = 1.0;
 const SPONSOR_JUMP_DURATION_MS = 500;
 const MAX_FRAME_DELTA_MS     = 100;
 
-// ─── Team stats ──────────────────────────────────────────────────────────────
-const teamStats = [
-  { value: '22+',  label: 'Years of Excellence' },
-  { value: '120',  label: 'Pound Competition Robot', unit: 'LBS' },
-  { value: '5',    label: 'Schools Represented' },
-  { value: '6',    label: 'Week Build Season',       unit: 'WK' },
-];
-
 function App() {
   const [isNavVisible, setIsNavVisible]       = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedSponsor, setSelectedSponsor]   = useState<typeof sponsors[number] | null>(null);
-  const [statsVisible, setStatsVisible]         = useState(false);
 
   // Sponsor carousel refs
   const sponsorStripRef    = useRef<HTMLDivElement>(null);
@@ -79,9 +69,6 @@ function App() {
     elapsed: number;
     coveredExtra: number;
   } | null>(null);
-
-  // Stats section ref for IntersectionObserver
-  const statsRef = useRef<HTMLDivElement>(null);
 
   const teamPhotos = [
     '/team-photo-1.jpg',
@@ -147,18 +134,6 @@ function App() {
     const handleResize = () => { sponsorItemWidthRef.current = getSponsorItemWidth(); };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Stats section visibility (trigger count-pop animation)
-  useEffect(() => {
-    const el = statsRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setStatsVisible(true); },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
   }, []);
 
   // Scroll-reveal IntersectionObserver (runs once after mount)
@@ -300,42 +275,7 @@ function App() {
           </div>
         </div>
 
-        {/* Scroll-down indicator */}
-        <div className="scroll-indicator z-10">
-          <span className="font-orbitron text-[10px] tracking-[0.3em] text-white/40 uppercase">Scroll</span>
-          <ChevronDown className="w-4 h-4 text-light-blue/60" />
-        </div>
       </div>
-
-      {/* ── Stats Bar ─────────────────────────────────────────────────────── */}
-      <section className="bg-navy border-b border-white/10">
-        <div ref={statsRef} className="container-custom py-10 md:py-14">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
-            {teamStats.map((stat, i) => (
-              <div
-                key={i}
-                className="stat-item text-center py-6 px-4"
-              >
-                <div
-                  className={`text-4xl lg:text-5xl font-orbitron font-black text-light-blue mb-1 ${statsVisible ? 'animate-count-pop' : 'opacity-0'}`}
-                  style={{ animationDelay: statsVisible ? `${i * 0.12}s` : '0s', animationFillMode: 'both' }}
-                >
-                  {stat.value}
-                  {stat.unit && (
-                    <span className="text-xl lg:text-2xl font-semibold text-light-blue/60 ml-1">{stat.unit}</span>
-                  )}
-                </div>
-                <div
-                  className={`text-white/55 font-open-sans text-xs tracking-widest uppercase ${statsVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
-                  style={{ animationDelay: statsVisible ? `${i * 0.12 + 0.15}s` : '0s', animationFillMode: 'both' }}
-                >
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── Our Mission Section ───────────────────────────────────────────── */}
       <section id="join" className="section-padding bg-white">
