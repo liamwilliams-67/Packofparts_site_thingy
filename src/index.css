@@ -255,10 +255,9 @@
   }
 
   .sponsor-logo:hover {
-    filter: grayscale(0%);
+    filter: grayscale(0%) drop-shadow(0 0 12px rgba(128, 211, 238, 0.4));
     opacity: 1;
     transform: scale(1.08);
-    filter: drop-shadow(0 0 12px rgba(128, 211, 238, 0.4));
   }
 
   /* Social icon hover */

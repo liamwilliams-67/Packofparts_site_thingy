@@ -45,7 +45,9 @@ const sponsors = [
 ];
 
 // ─── Sponsor carousel configuration ─────────────────────────────────────────
-const getSponsorItemWidth = () => (window.innerWidth < 640 ? 296 : 464);
+// Mobile  (<640px): w-[280px] + mx-4 (16px × 2 sides) = 312px
+// Desktop (≥640px): w-[400px] + mx-8 (32px × 2 sides) = 464px
+const getSponsorItemWidth = () => (window.innerWidth < 640 ? 312 : 464);
 const SPONSOR_JUMP_FACTOR    = 3;
 const SPONSOR_SCROLL_SPEED   = 1.0;
 const SPONSOR_JUMP_DURATION_MS = 500;
@@ -216,7 +218,7 @@ function App() {
         </div>
 
         {/* Animated dot-grid overlay */}
-        <div className="absolute inset-0 z-1 hero-dots opacity-40 pointer-events-none" />
+        <div className="absolute inset-0 z-[1] hero-dots opacity-40 pointer-events-none" />
 
         {/* Ambient glow orb */}
         <div
